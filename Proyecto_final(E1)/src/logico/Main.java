@@ -3,8 +3,8 @@ package logico;
 import java.util.Scanner;
 
 public class Main {
-
-	public Main() {
+	
+	public static void main(String[] args) {
 		int num1 = 0, num2 = 0, resultado = 0;
 		Scanner entrada = new Scanner(System.in);
 		
@@ -16,6 +16,7 @@ public class Main {
 		
 		resultado = num1 + num2;
 		System.out.println("Su resultado es " + resultado + " Coño");
-	
+
 	}
+
 }
