@@ -1,8 +1,7 @@
 package logico;
 
-import java.util.ArrayList;
-
 public class MicroProcesador extends Producto{
+	
 	private String modelo;
 	private String socket;
 	private float velocidadProcesamiento;
@@ -21,12 +20,14 @@ public class MicroProcesador extends Producto{
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
 	}
+	
 	public String getSocket() {
 		return socket;
 	}
 	public void setSocket(String socket) {
 		this.socket = socket;
 	}
+	
 	public float getVelocidadProcesamiento() {
 		return velocidadProcesamiento;
 	}

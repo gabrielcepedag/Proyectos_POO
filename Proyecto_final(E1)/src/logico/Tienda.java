@@ -7,6 +7,7 @@ public class Tienda {
 	private ArrayList<Producto> misProductos;
 	private ArrayList<Cliente> misClientes;
 	private ArrayList<Factura> misFacturas;
+	
 	public Tienda() {
 		super();
 		this.misProductos = new ArrayList<Producto>();
@@ -14,6 +15,27 @@ public class Tienda {
 		this.misFacturas = new ArrayList<Factura>();
 	}
 	
+	public ArrayList<Producto> getMisProductos() {
+		return misProductos;
+	}
+	public void setMisProductos(ArrayList<Producto> misProductos) {
+		this.misProductos = misProductos;
+	}
+
+	public ArrayList<Cliente> getMisClientes() {
+		return misClientes;
+	}
+	public void setMisClientes(ArrayList<Cliente> misClientes) {
+		this.misClientes = misClientes;
+	}
+
+	public ArrayList<Factura> getMisFacturas() {
+		return misFacturas;
+	}
+	public void setMisFacturas(ArrayList<Factura> misFacturas) {
+		this.misFacturas = misFacturas;
+	}
+
 	public void addCliente(Cliente cliente) {
 		misClientes.add(cliente);
 	}
@@ -35,7 +57,6 @@ public class Tienda {
 		for (Cliente cliente : misClientes) {
 			if (cliente.getCedula().equalsIgnoreCase(cedula)) {
 				clienteAux = cliente;
-				return clienteAux;
 			}
 		}
 		return clienteAux;
@@ -46,7 +67,6 @@ public class Tienda {
 		for (Producto producto : misProductos) {
 			if (producto.getNumSerie().equalsIgnoreCase(numSerie)) {
 				productoAux = producto;
-				return productoAux;
 			}
 		}
 		return productoAux;
@@ -57,7 +77,6 @@ public class Tienda {
 		for (Factura factura : misFacturas) {
 			if (factura.getCodigo().equalsIgnoreCase(codigo)) {
 				facturaAux = factura;
-				return facturaAux;
 			}
 		}
 		return facturaAux;
@@ -65,16 +84,13 @@ public class Tienda {
 	
 	public float calcTotalFactura(String codFactura) {
 		Factura factura = buscarFacturaByCodigo(codFactura);
-		float precio = 0;
-		for (Producto producto : factura.getMisComponentes()) {
-			precio += producto.getPrecio();
-		}
-		return precio;
+		
+		return factura.calcPrecioFactura();
 	}
 	
 	public float calPrecioTotalPC(ArrayList<Producto> productos) {
 		float precioTotal = 0;
-		for (Producto producto : productos) {
+		for (Producto producto : misProductos) {
 			precioTotal += producto.getPrecio();
 		}
 		return precioTotal;
