@@ -1,7 +1,11 @@
 package logico;
 
-import java.util.Scanner;
-
 public class Main {
 	//Main de Pruebas
+	
+	
+	public static void main(String[] args) {
+		
+	}
+	
 }

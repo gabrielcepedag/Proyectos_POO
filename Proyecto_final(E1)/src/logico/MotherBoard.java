@@ -10,12 +10,12 @@ public class MotherBoard extends Producto{
 	private ArrayList<String> conexionesHD;
 	
 	public MotherBoard(String numSerie, int cantidad, float precio, String marca, String modelo, String socket,
-			String tipoRam, ArrayList<String> conexionesHD) {
+			String tipoRam) {
 		super(numSerie, cantidad, precio, marca);
 		this.modelo = modelo;
 		this.socket = socket;
 		this.tipoRam = tipoRam;
-		this.conexionesHD = conexionesHD;
+		this.conexionesHD = new ArrayList<String>();
 	}
 	
 	public String getModelo() {
@@ -24,23 +24,30 @@ public class MotherBoard extends Producto{
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
 	}
+	
 	public String getSocket() {
 		return socket;
 	}
 	public void setSocket(String socket) {
 		this.socket = socket;
 	}
+	
 	public String getTipoRam() {
 		return tipoRam;
 	}
 	public void setTipoRam(String tipoRam) {
 		this.tipoRam = tipoRam;
 	}
+	
 	public ArrayList<String> getConexionesHD() {
 		return conexionesHD;
 	}
 	public void setConexionesHD(ArrayList<String> conexionesHD) {
 		this.conexionesHD = conexionesHD;
+	}
+	
+	public void agregarConexion(String conexion) {
+		conexionesHD.add(conexion);
 	}
 	
 }
