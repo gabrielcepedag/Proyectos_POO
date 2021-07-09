@@ -7,6 +7,7 @@ public class Tienda {
 	private ArrayList<Producto> misProductos;
 	private ArrayList<Cliente> misClientes;
 	private ArrayList<Factura> misFacturas;
+	
 	public Tienda() {
 		super();
 		this.misProductos = new ArrayList<Producto>();
@@ -81,5 +82,15 @@ public class Tienda {
 	}
 	
 	//Coming soon
+	
+	public ArrayList<Producto> generarEquipoByRequisitos(String requisito, float presupuesto) {
+		return misProductos;
+		
+	}
+	
+	public ArrayList<Producto> generarEquipoByPresupuesto() {
+		return misProductos;
+		
+	}
 	
 }
