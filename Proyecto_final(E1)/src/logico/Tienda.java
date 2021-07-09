@@ -57,6 +57,7 @@ public class Tienda {
 		for (Cliente cliente : misClientes) {
 			if (cliente.getCedula().equalsIgnoreCase(cedula)) {
 				clienteAux = cliente;
+				return clienteAux;
 			}
 		}
 		return clienteAux;
@@ -67,6 +68,7 @@ public class Tienda {
 		for (Producto producto : misProductos) {
 			if (producto.getNumSerie().equalsIgnoreCase(numSerie)) {
 				productoAux = producto;
+				return productoAux;
 			}
 		}
 		return productoAux;
@@ -77,6 +79,7 @@ public class Tienda {
 		for (Factura factura : misFacturas) {
 			if (factura.getCodigo().equalsIgnoreCase(codigo)) {
 				facturaAux = factura;
+				return facturaAux;
 			}
 		}
 		return facturaAux;

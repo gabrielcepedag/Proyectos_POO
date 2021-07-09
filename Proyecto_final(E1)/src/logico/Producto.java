@@ -1,6 +1,7 @@
 package logico;
 
 public abstract class Producto {
+	
 	protected String numSerie;
 	protected int cantidad;
 	protected float precio;
