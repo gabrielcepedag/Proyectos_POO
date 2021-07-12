@@ -46,8 +46,8 @@ public class MotherBoard extends Producto{
 		this.conexionesHD = conexionesHD;
 	}
 	
-	public void agregarConexion(String conexion) {
-		conexionesHD.add(conexion);
+	public void agregarConexiones(ArrayList<String> conexiones) {
+		conexionesHD.addAll(conexiones);
 	}
 	
 }

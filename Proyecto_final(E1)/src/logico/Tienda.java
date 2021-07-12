@@ -7,12 +7,21 @@ public class Tienda {
 	private ArrayList<Producto> misProductos;
 	private ArrayList<Cliente> misClientes;
 	private ArrayList<Factura> misFacturas;
+	private static Tienda tienda = null;
 	
-	public Tienda() {
+	private Tienda() {
 		super();
 		this.misProductos = new ArrayList<Producto>();
 		this.misClientes = new ArrayList<Cliente>();
 		this.misFacturas = new ArrayList<Factura>();
+	}
+	
+	public static Tienda getInstance() {
+		
+		if (tienda == null) {
+			tienda = new Tienda();
+		}
+		return tienda;
 	}
 	
 	public ArrayList<Producto> getMisProductos() {
