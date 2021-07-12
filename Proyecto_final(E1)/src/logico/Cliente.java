@@ -6,13 +6,17 @@ public class Cliente {
 	private String nombre;
 	private String direccion;
 	private String telefono;
+	private String username;
+	private char[] password;
 	
-	public Cliente(String cedula, String nombre, String direccion, String telefono) {
+	public Cliente(String cedula, String nombre, String direccion, String telefono, String username, char[] password) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
 		this.direccion = direccion;
 		this.telefono = telefono;
+		this.setUsername(username);
+		this.password = password;
 	}
 	
 	public String getCedula() {
@@ -41,5 +45,13 @@ public class Cliente {
 	}
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

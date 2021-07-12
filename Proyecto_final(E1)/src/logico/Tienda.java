@@ -108,6 +108,17 @@ public class Tienda {
 		return precioTotal;
 	}
 	
+	public Cliente buscarClienteByUsername(String username) {
+		Cliente auxCliente = null;
+		for (Cliente cliente : misClientes) {
+			if (cliente.getUsername().equalsIgnoreCase(username)) {
+				auxCliente = cliente;
+				return auxCliente;
+			}
+		}
+		return auxCliente;
+	}
+	
 	//Coming soon
 	
 	public ArrayList<Producto> generarEquipoByRequisitos(String requisito, float presupuesto) {

@@ -12,7 +12,10 @@ public class Main {
 		Tienda.getInstance().addProducto(d1);
 		Tienda.getInstance().addProducto(m1);
 		
-		Cliente cliente = new Cliente("047", "Gabriel", "La vega", "8295151017");
+		char [] password = null;
+		password[0] = 'h';
+		
+		Cliente cliente = new Cliente("047", "Gabriel", "La vega", "8295151017","Username",password);
 		Tienda.getInstance().addCliente(cliente);
 		
 		Factura factura = new Factura(new String("F-" + Factura.cod), cliente);
@@ -25,7 +28,6 @@ public class Main {
 		System.out.println(Tienda.getInstance().calPrecioTotalPC(productos));
 		Factura aux = Tienda.getInstance().buscarFacturaByCodigo("F-1");
 		System.out.println(aux.calcPrecioFactura());
-		
 	}
 	
 }

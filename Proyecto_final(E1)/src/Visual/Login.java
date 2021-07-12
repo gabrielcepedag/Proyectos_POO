@@ -6,9 +6,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import logico.Cliente;
+import logico.Tienda;
+
 import java.awt.Rectangle;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
@@ -18,21 +24,24 @@ import java.awt.Cursor;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtemail;
 	private JPasswordField passwordField;
-	private JTextField textField;
-	private JPasswordField passwordField_1;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JPasswordField txtPassword;
+	private JTextField txtNombre;
+	private JTextField txtTelefono;
+	private JTextField txtUsername;
+	private JTextField txtDireccion;
 	private JPanel panelRegistro;
 	private JLabel lblIniciarSesion;
 	private JPanel panelLogin;
+	Cliente selected = null;
+	private JTextField txtcedula;
 
 	/**
 	 * Launch the application.
@@ -93,37 +102,37 @@ public class Login extends JFrame {
 		panelRegistro.setBounds(770, 25, 613, 681);
 		panel.add(panelRegistro);
 		
-		textField_4 = new JTextField();
-		textField_4.setForeground(new Color(0, 153, 153));
-		textField_4.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField_4.setColumns(10);
-		textField_4.setBackground(Color.WHITE);
-		textField_4.setBounds(197, 468, 363, 50);
-		panelRegistro.add(textField_4);
+		txtDireccion = new JTextField();
+		txtDireccion.setForeground(new Color(0, 153, 153));
+		txtDireccion.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtDireccion.setColumns(10);
+		txtDireccion.setBackground(Color.WHITE);
+		txtDireccion.setBounds(197, 468, 363, 50);
+		panelRegistro.add(txtDireccion);
 		
-		textField_3 = new JTextField();
-		textField_3.setForeground(new Color(0, 153, 153));
-		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField_3.setColumns(10);
-		textField_3.setBackground(Color.WHITE);
-		textField_3.setBounds(216, 330, 344, 50);
-		panelRegistro.add(textField_3);
+		txtUsername = new JTextField();
+		txtUsername.setForeground(new Color(0, 153, 153));
+		txtUsername.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtUsername.setColumns(10);
+		txtUsername.setBackground(Color.WHITE);
+		txtUsername.setBounds(216, 330, 344, 50);
+		panelRegistro.add(txtUsername);
 		
-		textField_2 = new JTextField();
-		textField_2.setForeground(new Color(0, 153, 153));
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField_2.setColumns(10);
-		textField_2.setBackground(Color.WHITE);
-		textField_2.setBounds(192, 267, 368, 50);
-		panelRegistro.add(textField_2);
+		txtTelefono = new JTextField();
+		txtTelefono.setForeground(new Color(0, 153, 153));
+		txtTelefono.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtTelefono.setColumns(10);
+		txtTelefono.setBackground(Color.WHITE);
+		txtTelefono.setBounds(192, 267, 368, 50);
+		panelRegistro.add(txtTelefono);
 		
-		textField_1 = new JTextField();
-		textField_1.setForeground(new Color(0, 153, 153));
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField_1.setColumns(10);
-		textField_1.setBackground(Color.WHITE);
-		textField_1.setBounds(182, 204, 378, 50);
-		panelRegistro.add(textField_1);
+		txtNombre = new JTextField();
+		txtNombre.setForeground(new Color(0, 153, 153));
+		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtNombre.setColumns(10);
+		txtNombre.setBackground(Color.WHITE);
+		txtNombre.setBounds(182, 204, 378, 50);
+		panelRegistro.add(txtNombre);
 		
 		JLabel lblDireccin = new JLabel("Direcci\u00F3n:");
 		lblDireccin.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/ubicacion.png")));
@@ -166,13 +175,13 @@ public class Login extends JFrame {
 		label_14.setBounds(58, 139, 125, 55);
 		panelRegistro.add(label_14);
 		
-		textField = new JTextField();
-		textField.setForeground(new Color(0, 153, 153));
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField.setColumns(10);
-		textField.setBackground(Color.WHITE);
-		textField.setBounds(182, 141, 378, 50);
-		panelRegistro.add(textField);
+		txtcedula = new JTextField();
+		txtcedula.setForeground(new Color(0, 153, 153));
+		txtcedula.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtcedula.setColumns(10);
+		txtcedula.setBackground(Color.WHITE);
+		txtcedula.setBounds(182, 141, 378, 50);
+		panelRegistro.add(txtcedula);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Name.png")));
@@ -181,13 +190,31 @@ public class Login extends JFrame {
 		lblNombre.setBounds(60, 202, 125, 55);
 		panelRegistro.add(lblNombre);
 		
-		passwordField_1 = new JPasswordField();
-		passwordField_1.setForeground(new Color(0, 153, 153));
-		passwordField_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		passwordField_1.setBounds(216, 400, 344, 50);
-		panelRegistro.add(passwordField_1);
+		txtPassword = new JPasswordField();
+		txtPassword.setForeground(new Color(0, 153, 153));
+		txtPassword.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtPassword.setBounds(216, 400, 344, 50);
+		panelRegistro.add(txtPassword);
 		
 		JButton button = new JButton("");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String cedula = txtcedula.getText();
+				String username = txtUsername.getText();
+				
+				if (Tienda.getInstance().buscarClienteByCedula(cedula) == null && Tienda.getInstance().buscarClienteByUsername(username) == null) { 
+					selected = new Cliente(cedula, txtNombre.getText(), txtDireccion.getText(), txtTelefono.getText(),username,txtPassword.getPassword());
+					Tienda.getInstance().addCliente(selected);
+					JOptionPane.showMessageDialog(null, "Registro realizado satisfactoriamente.", "Registro de Cliente", JOptionPane.INFORMATION_MESSAGE);
+					panelRegistro.setVisible(false);
+					panelLogin.setVisible(true);
+				}else {
+					JOptionPane.showMessageDialog(null, "El cliente ya existe. Favor de iniciar sesión.", "Registro de Publicación", JOptionPane.INFORMATION_MESSAGE);
+				}
+				clean();
+			}
+
+		});
 		button.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Registrarse.png")));
 		button.setBounds(60, 534, 500, 55);
 		panelRegistro.add(button);
@@ -240,7 +267,7 @@ public class Login extends JFrame {
 		
 		JLabel label_3 = new JLabel("");
 		label_3.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/pcMuestra.png")));
-		label_3.setBounds(283, 263, 382, 353);
+		label_3.setBounds(368, 257, 382, 353);
 		panel.add(label_3);
 		
 		JLabel label_4 = new JLabel("");
@@ -318,7 +345,7 @@ public class Login extends JFrame {
 		panelLogin.add(btnNewButton);
 		btnNewButton.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/iniciar.png")));
 		
-		JLabel lblanNoTienes = new JLabel("\u00BFA\u00FAn no tienes una cuenta? Que MMG");
+		JLabel lblanNoTienes = new JLabel("\u00BFA\u00FAn no tienes una cuenta?");
 		lblanNoTienes.setBounds(124, 532, 345, 55);
 		panelLogin.add(lblanNoTienes);
 		lblanNoTienes.setForeground(Color.BLACK);
@@ -358,5 +385,13 @@ public class Login extends JFrame {
 		label_7.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Elipse1.png")));
 		label_7.setBounds(628, 218, 256, 142);
 		panel.add(label_7);
+	}
+	private void clean() {
+		txtcedula.setText("");
+		txtDireccion.setText("");
+		txtNombre.setText("");
+		txtPassword.setText("");
+		txtTelefono.setText("");
+		txtUsername.setText("");
 	}
 }
