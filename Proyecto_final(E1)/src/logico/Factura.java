@@ -8,13 +8,15 @@ public class Factura {
 	private Cliente miCliente;
 	private ArrayList<Producto> misProductos;
 	private float valorTotal;
+	public static int cod = 1;
 	
-	public Factura(String codigo, Cliente miCliente, float valorTotal) {
+	public Factura(String codigo, Cliente miCliente) {
 		super();
 		this.codigo = codigo;
 		this.miCliente = miCliente;
 		this.misProductos = new ArrayList<Producto>();
-		this.valorTotal = valorTotal;
+		this.valorTotal = 0;
+		Factura.cod++;
 	}
 
 	public String getCodigo() {
@@ -41,20 +43,24 @@ public class Factura {
 	public float getValorTotal() {
 		return valorTotal;
 	}
-	public void setValorTotal(float valorTotal) {
-		this.valorTotal = valorTotal;
-	}
 	
-	public void agregarProducto(Producto producto) {
-		misProductos.add(producto);
+	public void agregarProductos(ArrayList<Producto> productos) {
+		misProductos.addAll(productos);
 	}
 	
 	public float calcPrecioFactura() {
-		int total = 0;
 		
-		for (Producto producto : misProductos) {
-			total += producto.getPrecio();
+		if (valorTotal > 0) {
+			return valorTotal;
+		}else {
+			int total = 0;
+			
+			for (Producto producto : misProductos) {
+				total += producto.getPrecio();
+			}
+			valorTotal = total;
+			return valorTotal;
 		}
-		return total;
+		
 	}
 }
