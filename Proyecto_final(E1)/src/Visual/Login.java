@@ -204,7 +204,7 @@ public class Login extends JFrame {
 						|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("")) {
 					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos !", "Registro de Cliente", JOptionPane.WARNING_MESSAGE);
 				}else {
-				
+				/*
 					String cedula = txtcedula.getText();
 					String username = txtUsername.getText();
 					
@@ -225,6 +225,7 @@ public class Login extends JFrame {
 						JOptionPane.showMessageDialog(null, "Ya existe un usuario con esa cédula !", "Registro de Cliente", JOptionPane.WARNING_MESSAGE);
 						clean();
 					}
+				*/
 				}
 			}
 

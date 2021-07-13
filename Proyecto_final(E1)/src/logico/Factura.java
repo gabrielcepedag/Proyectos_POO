@@ -6,17 +6,19 @@ public class Factura {
 	
 	private String codigo;
 	private Cliente miCliente;
-	private ArrayList<Producto> misProductos;
-	private float valorTotal;
+	private Vendedor miVendedor;
+	private ArrayList<Producto> misProductos = new ArrayList<Producto>();
+	private float precioTotal;
 	private boolean esACredito;
 	public static int cod = 1;
 	
-	public Factura(String codigo, Cliente miCliente) {
+	public Factura(String codigo, Vendedor miVendedor, Cliente miCliente, ArrayList<Producto> misProductos) {
 		super();
 		this.codigo = codigo;
+		this.miVendedor = miVendedor;
 		this.miCliente = miCliente;
-		this.misProductos = new ArrayList<Producto>();
-		this.valorTotal = 0;
+		this.misProductos = misProductos;
+		this.precioTotal = 0;
 		esACredito = false;
 		Factura.cod++;
 	}
@@ -35,15 +37,18 @@ public class Factura {
 		this.miCliente = miCliente;
 	}
 
-	public ArrayList<Producto> getMisProductos() {
-		return misProductos;
+	public Vendedor getMiVendedor() {
+		return miVendedor;
 	}
-	
+	public void setMiVendedor(Vendedor miVendedor) {
+		this.miVendedor = miVendedor;
+	}
+
 	public void setMisProductos(ArrayList<Producto> misProductos) {
 		this.misProductos = misProductos;
 	}
 
-	public float getValorTotal() {
+	public float getPrecioTotal() {
 		return calcPrecioFactura();
 	}
 	
@@ -54,24 +59,18 @@ public class Factura {
 	public void setEsACredito(boolean esACredito) {
 		this.esACredito = esACredito;
 	}
-
-	public void agregarProductos(ArrayList<Producto> productos) {
-		misProductos.addAll(productos);
-	}
 	
 	public float calcPrecioFactura() {
-		
-		if (valorTotal > 0) {
-			return valorTotal;
+		if (precioTotal > 0) {
+			return precioTotal;
 		}else {
-			int total = 0;
+			float total = 0;
 			
 			for (Producto producto : misProductos) {
 				total += producto.getPrecio();
 			}
-			valorTotal = total;
-			return valorTotal;
+			this.precioTotal = total;
+			return precioTotal;
 		}
-		
 	}
 }

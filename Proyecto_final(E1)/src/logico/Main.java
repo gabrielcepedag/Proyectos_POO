@@ -5,27 +5,32 @@ import java.util.ArrayList;
 public class Main {
 	//Main de Pruebas
 	public static void main(String[] args) {
+		Administrador administrador = new Administrador("admin", "12345", "nombre", "cedula", "telefono", "direccion");
+		Tienda.getInstance().addEmpleado(administrador);
 		
-		DiscoDuro d1 = new DiscoDuro("0001", 25, 550, "Sony", 5, 50, "QUESEYO", 500, "Sate");
-		MicroProcesador m1 = new MicroProcesador("002", 30, 2000, "MSI", 5, 25, "Guachupita", "GOODquestion", 200);
+		ArrayList<Producto> productos1 = new ArrayList<Producto>();
 		
-		Tienda.getInstance().addProducto(d1);
-		Tienda.getInstance().addProducto(m1);
+		DiscoDuro disco1 = new DiscoDuro("0001", 25, 550, "Sony", 5, 50, "QUESEYO", 500, "Sate");
+		MicroProcesador micro1 = new MicroProcesador("002", 30, 2000, "MSI", 5, 25, "Guachupita", "GOODquestion", 200);
 		
-		char [] password = null;
-		password[0] = 'h';
+		productos1.add(disco1);
+		productos1.add(micro1);
+		Tienda.getInstance().addProducto(disco1);
+		Tienda.getInstance().addProducto(micro1);
 		
-		Cliente cliente = new Cliente("047", "Gabriel", "La vega", "8295151017","Username",password);
-		Tienda.getInstance().addCliente(cliente);
+		Vendedor vendedor1 = new Vendedor("username", "password", "nombre", "cedula", "telefono", "direccion");
+		Tienda.getInstance().addEmpleado(vendedor1);
+		administrador.addVendedor(vendedor1);
 		
-		Factura factura = new Factura(new String("F-" + Factura.cod), cliente);
-		ArrayList<Producto> productos = new ArrayList<Producto>();
-		factura.agregarProductos(productos);
-		factura.calcPrecioFactura();
-		Tienda.getInstance().addFactura(factura);
+		Cliente cliente1 = new Cliente("047", "Gabriel", "La vega", "8295151017");
+		Tienda.getInstance().addCliente(cliente1);
 		
-		System.out.println(Tienda.getInstance().getMisFacturas().get(0).getValorTotal());
-		System.out.println(Tienda.getInstance().calPrecioTotalPC(productos));
+		Factura factura1 = new Factura(new String("F-" + Factura.cod), vendedor1, cliente1, productos1);
+		factura1.calcPrecioFactura();
+		Tienda.getInstance().addFactura(factura1);
+		
+		System.out.println(Tienda.getInstance().getMisFacturas().get(0).getPrecioTotal());
+		System.out.println(Tienda.getInstance().calPrecioTotalPC(productos1));
 		Factura aux = Tienda.getInstance().buscarFacturaByCodigo("F-1");
 		System.out.println(aux.calcPrecioFactura());
 	}

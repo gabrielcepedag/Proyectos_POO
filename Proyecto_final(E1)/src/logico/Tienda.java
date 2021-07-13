@@ -7,6 +7,11 @@ public class Tienda {
 	private ArrayList<Producto> misProductos;
 	private ArrayList<Cliente> misClientes;
 	private ArrayList<Factura> misFacturas;
+	private ArrayList<Empleado> misEmpleados;
+	private ArrayList<Combo> misCombos;
+	private ArrayList<OrdenCompra> misOrdenesCompra;
+
+	
 	private static Tienda tienda = null;
 	
 	private Tienda() {
@@ -14,10 +19,12 @@ public class Tienda {
 		this.misProductos = new ArrayList<Producto>();
 		this.misClientes = new ArrayList<Cliente>();
 		this.misFacturas = new ArrayList<Factura>();
+		this.misEmpleados = new ArrayList<Empleado>();
+		this.misCombos = new ArrayList<Combo>();
+		this.misOrdenesCompra = new ArrayList<OrdenCompra>();
 	}
 	
 	public static Tienda getInstance() {
-		
 		if (tienda == null) {
 			tienda = new Tienda();
 		}
@@ -57,8 +64,32 @@ public class Tienda {
 		misFacturas.add(factura);
 	}
 	
+	public void addEmpleado(Empleado empleado) {
+		misEmpleados.add(empleado);
+	}
+
+	public void addCombo(Combo combo) {
+		misCombos.add(combo);
+	}
+	
+	public void addOrdenCompra(OrdenCompra orden) {
+		misOrdenesCompra.add(orden);
+	}
+	
 	public void eliminarProducto(Producto producto) {
 		misProductos.remove(producto);
+	}
+	
+	public void eliminarCombo(Combo combo) {
+		misCombos.remove(combo);
+	}
+	
+	public void eliminarVendededor(Vendedor vendedor) {
+		misEmpleados.remove(vendedor);
+	}
+	
+	public void eliminarCliente(Cliente cliente) {
+		misClientes.remove(cliente);
 	}
 	
 	public Cliente buscarClienteByCedula(String cedula) {
@@ -94,6 +125,17 @@ public class Tienda {
 		return facturaAux;
 	}
 	
+	public Empleado buscarEmpleadoByCedula(String cedula) {
+		Empleado empleadoAux = null;
+		for (Empleado empleado : misEmpleados) {
+			if (empleado.getCedula().equalsIgnoreCase(cedula)) {
+				empleadoAux = empleado;
+				return empleadoAux;
+			}
+		}
+		return empleadoAux;
+	}
+	
 	public float calcTotalFactura(String codFactura) {
 		Factura factura = buscarFacturaByCodigo(codFactura);
 		
@@ -108,27 +150,18 @@ public class Tienda {
 		return precioTotal;
 	}
 	
-	public Cliente buscarClienteByUsername(String username) {
-		Cliente auxCliente = null;
-		for (Cliente cliente : misClientes) {
-			if (cliente.getUsername().equalsIgnoreCase(username)) {
-				auxCliente = cliente;
-				return auxCliente;
+	public float calcTotalVendidoByVendedor(String cedula) {
+		Vendedor vendedor = (Vendedor) buscarEmpleadoByCedula(cedula);
+		float suma = 0;
+		
+		for (Factura factura : misFacturas) {
+			if(factura.getMiVendedor().equals(vendedor)) {
+				suma += factura.getPrecioTotal();
 			}
 		}
-		return auxCliente;
+		vendedor.setTotalVendido(suma);
+		return suma;
 	}
 	
-	//Coming soon
-	
-	public ArrayList<Producto> generarEquipoByRequisitos(String requisito, float presupuesto) {
-		return misProductos;
-		
-	}
-	
-	public ArrayList<Producto> generarEquipoByPresupuesto() {
-		return misProductos;
-		
-	}
 	
 }
