@@ -8,6 +8,7 @@ public class Cliente {
 	private String telefono;
 	private String username;
 	private char[] password;
+	private float credito;
 	
 	public Cliente(String cedula, String nombre, String direccion, String telefono, String username, char[] password) {
 		super();
@@ -17,6 +18,7 @@ public class Cliente {
 		this.telefono = telefono;
 		this.setUsername(username);
 		this.password = password;
+		credito = 0;
 	}
 	
 	public String getCedula() {
@@ -53,5 +55,13 @@ public class Cliente {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public float getCredito() {
+		return credito;
+	}
+
+	public void setCredito(float credito) {
+		this.credito = credito;
 	}
 }

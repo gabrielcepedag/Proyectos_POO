@@ -9,9 +9,9 @@ public class MotherBoard extends Producto{
 	private String tipoRam;
 	private ArrayList<String> conexionesHD;
 	
-	public MotherBoard(String numSerie, int cantidad, float precio, String marca, String modelo, String socket,
+	public MotherBoard(String numSerie, int cantidad, float precio, String marca, int dispMin, int dispMax, String modelo, String socket,
 			String tipoRam) {
-		super(numSerie, cantidad, precio, marca);
+		super(numSerie, cantidad, precio, marca, dispMin, dispMax);
 		this.modelo = modelo;
 		this.socket = socket;
 		this.tipoRam = tipoRam;

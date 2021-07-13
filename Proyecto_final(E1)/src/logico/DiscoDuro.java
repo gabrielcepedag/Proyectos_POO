@@ -6,9 +6,9 @@ public class DiscoDuro extends Producto{
 	private int capacidad;
 	private String socket;
 	
-	public DiscoDuro(String numSerie, int cantidad, float precio, String marca, String modelo, int capacidad,
+	public DiscoDuro(String numSerie, int cantidad, float precio, String marca, int dispMin, int dispMax, String modelo, int capacidad,
 			String socket) {
-		super(numSerie, cantidad, precio, marca);
+		super(numSerie, cantidad, precio, marca, dispMin, dispMax);
 		this.modelo = modelo;
 		this.capacidad = capacidad;
 		this.socket = socket;

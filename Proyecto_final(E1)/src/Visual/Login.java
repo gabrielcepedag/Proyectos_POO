@@ -107,7 +107,7 @@ public class Login extends JFrame {
 		txtDireccion.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		txtDireccion.setColumns(10);
 		txtDireccion.setBackground(Color.WHITE);
-		txtDireccion.setBounds(197, 468, 363, 50);
+		txtDireccion.setBounds(216, 466, 344, 50);
 		panelRegistro.add(txtDireccion);
 		
 		txtUsername = new JTextField();
@@ -115,7 +115,7 @@ public class Login extends JFrame {
 		txtUsername.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		txtUsername.setColumns(10);
 		txtUsername.setBackground(Color.WHITE);
-		txtUsername.setBounds(216, 330, 344, 50);
+		txtUsername.setBounds(216, 336, 344, 50);
 		panelRegistro.add(txtUsername);
 		
 		txtTelefono = new JTextField();
@@ -123,7 +123,7 @@ public class Login extends JFrame {
 		txtTelefono.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		txtTelefono.setColumns(10);
 		txtTelefono.setBackground(Color.WHITE);
-		txtTelefono.setBounds(192, 267, 368, 50);
+		txtTelefono.setBounds(216, 271, 344, 50);
 		panelRegistro.add(txtTelefono);
 		
 		txtNombre = new JTextField();
@@ -131,7 +131,7 @@ public class Login extends JFrame {
 		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		txtNombre.setColumns(10);
 		txtNombre.setBackground(Color.WHITE);
-		txtNombre.setBounds(182, 204, 378, 50);
+		txtNombre.setBounds(216, 206, 344, 50);
 		panelRegistro.add(txtNombre);
 		
 		JLabel lblDireccin = new JLabel("Direcci\u00F3n:");
@@ -180,7 +180,7 @@ public class Login extends JFrame {
 		txtcedula.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		txtcedula.setColumns(10);
 		txtcedula.setBackground(Color.WHITE);
-		txtcedula.setBounds(182, 141, 378, 50);
+		txtcedula.setBounds(216, 141, 344, 50);
 		panelRegistro.add(txtcedula);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
@@ -193,25 +193,39 @@ public class Login extends JFrame {
 		txtPassword = new JPasswordField();
 		txtPassword.setForeground(new Color(0, 153, 153));
 		txtPassword.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		txtPassword.setBounds(216, 400, 344, 50);
+		txtPassword.setBounds(216, 401, 344, 50);
 		panelRegistro.add(txtPassword);
 		
 		JButton button = new JButton("");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String cedula = txtcedula.getText();
-				String username = txtUsername.getText();
 				
-				if (Tienda.getInstance().buscarClienteByCedula(cedula) == null && Tienda.getInstance().buscarClienteByUsername(username) == null) { 
-					selected = new Cliente(cedula, txtNombre.getText(), txtDireccion.getText(), txtTelefono.getText(),username,txtPassword.getPassword());
-					Tienda.getInstance().addCliente(selected);
-					JOptionPane.showMessageDialog(null, "Registro realizado satisfactoriamente.", "Registro de Cliente", JOptionPane.INFORMATION_MESSAGE);
-					panelRegistro.setVisible(false);
-					panelLogin.setVisible(true);
+				if (txtcedula.getText().equalsIgnoreCase("") || txtDireccion.getText().equalsIgnoreCase("") || txtNombre.getText().equalsIgnoreCase("") || txtPassword.getPassword().length == 0
+						|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos !", "Registro de Cliente", JOptionPane.WARNING_MESSAGE);
 				}else {
-					JOptionPane.showMessageDialog(null, "El cliente ya existe. Favor de iniciar sesión.", "Registro de Publicación", JOptionPane.INFORMATION_MESSAGE);
+				
+					String cedula = txtcedula.getText();
+					String username = txtUsername.getText();
+					
+					if (Tienda.getInstance().buscarClienteByCedula(cedula) == null && Tienda.getInstance().buscarClienteByUsername(username) == null) { 
+						selected = new Cliente(cedula, txtNombre.getText(), txtDireccion.getText(), txtTelefono.getText(),username,txtPassword.getPassword());
+						Tienda.getInstance().addCliente(selected);
+						JOptionPane.showMessageDialog(null, "Cliente registrado satisfactoriamente.", "Registro de Cliente", JOptionPane.INFORMATION_MESSAGE);
+						panelRegistro.setVisible(false);
+						panelLogin.setVisible(true);
+						clean();
+					}else if (Tienda.getInstance().buscarClienteByCedula(cedula) != null && Tienda.getInstance().buscarClienteByUsername(username) != null){
+						JOptionPane.showMessageDialog(null, "El cliente ya existe. Favor de iniciar sesión.", "Registro de Cliente", JOptionPane.WARNING_MESSAGE);
+						clean();
+					}else if(Tienda.getInstance().buscarClienteByUsername(username) != null) {
+						JOptionPane.showMessageDialog(null, "Username ya existe. Favor de digitar otro.", "Registro de Cliente", JOptionPane.WARNING_MESSAGE);
+						txtUsername.setText("");
+					}else if(Tienda.getInstance().buscarClienteByCedula(cedula) != null) {
+						JOptionPane.showMessageDialog(null, "Ya existe un usuario con esa cédula !", "Registro de Cliente", JOptionPane.WARNING_MESSAGE);
+						clean();
+					}
 				}
-				clean();
 			}
 
 		});
@@ -230,6 +244,7 @@ public class Login extends JFrame {
 		lblIniciarSesion.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				clean();
 				panelLogin.setVisible(true);
 				panelRegistro.setVisible(false);
 			}
@@ -295,7 +310,7 @@ public class Login extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setBounds(60, 60, 243, 55);
 		panelLogin.add(lblNewLabel_1);
-		lblNewLabel_1.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/loginText.png")));
+		lblNewLabel_1.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Login.png")));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
 		JLabel lblEmail = new JLabel("Usuario:");
@@ -346,13 +361,13 @@ public class Login extends JFrame {
 		btnNewButton.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/iniciar.png")));
 		
 		JLabel lblanNoTienes = new JLabel("\u00BFA\u00FAn no tienes una cuenta?");
-		lblanNoTienes.setBounds(124, 532, 345, 55);
+		lblanNoTienes.setBounds(100, 540, 345, 55);
 		panelLogin.add(lblanNoTienes);
 		lblanNoTienes.setForeground(Color.BLACK);
 		lblanNoTienes.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JLabel lblRegistrarse = new JLabel("Registrate aqu\u00ED!");
-		lblRegistrarse.setBounds(236, 565, 162, 55);
+		lblRegistrarse.setBounds(350, 540, 162, 55);
 		panelLogin.add(lblRegistrarse);
 		lblRegistrarse.addMouseListener(new MouseAdapter() {
 			@Override
@@ -385,8 +400,11 @@ public class Login extends JFrame {
 		label_7.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Elipse1.png")));
 		label_7.setBounds(628, 218, 256, 142);
 		panel.add(label_7);
+		
 	}
 	private void clean() {
+		txtemail.setText("");
+		passwordField.setText("");
 		txtcedula.setText("");
 		txtDireccion.setText("");
 		txtNombre.setText("");

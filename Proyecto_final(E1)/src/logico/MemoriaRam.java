@@ -5,8 +5,8 @@ public class MemoriaRam extends Producto{
 	private int capacidad;
 	private String tipoMemoria;
 	
-	public MemoriaRam(String numSerie, int cantidad, float precio, String marca, int capacidad, String tipoMemoria) {
-		super(numSerie, cantidad, precio, marca);
+	public MemoriaRam(String numSerie, int cantidad, float precio, String marca, int dispMin, int dispMax, int capacidad, String tipoMemoria) {
+		super(numSerie, cantidad, precio, marca, dispMin, dispMax);
 		this.capacidad = capacidad;
 		this.tipoMemoria = tipoMemoria;
 	}

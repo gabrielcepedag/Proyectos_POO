@@ -6,13 +6,17 @@ public abstract class Producto {
 	protected int cantidad;
 	protected float precio;
 	protected String marca;
+	protected int dispMin;
+	protected int dispMax;
 	
-	public Producto(String numSerie, int cantidad, float precio, String marca) {
+	public Producto(String numSerie, int cantidad, float precio, String marca, int dispMin, int dispMax) {
 		super();
 		this.numSerie = numSerie;
 		this.cantidad = cantidad;
 		this.precio = precio;
 		this.marca = marca;
+		this.dispMax = dispMax;
+		this.dispMin = dispMin;
 	}
 	
 	public String getNumSerie() {
@@ -42,6 +46,21 @@ public abstract class Producto {
 	public void setMarca(String marca) {
 		this.marca = marca;
 	}
-	
+
+	public int getDispMin() {
+		return dispMin;
+	}
+
+	public void setDispMin(int dispMin) {
+		this.dispMin = dispMin;
+	}
+
+	public int getDispMax() {
+		return dispMax;
+	}
+
+	public void setDispMax(int dispMax) {
+		this.dispMax = dispMax;
+	}
 	
 }

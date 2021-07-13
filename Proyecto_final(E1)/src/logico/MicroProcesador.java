@@ -6,9 +6,9 @@ public class MicroProcesador extends Producto{
 	private String socket;
 	private float velocidadProcesamiento;
 	
-	public MicroProcesador(String numSerie, int cantidad, float precio, String marca, String modelo, String socket,
+	public MicroProcesador(String numSerie, int cantidad, float precio, String marca, int dispMin, int dispMax, String modelo, String socket,
 			float velocidadProcesamiento) {
-		super(numSerie, cantidad, precio, marca);
+		super(numSerie, cantidad, precio, marca, dispMin, dispMax);
 		this.modelo = modelo;
 		this.socket = socket;
 		this.velocidadProcesamiento = velocidadProcesamiento;

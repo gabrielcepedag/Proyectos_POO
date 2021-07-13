@@ -91,11 +91,11 @@ public class Home extends JFrame {
 		panel.add(panelAdministrar);
 		
 		JLabel label_10 = new JLabel("");
-		label_10.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/AdministrarLabel.png")));
+		label_10.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Administracion.png")));
 		label_10.setHorizontalAlignment(SwingConstants.CENTER);
 		label_10.setForeground(Color.WHITE);
 		label_10.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		label_10.setBounds(73, 45, 283, 71);
+		label_10.setBounds(73, 45, 371, 71);
 		panelAdministrar.add(label_10);
 		
 		JLabel label_11 = new JLabel("");
@@ -213,7 +213,7 @@ public class Home extends JFrame {
 		lblSalir.setBounds(31, 673, 358, 78);
 		panel.add(lblSalir);
 		
-		lblAdministrar = new JLabel("Administrar");
+		lblAdministrar = new JLabel("Administración");
 		lblAdministrar.setBackground(new Color(36, 37, 38));
 		lblAdministrar.setOpaque(true);
 		lblAdministrar.addMouseListener(new MouseAdapter() {

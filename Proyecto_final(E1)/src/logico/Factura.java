@@ -8,6 +8,7 @@ public class Factura {
 	private Cliente miCliente;
 	private ArrayList<Producto> misProductos;
 	private float valorTotal;
+	private boolean esACredito;
 	public static int cod = 1;
 	
 	public Factura(String codigo, Cliente miCliente) {
@@ -16,6 +17,7 @@ public class Factura {
 		this.miCliente = miCliente;
 		this.misProductos = new ArrayList<Producto>();
 		this.valorTotal = 0;
+		esACredito = false;
 		Factura.cod++;
 	}
 
@@ -36,14 +38,23 @@ public class Factura {
 	public ArrayList<Producto> getMisProductos() {
 		return misProductos;
 	}
+	
 	public void setMisProductos(ArrayList<Producto> misProductos) {
 		this.misProductos = misProductos;
 	}
 
 	public float getValorTotal() {
-		return valorTotal;
+		return calcPrecioFactura();
 	}
 	
+	public boolean isEsACredito() {
+		return esACredito;
+	}
+
+	public void setEsACredito(boolean esACredito) {
+		this.esACredito = esACredito;
+	}
+
 	public void agregarProductos(ArrayList<Producto> productos) {
 		misProductos.addAll(productos);
 	}
