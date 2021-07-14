@@ -40,6 +40,10 @@ public class Factura {
 	public Vendedor getMiVendedor() {
 		return miVendedor;
 	}
+	public ArrayList<Producto> getMisProductos() {
+		return misProductos;
+	}
+
 	public void setMiVendedor(Vendedor miVendedor) {
 		this.miVendedor = miVendedor;
 	}
