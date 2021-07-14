@@ -368,6 +368,7 @@ public class Login extends JFrame {
 		lblanNoTienes.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JLabel lblRegistrarse = new JLabel("Registrate aqu\u00ED!");
+		lblRegistrarse.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblRegistrarse.setBounds(350, 540, 162, 55);
 		panelLogin.add(lblRegistrarse);
 		lblRegistrarse.addMouseListener(new MouseAdapter() {

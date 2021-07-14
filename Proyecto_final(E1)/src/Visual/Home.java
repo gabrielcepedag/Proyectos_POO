@@ -40,6 +40,9 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ListSelectionModel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
 
 public class Home extends JFrame {
 
@@ -63,7 +66,12 @@ public class Home extends JFrame {
 	private JTable tableFactura;
 	private JComboBox<String> cbxTipoProducto;
 	private JScrollPane scrollPaneProducto;
-
+	private JTextField txtCedulaFact;
+	Cliente clienteBuscado = null;
+	int indexCbx = 0;
+	String cedulaClienteSel = null;
+	private JComboBox<String> cbxTipoFactura;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -142,7 +150,7 @@ public class Home extends JFrame {
 			}
 		});
 		
-		/*Productos de pruebas*/
+		//Productos de pruebas//
 		Producto p1 = new MotherBoard("402", 10, 25000, "RTX", 1, 20, "QSY", "QSY", "QSY");
 		Producto p2 = new MemoriaRam("403", 100, 10000, "TridentZ", 1, 500, 32, "DDR4");
 		Producto p3 = new MicroProcesador("404", 55, 5500, "MSI", 10, 60, "QSY", "buena", 100);
@@ -152,12 +160,39 @@ public class Home extends JFrame {
 		Tienda.getInstance().addProducto(p3);
 		Tienda.getInstance().addProducto(p4);
 		
+		//Clientes de Prueba	
+		Cliente c1 = new Cliente("4023343", "Darvy", "Bella vista, Satiago de los caballeros", "829-699-4610");
+		c1.setCredito(10000);
+		Cliente c2 = new Cliente("4024550", "Eduardo", "Puerto Planta", "843-433-5552");
+		c2.setCredito(25000);
+		Cliente c3 = new Cliente("4021460", "Gabriel", "La Vega", "829-444-1340");
+		Tienda.getInstance().addCliente(c1);
+		Tienda.getInstance().addCliente(c2);
+		Tienda.getInstance().addCliente(c3);
+		
+		//Factura de Prueba:
+		Vendedor v1 = new Vendedor("DarvyBM", "KLK", "Darvy Betances", "2434-332", "809-247-2240", "Santiago de los caballeros");
+		Cliente c5 = new Cliente("24234", "Fulanito", "Cerca de ti bb", "334-233-4244");
+		ArrayList<Producto> productos = new ArrayList<Producto>();
+		productos.add(new MicroProcesador("344", 43, 2344, "Intel", 1, 400, "Qsy", "Qsy", 124));
+		Factura f1 = new Factura("Fact-1", v1, c3 , productos);
+		Tienda.getInstance().addFactura(f1);
+		
+		productos.add(p2);
+		Factura f2 = new Factura(new String("Fact-"+Factura.cod), v1, c2, productos);
+		f2.setEsACredito(true);
+		
+		productos.add(p3);
+		Factura f3 = new Factura("Fact-3", v1,c5, productos);
+		Tienda.getInstance().addFactura(f2);
+		Tienda.getInstance().addFactura(f3);
+		
 		cbxTipoProducto.setOpaque(false);
 		cbxTipoProducto.setIgnoreRepaint(true);
 		cbxTipoProducto.setBorder(null);
 		cbxTipoProducto.setBackground(Color.WHITE);
 		cbxTipoProducto.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		cbxTipoProducto.setModel(new DefaultComboBoxModel<String>(new String[] {"Todos", "Disco Duros", "Memorias Ram", "Micro Procesadores", "Placas Madres"}));
+		cbxTipoProducto.setModel(new DefaultComboBoxModel<String>(new String[] {"<Todos>", "Disco Duros", "Memorias Ram", "Micro Procesadores", "Placas Madres"}));
 		cbxTipoProducto.setBounds(73, 130, 340, 33);
 		panelProductos.add(cbxTipoProducto);
 		
@@ -165,12 +200,12 @@ public class Home extends JFrame {
 		scrollPaneProducto.setBounds(73, 176, 795, 643);
 		panelProductos.add(scrollPaneProducto);
 		
-		String headerProducto[] = {"Categoría", "Número de serie", "Marca", "Precio", "Cantidad", "Disp. Min"};
+		String headerProducto[] = {"Número de serie", "Marca", "Precio", "Cantidad", "Disp. Min","Categoría"};
 		modelProductos = new DefaultTableModel();
 		modelProductos.setColumnIdentifiers(headerProducto);
 		
 		JTable tableProductos = new JTable();
-		tableProductos.setEnabled(false);
+		tableProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableProductos.setModel(modelProductos);
 		tableProductos.getTableHeader().setBackground(new Color(0, 155, 124));
 		tableProductos.getTableHeader().setForeground(Color.WHITE);
@@ -371,6 +406,34 @@ public class Home extends JFrame {
 				JOptionPane.showMessageDialog(null, "Coming Soon");
 			}
 		});
+		
+		JLabel lblNewLabel_4 = new JLabel("Buscar");
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblNewLabel_4.setOpaque(true);
+		lblNewLabel_4.setBackground(new Color(0,155,124));
+		lblNewLabel_4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (!(txtCedulaFact.getText().isEmpty())) {
+					indexCbx = cbxTipoFactura.getSelectedIndex();
+					cedulaClienteSel = txtCedulaFact.getText();
+					loadTableFactura(indexCbx, cedulaClienteSel);
+				}
+			}
+		});
+		lblNewLabel_4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblNewLabel_4.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Lupa.png")));
+		lblNewLabel_4.setBounds(545, 128, 130, 40);
+		panelFactura.add(lblNewLabel_4);
+		
+		txtCedulaFact = new JTextField();
+		txtCedulaFact.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		txtCedulaFact.setHorizontalAlignment(SwingConstants.CENTER);
+		txtCedulaFact.setBackground(Color.WHITE);
+		txtCedulaFact.setBounds(315, 130, 200, 33);
+		panelFactura.add(txtCedulaFact);
+		txtCedulaFact.setColumns(10);
+		
 		lblVerMsDetalles.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblVerMsDetalles.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/OjoIcon.png")));
 		lblVerMsDetalles.setOpaque(true);
@@ -401,10 +464,10 @@ public class Home extends JFrame {
 		panelFactura.add(crearFactura);
 		
 		JScrollPane scrollPaneFactura = new JScrollPane();
-		scrollPaneFactura.setBounds(73, 140, 795, 569);
+		scrollPaneFactura.setBounds(73, 170, 795, 530);
 		panelFactura.add(scrollPaneFactura);
 		
-		String headerFactura[] = {"Código", "Cliente", "Vendedor", "Cant. Articulos", "Total de la Factura"};
+		String headerFactura[] = {"Código", "Cliente", "Vendedor", "Cant. Articulos", "Total de la Factura","Crédito"};
 		modelFactura = new DefaultTableModel();
 		modelFactura.setColumnIdentifiers(headerFactura);
 		
@@ -412,6 +475,27 @@ public class Home extends JFrame {
 		tableFactura.setModel(modelFactura);
 		tableFactura.getTableHeader().setBackground(new Color(0, 155, 124));
 		tableFactura.getTableHeader().setForeground(Color.white);
+		
+		cbxTipoFactura = new JComboBox<String>();
+		cbxTipoFactura.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int index = -1;
+				index = cbxTipoFactura.getSelectedIndex();
+				if (index != -1) {
+					indexCbx = index;
+					loadTableFactura(index, cedulaClienteSel);
+				}
+			}
+		});
+		cbxTipoFactura.setModel(new DefaultComboBoxModel<String>(new String[] {"<Todas>", "Facturas sin cr\u00E9dito", "Facturas a cr\u00E9dito"}));
+		cbxTipoFactura.setSelectedIndex(0);
+		cbxTipoFactura.setOpaque(false);
+		cbxTipoFactura.setIgnoreRepaint(true);
+		cbxTipoFactura.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		cbxTipoFactura.setBorder(null);
+		cbxTipoFactura.setBackground(Color.WHITE);
+		cbxTipoFactura.setBounds(73, 130, 200, 33);
+		panelFactura.add(cbxTipoFactura);
 		
 		scrollPaneFactura.setViewportView(tableFactura);
 		
@@ -443,7 +527,7 @@ public class Home extends JFrame {
 		scrollPaneCliente.setBounds(73, 140, 795, 639);
 		panelClientes.add(scrollPaneCliente);
 		
-		String header[] = {"Cédula", "Nombre", "Telefono", "Dirección"};
+		String header[] = {"Cédula", "Nombre", "Telefono", "Dirección","Crédito"};
 		modelCliente = new DefaultTableModel();
 		modelCliente.setColumnIdentifiers(header);
 		
@@ -623,7 +707,7 @@ public class Home extends JFrame {
 		loadTableCliente();
 		cbxTipoProducto.setSelectedIndex(0);
 		loadTableProductos(0);
-		loadTableFactura();
+		loadTableFactura(indexCbx,cedulaClienteSel);
 	}
 	
 	public static void loadTableCliente() {
@@ -631,21 +715,12 @@ public class Home extends JFrame {
 		modelCliente.setRowCount(0);
 		rows = new Object[modelCliente.getColumnCount()];
 		
-		//Clientes de Prueba
-		
-		Cliente c1 = new Cliente("402-3343", "Darvy", "Bella vista, Satiago de los caballeros", "829-699-4610");
-		Cliente c2 = new Cliente("402-4550", "Eduardo", "Puerto Planta", "843-433-5552");
-		Cliente c3 = new Cliente("402-5024", "Gabriel", "La Vega", "829-444-1340");
-		
-		Tienda.getInstance().addCliente(c1);
-		Tienda.getInstance().addCliente(c2);
-		Tienda.getInstance().addCliente(c3);
-		
 		for (Cliente cliente : Tienda.getInstance().getMisClientes()) {
 			rows[0] = cliente.getCedula();
 			rows[1] = cliente.getNombre();
 			rows[2] = cliente.getTelefono();
 			rows[3] = cliente.getDireccion();
+			rows[4] = cliente.getCredito();
 			modelCliente.addRow(rows);
 		}
 	}
@@ -660,16 +735,16 @@ public class Home extends JFrame {
 
 		switch (selection) {
 		case 0:
-			String headerProducto[] = {"Categoría", "Número de serie", "Marca", "Precio", "Cantidad","Disp. min"};
+			String headerProducto[] = {"Número de serie", "Marca", "Precio", "Cantidad","Disp. min","Categoría"};
 			modelProductos.setColumnIdentifiers(headerProducto);
 			
 			for (Producto producto : Tienda.getInstance().getMisProductos()) {
-				rows[0] = producto.getClass().getSimpleName();
-				rows[1] = producto.getNumSerie();
-				rows[2] = producto.getMarca();
-				rows[3] = producto.getPrecio();
-				rows[4] = producto.getCantidad();
-				rows[5] = producto.getDispMin();
+				rows[0] = producto.getNumSerie();
+				rows[1] = producto.getMarca();
+				rows[2] = producto.getPrecio();
+				rows[3] = producto.getCantidad();
+				rows[4] = producto.getDispMin();
+				rows[5] = producto.getClass().getSimpleName();
 				modelProductos.addRow(rows);
 			}
 			break;
@@ -743,27 +818,95 @@ public class Home extends JFrame {
 		
 	}
 
-	public static void loadTableFactura() {
+	public static void loadTableFactura(int selection, String cedulaCliente) {
 	
 		modelFactura.setRowCount(0);
 		rows = new Object[modelFactura.getColumnCount()];
-		
-		//Factura de Prueba:
-		Vendedor v1 = new Vendedor("DarvyBM", "KLK", "Darvy Betances", "2434-332", "809-247-2240", "Santiago de los caballeros");
-		Cliente c1 = new Cliente("24234", "Fulanito", "Cerca de ti bb", "334-233-4244");
-		ArrayList<Producto> productos = new ArrayList<Producto>();
-		productos.add(new MicroProcesador("344", 43, 2344, "Intel", 1, 400, "Qsy", "Qsy", 124));
-		Factura f1 = new Factura("Fact - 1", v1, c1 , productos);
+
+		Cliente clienteSel = Tienda.getInstance().buscarClienteByCedula(cedulaCliente);
 	
-		Tienda.getInstance().addFactura(f1);
-		
-		for (Factura factura : Tienda.getInstance().getMisFacturas()) {
-			rows[0] = factura.getCodigo();
-			rows[1] = factura.getMiCliente().getNombre();
-			rows[2] = factura.getMiVendedor().getNombre();
-			rows[3] = factura.getMisProductos().size();
-			rows[4] = factura.getPrecioTotal();
-			modelFactura.addRow(rows);
+		if (cedulaCliente == null && selection == 0) {
+			for (Factura factura : Tienda.getInstance().getMisFacturas()) {
+				rows[0] = factura.getCodigo();
+				rows[1] = factura.getMiCliente().getNombre();
+				rows[2] = factura.getMiVendedor().getNombre();
+				rows[3] = factura.getMisProductos().size();
+				rows[4] = factura.getPrecioTotal();
+				if (factura.isEsACredito()) {
+					rows[5] = "Si aplica";
+				}else {
+					rows[5] = "No aplica";
+				}
+				modelFactura.addRow(rows);
+			}
+		} else if (clienteSel != null && selection == 0){
+			for (Factura factura : Tienda.getInstance().getMisFacturas()) {
+				if (factura.getMiCliente().equals(clienteSel)) {
+					rows[0] = factura.getCodigo();
+					rows[1] = factura.getMiCliente().getNombre();
+					rows[2] = factura.getMiVendedor().getNombre();
+					rows[3] = factura.getMisProductos().size();
+					rows[4] = factura.getPrecioTotal();
+					if (factura.isEsACredito()) {
+						rows[5] = "Si aplica";
+					}else {
+						rows[5] = "No aplica";
+					}
+					modelFactura.addRow(rows);
+				}
+			}
+		}else if(cedulaCliente == null && selection == 1) {
+			for (Factura factura : Tienda.getInstance().getMisFacturas()) {
+				if (factura.isEsACredito() == false ) {
+					rows[0] = factura.getCodigo();
+					rows[1] = factura.getMiCliente().getNombre();
+					rows[2] = factura.getMiVendedor().getNombre();
+					rows[3] = factura.getMisProductos().size();
+					rows[4] = factura.getPrecioTotal();
+					rows[5] = "No aplica";
+					modelFactura.addRow(rows);
+				}
+			}
+		}else if (clienteSel != null && selection == 1) {
+			for (Factura factura : Tienda.getInstance().getMisFacturas()) {
+				if (factura.getMiCliente().equals(clienteSel) && factura.isEsACredito() == false ) {
+					rows[0] = factura.getCodigo();
+					rows[1] = factura.getMiCliente().getNombre();
+					rows[2] = factura.getMiVendedor().getNombre();
+					rows[3] = factura.getMisProductos().size();
+					rows[4] = factura.getPrecioTotal();
+					rows[5] = "No aplica";
+					modelFactura.addRow(rows);
+				}
+			}
+		}else if (cedulaCliente == null && selection == 2) {
+			for (Factura factura : Tienda.getInstance().getMisFacturas()) {
+				if (factura.isEsACredito()) {
+					rows[0] = factura.getCodigo();
+					rows[1] = factura.getMiCliente().getNombre();
+					rows[2] = factura.getMiVendedor().getNombre();
+					rows[3] = factura.getMisProductos().size();
+					rows[4] = factura.getPrecioTotal();
+					rows[5] = "aplica";
+					modelFactura.addRow(rows);
+				}
+			}
+		}else if (clienteSel != null && selection == 2) {
+			for (Factura factura : Tienda.getInstance().getMisFacturas()) {
+				if (factura.getMiCliente().equals(clienteSel) && factura.isEsACredito()) {
+					rows[0] = factura.getCodigo();
+					rows[1] = factura.getMiCliente().getNombre();
+					rows[2] = factura.getMiVendedor().getNombre();
+					rows[3] = factura.getMisProductos().size();
+					rows[4] = factura.getPrecioTotal();
+					rows[5] = "aplica";
+					modelFactura.addRow(rows);
+				}
+			}
+		}else if (clienteSel == null) {
+			JOptionPane.showMessageDialog(null, "Usuario no encontrado.", "Búsqueda de facturas", JOptionPane.WARNING_MESSAGE);
+			loadTableFactura(selection, null);
 		}
+		
 	}
 }
