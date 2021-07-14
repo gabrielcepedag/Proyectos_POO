@@ -17,8 +17,8 @@ public class Combo {
 		this.nombre = nombre;
 		this.misProductos = misProductos;
 		this.descuento = descuento;
-		this.precioNeto = 0;
-		this.precioTotal = 0;
+		this.precioNeto = calcPrecioNeto();
+		this.precioTotal = calcPrecioTotal();
 	}
 
 	public String getCodigo() {
@@ -50,34 +50,47 @@ public class Combo {
 	}
 
 	public float getPrecioNeto() {
-		return precioNeto;
+		return calcPrecioNeto();
 	}
 	public void setPrecioNeto(float precioNeto) {
 		this.precioNeto = precioNeto;
 	}
 
 	public float getPrecioTotal() {
-		return precioTotal;
+		return calcPrecioTotal();
 	}
 	public void setPrecioTotal(float precioTotal) {
 		this.precioTotal = precioTotal;
 	}
 	
 	public float calcPrecioTotal() {
-		float total = (float) (((float) descuento/100) * calcPrecioNeto());
 		
-		this.precioTotal = total;
-		return precioTotal;
+		if (precioTotal > 0) {
+			return precioTotal;
+		}else {
+			
+			float precio = calcPrecioNeto();
+			float total = (float) (precio) - (((float) descuento/100) * precio);
+			this.precioTotal = total;
+			return precioTotal;
+		}
+		
 	}
 	
 	public float calcPrecioNeto() {
-		float suma = 0;
 		
-		for (Producto producto : misProductos) {
-			suma += producto.getPrecio();
+		if (precioNeto > 0) {
+			return precioNeto;
+		}else {
+			float suma = 0;
+			
+			for (Producto producto : misProductos) {
+				suma += producto.getPrecio();
+			}
+			precioNeto = suma;
+			return precioNeto;
 		}
 		
-		return suma;
 	}
 	
 }

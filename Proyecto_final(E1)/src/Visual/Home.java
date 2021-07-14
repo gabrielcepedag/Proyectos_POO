@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Cliente;
+import logico.DiscoDuro;
 import logico.Empleado;
 import logico.Factura;
 import logico.MemoriaRam;
@@ -26,6 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.ScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.chrono.HijrahEra;
@@ -36,6 +38,8 @@ import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Home extends JFrame {
 
@@ -49,7 +53,6 @@ public class Home extends JFrame {
 	private JLabel lblAdministrar;
 	private JLabel lblSalir;
 	private JPanel panelAdministrar;
-	private JTable tableProductos;
 	private static DefaultTableModel modelCliente;
 	private static DefaultTableModel modelFactura;
 	private static Object rows[];
@@ -58,6 +61,8 @@ public class Home extends JFrame {
 	private JScrollPane scrollPaneCliente;
 	private JLabel crearFactura;
 	private JTable tableFactura;
+	private JComboBox<String> cbxTipoProducto;
+	private JScrollPane scrollPaneProducto;
 
 	/**
 	 * Launch the application.
@@ -126,25 +131,45 @@ public class Home extends JFrame {
 		panel.add(panelProductos);
 		panelProductos.setLayout(null);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setOpaque(false);
-		comboBox.setIgnoreRepaint(true);
-		comboBox.setBorder(null);
-		comboBox.setBackground(Color.WHITE);
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Todos", "Disco Duros", "Memorias Ram", "Micro Procesadores", "Placas Madres"}));
-		comboBox.setBounds(73, 130, 340, 33);
-		panelProductos.add(comboBox);
+		cbxTipoProducto = new JComboBox<String>();
+		cbxTipoProducto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int index = -1;
+				index = cbxTipoProducto.getSelectedIndex();
+				if (index != -1) {
+					loadTableProductos(index);
+				}
+			}
+		});
 		
-		JScrollPane scrollPaneProducto = new JScrollPane();
+		/*Productos de pruebas*/
+		Producto p1 = new MotherBoard("402", 10, 25000, "RTX", 1, 20, "QSY", "QSY", "QSY");
+		Producto p2 = new MemoriaRam("403", 100, 10000, "TridentZ", 1, 500, 32, "DDR4");
+		Producto p3 = new MicroProcesador("404", 55, 5500, "MSI", 10, 60, "QSY", "buena", 100);
+		Producto p4 = new DiscoDuro("405", 20, 4500, "Esto", 5, 90, "Funciona", 500, "Maravilla");
+		Tienda.getInstance().addProducto(p1);
+		Tienda.getInstance().addProducto(p2);
+		Tienda.getInstance().addProducto(p3);
+		Tienda.getInstance().addProducto(p4);
+		
+		cbxTipoProducto.setOpaque(false);
+		cbxTipoProducto.setIgnoreRepaint(true);
+		cbxTipoProducto.setBorder(null);
+		cbxTipoProducto.setBackground(Color.WHITE);
+		cbxTipoProducto.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		cbxTipoProducto.setModel(new DefaultComboBoxModel<String>(new String[] {"Todos", "Disco Duros", "Memorias Ram", "Micro Procesadores", "Placas Madres"}));
+		cbxTipoProducto.setBounds(73, 130, 340, 33);
+		panelProductos.add(cbxTipoProducto);
+		
+		scrollPaneProducto = new JScrollPane();
 		scrollPaneProducto.setBounds(73, 176, 795, 643);
 		panelProductos.add(scrollPaneProducto);
 		
-		String headerProducto[] = {"Categoría", "Número de serie", "Marca", "Precio", "Cantidad"};
+		String headerProducto[] = {"Categoría", "Número de serie", "Marca", "Precio", "Cantidad", "Disp. Min"};
 		modelProductos = new DefaultTableModel();
 		modelProductos.setColumnIdentifiers(headerProducto);
 		
-		tableProductos = new JTable();
+		JTable tableProductos = new JTable();
 		tableProductos.setEnabled(false);
 		tableProductos.setModel(modelProductos);
 		tableProductos.getTableHeader().setBackground(new Color(0, 155, 124));
@@ -596,7 +621,8 @@ public class Home extends JFrame {
 		panel.add(lblNewLabel);
 		
 		loadTableCliente();
-		loadTableProductos();
+		cbxTipoProducto.setSelectedIndex(0);
+		loadTableProductos(0);
 		loadTableFactura();
 	}
 	
@@ -623,48 +649,121 @@ public class Home extends JFrame {
 			modelCliente.addRow(rows);
 		}
 	}
-public static void loadTableProductos() {
+	public static void loadTableProductos(int selection) {
 		
 		modelProductos.setRowCount(0);
 		rows = new Object[modelProductos.getColumnCount()];
 		
-		//Productos de Prueba
-		Producto p1 = new MotherBoard("402", 10, 25000, "RTX", 1, 20, "QSY", "QSY", "QSY");
-		Producto p2 = new MemoriaRam("403", 100, 10000, "TridentZ", 1, 500, 32, "DDR4");
-		Tienda.getInstance().addProducto(p1);
-		Tienda.getInstance().addProducto(p2);
+		for (int i = modelProductos.getRowCount() - 1; i >= 0; i--) {
+			modelProductos.removeRow(i);
+		}
 
-		for (Producto producto : Tienda.getInstance().getMisProductos()) {
-			rows[0] = producto.getClass().getSimpleName();
-			rows[1] = producto.getNumSerie();
-			rows[2] = producto.getMarca();
-			rows[3] = producto.getPrecio();
-			rows[4] = producto.getCantidad();
-			modelProductos.addRow(rows);
+		switch (selection) {
+		case 0:
+			String headerProducto[] = {"Categoría", "Número de serie", "Marca", "Precio", "Cantidad","Disp. min"};
+			modelProductos.setColumnIdentifiers(headerProducto);
+			
+			for (Producto producto : Tienda.getInstance().getMisProductos()) {
+				rows[0] = producto.getClass().getSimpleName();
+				rows[1] = producto.getNumSerie();
+				rows[2] = producto.getMarca();
+				rows[3] = producto.getPrecio();
+				rows[4] = producto.getCantidad();
+				rows[5] = producto.getDispMin();
+				modelProductos.addRow(rows);
+			}
+			break;
+
+		case 1:
+			String headersHD[] = {"Número de serie", "Marca", "Precio", "Cantidad","Modelo","Capacidad"};
+			modelProductos.setColumnIdentifiers(headersHD);
+			
+			for (Producto producto : Tienda.getInstance().getMisProductos()) {
+				if (producto instanceof DiscoDuro) {
+					rows[0] = producto.getNumSerie();
+					rows[1] = producto.getMarca();
+					rows[2] = producto.getPrecio();
+					rows[3] = producto.getCantidad();
+					rows[4] = ((DiscoDuro)producto).getModelo();
+					rows[5] = ((DiscoDuro)producto).getCapacidad();
+					modelProductos.addRow(rows);
+				}
+			}
+			break;
+		case 2:
+			String headersRam[] = {"Número de serie", "Marca", "Precio", "Cantidad","Capacidad","Tipo memoria"};
+			modelProductos.setColumnIdentifiers(headersRam);
+			
+			for (Producto producto : Tienda.getInstance().getMisProductos()) {
+				if (producto instanceof MemoriaRam) {
+					rows[0] = producto.getNumSerie();
+					rows[1] = producto.getMarca();
+					rows[2] = producto.getPrecio();
+					rows[3] = producto.getCantidad();
+					rows[4] = ((MemoriaRam)producto).getCapacidad();
+					rows[5] = ((MemoriaRam)producto).getTipoMemoria();
+					modelProductos.addRow(rows);
+				}
+			}
+			break;
+		
+		case 3:
+			String headersMicro[] = {"Número de serie", "Marca", "Precio", "Cantidad","Modelo","procesamiento"};
+			modelProductos.setColumnIdentifiers(headersMicro);
+			
+			for (Producto producto : Tienda.getInstance().getMisProductos()) {
+				if (producto instanceof MicroProcesador) {
+					rows[0] = producto.getNumSerie();
+					rows[1] = producto.getMarca();
+					rows[2] = producto.getPrecio();
+					rows[3] = producto.getCantidad();
+					rows[4] = ((MicroProcesador)producto).getModelo();
+					rows[5] = ((MicroProcesador)producto).getVelocidadProcesamiento();
+					modelProductos.addRow(rows);
+				}
+			}
+			break;
+		case 4:
+			String headersMoBoard[] = {"Número de serie", "Marca", "Precio", "Cantidad","Modelo","Tipo Ram"};
+			modelProductos.setColumnIdentifiers(headersMoBoard);
+			
+			for (Producto producto : Tienda.getInstance().getMisProductos()) {
+				if (producto instanceof MotherBoard) {
+					rows[0] = producto.getNumSerie();
+					rows[1] = producto.getMarca();
+					rows[2] = producto.getPrecio();
+					rows[3] = producto.getCantidad();
+					rows[4] = ((MotherBoard)producto).getModelo();
+					rows[5] = ((MotherBoard)producto).getTipoRam();
+					modelProductos.addRow(rows);
+				}
+			}
+			break;
+		}
+		
+	}
+
+	public static void loadTableFactura() {
+	
+		modelFactura.setRowCount(0);
+		rows = new Object[modelFactura.getColumnCount()];
+		
+		//Factura de Prueba:
+		Vendedor v1 = new Vendedor("DarvyBM", "KLK", "Darvy Betances", "2434-332", "809-247-2240", "Santiago de los caballeros");
+		Cliente c1 = new Cliente("24234", "Fulanito", "Cerca de ti bb", "334-233-4244");
+		ArrayList<Producto> productos = new ArrayList<Producto>();
+		productos.add(new MicroProcesador("344", 43, 2344, "Intel", 1, 400, "Qsy", "Qsy", 124));
+		Factura f1 = new Factura("Fact - 1", v1, c1 , productos);
+	
+		Tienda.getInstance().addFactura(f1);
+		
+		for (Factura factura : Tienda.getInstance().getMisFacturas()) {
+			rows[0] = factura.getCodigo();
+			rows[1] = factura.getMiCliente().getNombre();
+			rows[2] = factura.getMiVendedor().getNombre();
+			rows[3] = factura.getMisProductos().size();
+			rows[4] = factura.getPrecioTotal();
+			modelFactura.addRow(rows);
 		}
 	}
-
-public static void loadTableFactura() {
-	
-	modelFactura.setRowCount(0);
-	rows = new Object[modelFactura.getColumnCount()];
-	
-	//Factura de Prueba:
-	Vendedor v1 = new Vendedor("DarvyBM", "KLK", "Darvy Betances", "2434-332", "809-247-2240", "Santiago de los caballeros");
-	Cliente c1 = new Cliente("24234", "Fulanito", "Cerca de ti bb", "334-233-4244");
-	ArrayList<Producto> productos = new ArrayList<Producto>();
-	productos.add(new MicroProcesador("344", 43, 2344, "Intel", 1, 400, "Qsy", "Qsy", 124));
-	Factura f1 = new Factura("Fact - 1", v1, c1 , productos);
-
-	Tienda.getInstance().addFactura(f1);
-	
-	for (Factura factura : Tienda.getInstance().getMisFacturas()) {
-		rows[0] = factura.getCodigo();
-		rows[1] = factura.getMiCliente().getNombre();
-		rows[2] = factura.getMiVendedor().getNombre();
-		rows[3] = factura.getMisProductos().size();
-		rows[4] = factura.getPrecioTotal();
-		modelFactura.addRow(rows);
-	}
-}
 }

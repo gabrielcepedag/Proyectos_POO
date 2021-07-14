@@ -163,5 +163,38 @@ public class Tienda {
 		return suma;
 	}
 	
+	public void crearOrdenesCompra() {
+		
+		Producto productoAOrdenar = null;
+		
+		for (Producto producto : misProductos) {
+				if (producto.getCantidad() < producto.getDispMin()) {
+					if (ExisteOrdenDelProducto(producto) == false) 
+						productoAOrdenar = producto;
+				}
+			OrdenCompra orden = new OrdenCompra(new String("Orden-"+OrdenCompra.numOrdenCompra), productoAOrdenar);
+			
+			Tienda.getInstance().addOrdenCompra(orden);
+			Administrador admin = (Administrador) misEmpleados.get(0); //Asumiendo que el primero en registrarse es el administrador.
+			admin.addOrdenPendiente(orden);
+			
+			/*for (Empleado empleado : misEmpleados) {
+				if (empleado instanceof Administrador) {
+					((Administrador)empleado).addOrdenPendiente(orden);
+				}
+			} Esto en caso de que haya mas de 1 administrador*/
+		}
+	}
+
+	private boolean ExisteOrdenDelProducto(Producto producto) {
+		
+		for (OrdenCompra orden : misOrdenesCompra) {
+			if (orden.getProducto().equals(producto)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 }

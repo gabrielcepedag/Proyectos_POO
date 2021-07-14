@@ -13,13 +13,10 @@ public class OrdenCompra {
 	private boolean procesada;
 	public static int numOrdenCompra = 1;
 	
-	public OrdenCompra(String codigo, Producto producto, int cantidad, String distribuidor) {
+	public OrdenCompra(String codigo, Producto producto) {
 		super();
 		this.codigo = codigo;
 		this.producto = producto;
-		this.cantidad = cantidad;
-		this.distribuidor = distribuidor;
-		this.precioTotal = ((float) (producto.getPrecio() * cantidad));
 		this.fechaSolicitud = new Date();
 		this.procesada = false;
 	}
@@ -56,7 +53,7 @@ public class OrdenCompra {
 		return precioTotal;
 	}
 	public void setPrecioTotal(float precioTotal) {
-		this.precioTotal = precioTotal;
+		this.precioTotal = precioTotal * cantidad;
 	}
 
 	public Date getFechaSolicitud() {

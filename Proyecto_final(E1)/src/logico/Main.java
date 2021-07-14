@@ -29,10 +29,13 @@ public class Main {
 		factura1.calcPrecioFactura();
 		Tienda.getInstance().addFactura(factura1);
 		
-		System.out.println(Tienda.getInstance().getMisFacturas().get(0).getPrecioTotal());
+		/*System.out.println(Tienda.getInstance().getMisFacturas().get(0).getPrecioTotal());
 		System.out.println(Tienda.getInstance().calPrecioTotalPC(productos1));
 		Factura aux = Tienda.getInstance().buscarFacturaByCodigo("F-1");
-		System.out.println(aux.calcPrecioFactura());
+		System.out.println(aux.calcPrecioFactura());*/
+		
+		Combo combo = new Combo("001", "RTX", productos1, 10);
+		System.out.println(combo.getPrecioNeto() + " Otro precio: " + combo.getPrecioTotal());
 	}
 	
 }
