@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import logico.Cliente;
 import logico.DiscoDuro;
 import logico.MemoriaRam;
 import logico.MicroProcesador;
@@ -277,7 +278,6 @@ public class ListarProducto extends JDialog {
 	}
 	
 	public static void loadTableProductos(int selection) {
-		
 
 		modelProductos.setRowCount(0);
 		rows = new Object[modelProductos.getColumnCount()];

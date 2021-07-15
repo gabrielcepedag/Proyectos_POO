@@ -280,7 +280,9 @@ public class Home extends JFrame {
 		lblClientes_2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
+				ListarCliente listarCliente = new ListarCliente();
+				listarCliente.setVisible(true);
+				listarCliente.setModal(true);
 			}
 		});
 		lblClientes_2.setForeground(Color.WHITE);
