@@ -74,10 +74,9 @@ public class Home extends JFrame {
 	private JComboBox<String> cbxTipoFactura;
 	private JTextField txtCedulaCliente;
 	private JLabel label_19;
+	private JLabel detalles;
+	private Factura selectedFactura = null;
 	
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -91,9 +90,6 @@ public class Home extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Home() {
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -270,7 +266,9 @@ public class Home extends JFrame {
 		lblVendedores.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
+				ListarVendedor listarVendedor = new ListarVendedor();
+				listarVendedor.setVisible(true);
+				listarVendedor.setModal(true);
 			}
 		});
 		lblVendedores.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/VendedoresIcon.png")));
@@ -434,8 +432,9 @@ public class Home extends JFrame {
 		panelFactura.setBounds(401, 13, 967, 850);
 		panel.add(panelFactura);
 		
-		JLabel lblVerMsDetalles = new JLabel("Ver m\u00E1s detalles");
-		lblVerMsDetalles.addMouseListener(new MouseAdapter() {
+		detalles = new JLabel("Ver m\u00E1s detalles");
+		detalles.setEnabled(false);
+		detalles.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				JOptionPane.showMessageDialog(null, "Coming Soon");
@@ -472,16 +471,16 @@ public class Home extends JFrame {
 		panelFactura.add(txtCedulaFact);
 		txtCedulaFact.setColumns(10);
 		
-		lblVerMsDetalles.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblVerMsDetalles.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/OjoIcon.png")));
-		lblVerMsDetalles.setOpaque(true);
-		lblVerMsDetalles.setHorizontalAlignment(SwingConstants.CENTER);
-		lblVerMsDetalles.setForeground(Color.WHITE);
-		lblVerMsDetalles.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblVerMsDetalles.setBorder(null);
-		lblVerMsDetalles.setBackground(new Color(0, 155, 124));
-		lblVerMsDetalles.setBounds(473, 722, 358, 63);
-		panelFactura.add(lblVerMsDetalles);
+		detalles.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		detalles.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/OjoIcon.png")));
+		detalles.setOpaque(true);
+		detalles.setHorizontalAlignment(SwingConstants.CENTER);
+		detalles.setForeground(Color.WHITE);
+		detalles.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		detalles.setBorder(null);
+		detalles.setBackground(new Color(0, 155, 124));
+		detalles.setBounds(473, 722, 358, 63);
+		panelFactura.add(detalles);
 		
 		crearFactura = new JLabel("Crear Factura");
 		crearFactura.addMouseListener(new MouseAdapter() {
@@ -510,6 +509,18 @@ public class Home extends JFrame {
 		modelFactura.setColumnIdentifiers(headerFactura);
 		
 		tableFactura = new JTable();
+		tableFactura.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = -1;
+				index = tableFactura.getSelectedRow();
+				if(index != -1) {
+					detalles.setEnabled(true);
+					String codigo = (String)(modelFactura.getValueAt(index, 0));
+					selectedFactura = Tienda.getInstance().buscarFacturaByCodigo(codigo);
+				}
+			}
+		});
 		tableFactura.setModel(modelFactura);
 		tableFactura.getTableHeader().setBackground(new Color(0, 155, 124));
 		tableFactura.getTableHeader().setForeground(Color.white);
