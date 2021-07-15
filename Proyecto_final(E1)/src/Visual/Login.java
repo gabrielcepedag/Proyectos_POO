@@ -282,8 +282,9 @@ public class Login extends JFrame {
 		panel.add(label_2);
 		
 		JLabel label_3 = new JLabel("");
+		label_3.setHorizontalAlignment(SwingConstants.CENTER);
 		label_3.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/pcMuestra.png")));
-		label_3.setBounds(368, 257, 382, 353);
+		label_3.setBounds(248, 257, 382, 353);
 		panel.add(label_3);
 		
 		JLabel label_4 = new JLabel("");
@@ -293,7 +294,7 @@ public class Login extends JFrame {
 		
 		JLabel label_5 = new JLabel("");
 		label_5.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Barra.png")));
-		label_5.setBounds(269, 629, 506, 55);
+		label_5.setBounds(263, 623, 506, 55);
 		panel.add(label_5);
 		
 		panelLogin = new JPanel();

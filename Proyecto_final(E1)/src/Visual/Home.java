@@ -132,6 +132,191 @@ public class Home extends JFrame {
 		lblX.setForeground(Color.DARK_GRAY);
 		lblX.setBounds(1333, 0, 57, 55);
 		panel.add(lblX);
+		panelAdministrar.setLayout(null);
+		panelAdministrar.setBackground(Color.WHITE);
+		panelAdministrar.setBounds(401, 13, 967, 850);
+		panel.add(panelAdministrar);
+		
+		JLabel lblCuenta = new JLabel(" Cuenta");
+		lblCuenta.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblCuenta.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Coming Soon");
+			}
+		});
+		
+		JLabel lblProductos_1 = new JLabel(" Productos");
+		lblProductos_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ListarProducto listarProducto = new ListarProducto();
+				listarProducto.setVisible(true);
+				listarProducto.setModal(true);
+			}
+		});
+		lblProductos_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblProductos_1.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/ProductosIcon.png")));
+		lblProductos_1.setForeground(Color.WHITE);
+		lblProductos_1.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblProductos_1.setBounds(360, 167, 249, 122);
+		panelAdministrar.add(lblProductos_1);
+		
+		JLabel label_18 = new JLabel("");
+		label_18.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
+		label_18.setBounds(338, 145, 290, 175);
+		panelAdministrar.add(label_18);
+		lblCuenta.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/settingsIcon.png")));
+		lblCuenta.setForeground(Color.WHITE);
+		lblCuenta.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblCuenta.setBounds(378, 574, 222, 122);
+		panelAdministrar.add(lblCuenta);
+		
+		JLabel label_17 = new JLabel("");
+		label_17.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
+		label_17.setBounds(338, 548, 290, 175);
+		panelAdministrar.add(label_17);
+		
+		JLabel lblOrdenDeCompra = new JLabel(" Pedidos");
+		lblOrdenDeCompra.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblOrdenDeCompra.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Coming Soon");
+			}
+		});
+		lblOrdenDeCompra.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/PedidoIcon.png")));
+		lblOrdenDeCompra.setForeground(Color.WHITE);
+		lblOrdenDeCompra.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblOrdenDeCompra.setBounds(665, 367, 237, 122);
+		panelAdministrar.add(lblOrdenDeCompra);
+		
+		JLabel label_14 = new JLabel("");
+		label_14.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
+		label_14.setBounds(640, 345, 290, 175);
+		panelAdministrar.add(label_14);
+		
+		JLabel lblFacturas = new JLabel(" Facturas");
+		lblFacturas.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblFacturas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Coming Soon");
+			}
+		});
+		lblFacturas.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/FacturaIcon.png")));
+		lblFacturas.setForeground(Color.WHITE);
+		lblFacturas.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblFacturas.setBounds(71, 367, 237, 122);
+		panelAdministrar.add(lblFacturas);
+		
+		JLabel label_16 = new JLabel("");
+		label_16.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
+		label_16.setBounds(46, 345, 290, 175);
+		panelAdministrar.add(label_16);
+		
+		JLabel lblDistribuidor = new JLabel("Distribuidor");
+		lblDistribuidor.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblDistribuidor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Coming Soon");
+			}
+		});
+		lblDistribuidor.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Distribuidor.png")));
+		lblDistribuidor.setForeground(Color.WHITE);
+		lblDistribuidor.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblDistribuidor.setBounds(360, 367, 249, 122);
+		panelAdministrar.add(lblDistribuidor);
+		
+		JLabel label_15 = new JLabel("");
+		label_15.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
+		label_15.setBounds(338, 345, 290, 175);
+		panelAdministrar.add(label_15);
+		
+		JLabel lblCombos = new JLabel(" Combos");
+		lblCombos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblCombos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Coming Soon");
+			}
+		});
+		lblCombos.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/CombosIcon.png")));
+		lblCombos.setForeground(Color.WHITE);
+		lblCombos.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblCombos.setBounds(679, 167, 222, 122);
+		panelAdministrar.add(lblCombos);
+		
+		JLabel label_13 = new JLabel("");
+		label_13.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
+		label_13.setBounds(640, 145, 290, 175);
+		panelAdministrar.add(label_13);
+		
+		JLabel lblVendedores = new JLabel("Vendedores");
+		lblVendedores.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblVendedores.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Coming Soon");
+			}
+		});
+		lblVendedores.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/VendedoresIcon.png")));
+		lblVendedores.setForeground(Color.WHITE);
+		lblVendedores.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblVendedores.setBounds(68, 570, 249, 122);
+		panelAdministrar.add(lblVendedores);
+		
+		JLabel label_12 = new JLabel("");
+		label_12.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
+		label_12.setBounds(46, 548, 290, 175);
+		panelAdministrar.add(label_12);
+		
+		JLabel lblClientes_2 = new JLabel("  Clientes");
+		lblClientes_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblClientes_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Coming Soon");
+			}
+		});
+		lblClientes_2.setForeground(Color.WHITE);
+		lblClientes_2.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblClientes_2.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/ClientesUSer.png")));
+		lblClientes_2.setBounds(84, 167, 208, 122);
+		panelAdministrar.add(lblClientes_2);
+		
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
+		lblNewLabel_2.setBounds(45, 145, 290, 175);
+		panelAdministrar.add(lblNewLabel_2);
+		
+		JLabel label_10 = new JLabel("");
+		label_10.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Administracion.png")));
+		label_10.setHorizontalAlignment(SwingConstants.CENTER);
+		label_10.setForeground(Color.WHITE);
+		label_10.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		label_10.setBounds(73, 45, 371, 71);
+		panelAdministrar.add(label_10);
+		
+		JLabel label_11 = new JLabel("");
+		label_11.setOpaque(true);
+		label_11.setBackground(new Color(0, 139, 139));
+		label_11.setBounds(73, 114, 785, 3);
+		panelAdministrar.add(label_11);
+		
+		JLabel lblClientes_1 = new JLabel("     Clientes");
+		lblClientes_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblClientes_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Coming Soon");
+			}
+		});
+		lblClientes_1.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/PanelHome.png")));
+		lblClientes_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblClientes_1.setBounds(12, 13, 955, 826);
+		panelAdministrar.add(lblClientes_1);
 		
 		panelProductos = new JPanel();
 		panelProductos.setBackground(Color.WHITE);
@@ -230,170 +415,6 @@ public class Home extends JFrame {
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setBounds(12, 13, 955, 826);
 		panelProductos.add(label);
-		panelAdministrar.setLayout(null);
-		panelAdministrar.setBackground(Color.WHITE);
-		panelAdministrar.setBounds(401, 13, 967, 850);
-		panel.add(panelAdministrar);
-		
-		JLabel lblCuenta = new JLabel(" Cuenta");
-		lblCuenta.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblCuenta.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
-			}
-		});
-		lblCuenta.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/settingsIcon.png")));
-		lblCuenta.setForeground(Color.WHITE);
-		lblCuenta.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblCuenta.setBounds(86, 569, 222, 122);
-		panelAdministrar.add(lblCuenta);
-		
-		JLabel label_17 = new JLabel("");
-		label_17.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
-		label_17.setBounds(46, 543, 290, 175);
-		panelAdministrar.add(label_17);
-		
-		JLabel lblOrdenDeCompra = new JLabel(" Pedidos");
-		lblOrdenDeCompra.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblOrdenDeCompra.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
-			}
-		});
-		lblOrdenDeCompra.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/PedidoIcon.png")));
-		lblOrdenDeCompra.setForeground(Color.WHITE);
-		lblOrdenDeCompra.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblOrdenDeCompra.setBounds(665, 367, 237, 122);
-		panelAdministrar.add(lblOrdenDeCompra);
-		
-		JLabel label_14 = new JLabel("");
-		label_14.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
-		label_14.setBounds(640, 345, 290, 175);
-		panelAdministrar.add(label_14);
-		
-		JLabel lblFacturas = new JLabel(" Facturas");
-		lblFacturas.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblFacturas.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
-			}
-		});
-		lblFacturas.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/FacturaIcon.png")));
-		lblFacturas.setForeground(Color.WHITE);
-		lblFacturas.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblFacturas.setBounds(71, 367, 237, 122);
-		panelAdministrar.add(lblFacturas);
-		
-		JLabel label_16 = new JLabel("");
-		label_16.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
-		label_16.setBounds(46, 345, 290, 175);
-		panelAdministrar.add(label_16);
-		
-		JLabel lblDistribuidor = new JLabel("Distribuidor");
-		lblDistribuidor.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblDistribuidor.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
-			}
-		});
-		lblDistribuidor.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Distribuidor.png")));
-		lblDistribuidor.setForeground(Color.WHITE);
-		lblDistribuidor.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblDistribuidor.setBounds(360, 367, 249, 122);
-		panelAdministrar.add(lblDistribuidor);
-		
-		JLabel label_15 = new JLabel("");
-		label_15.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
-		label_15.setBounds(338, 345, 290, 175);
-		panelAdministrar.add(label_15);
-		
-		JLabel lblCombos = new JLabel(" Combos");
-		lblCombos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblCombos.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
-			}
-		});
-		lblCombos.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/CombosIcon.png")));
-		lblCombos.setForeground(Color.WHITE);
-		lblCombos.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblCombos.setBounds(679, 167, 222, 122);
-		panelAdministrar.add(lblCombos);
-		
-		JLabel label_13 = new JLabel("");
-		label_13.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
-		label_13.setBounds(640, 145, 290, 175);
-		panelAdministrar.add(label_13);
-		
-		JLabel lblVendedores = new JLabel("Vendedores");
-		lblVendedores.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblVendedores.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
-			}
-		});
-		lblVendedores.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/VendedoresIcon.png")));
-		lblVendedores.setForeground(Color.WHITE);
-		lblVendedores.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblVendedores.setBounds(359, 167, 249, 122);
-		panelAdministrar.add(lblVendedores);
-		
-		JLabel label_12 = new JLabel("");
-		label_12.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
-		label_12.setBounds(337, 145, 290, 175);
-		panelAdministrar.add(label_12);
-		
-		JLabel lblClientes_2 = new JLabel("  Clientes");
-		lblClientes_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblClientes_2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
-			}
-		});
-		lblClientes_2.setForeground(Color.WHITE);
-		lblClientes_2.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblClientes_2.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/ClientesUSer.png")));
-		lblClientes_2.setBounds(84, 167, 208, 122);
-		panelAdministrar.add(lblClientes_2);
-		
-		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
-		lblNewLabel_2.setBounds(45, 145, 290, 175);
-		panelAdministrar.add(lblNewLabel_2);
-		
-		JLabel label_10 = new JLabel("");
-		label_10.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Administracion.png")));
-		label_10.setHorizontalAlignment(SwingConstants.CENTER);
-		label_10.setForeground(Color.WHITE);
-		label_10.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		label_10.setBounds(73, 45, 371, 71);
-		panelAdministrar.add(label_10);
-		
-		JLabel label_11 = new JLabel("");
-		label_11.setOpaque(true);
-		label_11.setBackground(new Color(0, 139, 139));
-		label_11.setBounds(73, 114, 785, 3);
-		panelAdministrar.add(label_11);
-		
-		JLabel lblClientes_1 = new JLabel("     Clientes");
-		lblClientes_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblClientes_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
-			}
-		});
-		lblClientes_1.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/PanelHome.png")));
-		lblClientes_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblClientes_1.setBounds(12, 13, 955, 826);
-		panelAdministrar.add(lblClientes_1);
 		panelFactura.setLayout(null);
 		panelFactura.setBackground(Color.WHITE);
 		panelFactura.setBounds(401, 13, 967, 850);
@@ -423,7 +444,7 @@ public class Home extends JFrame {
 		});
 		lblNewLabel_4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblNewLabel_4.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Lupa.png")));
-		lblNewLabel_4.setBounds(545, 128, 130, 40);
+		lblNewLabel_4.setBounds(535, 129, 150, 33);
 		panelFactura.add(lblNewLabel_4);
 		
 		txtCedulaFact = new JTextField();
