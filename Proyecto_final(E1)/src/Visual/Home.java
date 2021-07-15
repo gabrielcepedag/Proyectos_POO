@@ -204,7 +204,9 @@ public class Home extends JFrame {
 		lblFacturas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
+				ListarFactura listarFactura = new ListarFactura();
+				listarFactura.setVisible(true);
+				listarFactura.setModal(true);
 			}
 		});
 		lblFacturas.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/FacturaIcon.png")));
@@ -481,11 +483,6 @@ public class Home extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				JOptionPane.showMessageDialog(null, "Coming Soon");
-				
-				
-				
-				
-				
 			}
 		});
 		crearFactura.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -527,7 +524,7 @@ public class Home extends JFrame {
 				}
 			}
 		});
-		cbxTipoFactura.setModel(new DefaultComboBoxModel<String>(new String[] {"<Todas>", "Facturas sin cr\u00E9dito", "Facturas a cr\u00E9dito"}));
+		cbxTipoFactura.setModel(new DefaultComboBoxModel(new String[] {"<Todas>", "Facturas sin cr\u00E9dito", "Facturas a cr\u00E9dito"}));
 		cbxTipoFactura.setSelectedIndex(0);
 		cbxTipoFactura.setOpaque(false);
 		cbxTipoFactura.setIgnoreRepaint(true);

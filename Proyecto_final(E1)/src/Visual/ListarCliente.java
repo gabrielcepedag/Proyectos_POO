@@ -159,7 +159,7 @@ public class ListarCliente extends JDialog {
 		panel_1.add(lblNewLabel);
 		lblNewLabel.setIcon(new ImageIcon(ListarCliente.class.getResource("/Imagenes/ClientesLabelBlanco.png")));
 		
-		lblNewLabel_1 = new JLabel(" Nuevo");
+		lblNewLabel_1 = new JLabel(" Cr\u00E9dito");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setBounds(0, 160, 288, 44);
 		panel_1.add(lblNewLabel_1);
