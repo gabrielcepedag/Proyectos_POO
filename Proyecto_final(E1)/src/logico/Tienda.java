@@ -12,7 +12,6 @@ public class Tienda {
 	private ArrayList<OrdenCompra> misOrdenesCompra;
 	private ArrayList<Distribuidor> misDistribuidores;
 
-	
 	private static Tienda tienda = null;
 	
 	private Tienda() {
@@ -60,6 +59,30 @@ public class Tienda {
 
 	public void setMisDistribuidores(ArrayList<Distribuidor> misDistribuidores) {
 		this.misDistribuidores = misDistribuidores;
+	}
+	
+	public ArrayList<Empleado> getMisEmpleados() {
+		return misEmpleados;
+	}
+
+	public void setMisEmpleados(ArrayList<Empleado> misEmpleados) {
+		this.misEmpleados = misEmpleados;
+	}
+
+	public ArrayList<Combo> getMisCombos() {
+		return misCombos;
+	}
+
+	public void setMisCombos(ArrayList<Combo> misCombos) {
+		this.misCombos = misCombos;
+	}
+
+	public ArrayList<OrdenCompra> getMisOrdenesCompra() {
+		return misOrdenesCompra;
+	}
+
+	public void setMisOrdenesCompra(ArrayList<OrdenCompra> misOrdenesCompra) {
+		this.misOrdenesCompra = misOrdenesCompra;
 	}
 
 	public void addCliente(Cliente cliente) {
@@ -151,6 +174,17 @@ public class Tienda {
 			}
 		}
 		return empleadoAux;
+	}
+	
+	public Combo buscarComboByCod(String codigo) {
+		Combo comboAux = null;
+		for (Combo combo : misCombos) {
+			if (combo.getCodigo().equalsIgnoreCase(codigo)) {
+				comboAux = combo;
+				return comboAux;
+			}
+		}
+		return comboAux;
 	}
 	
 	public float calcTotalFactura(String codFactura) {
@@ -278,6 +312,5 @@ public class Tienda {
 			esPosible = true;
 		}
 		return esPosible;
-	}
-		
+	}		
 }

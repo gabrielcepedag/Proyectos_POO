@@ -242,7 +242,9 @@ public class Home extends JFrame {
 		lblCombos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
+				ListarCombo listarCombo = new ListarCombo();
+				listarCombo.setVisible(true);
+				listarCombo.setModal(true);
 			}
 		});
 		lblCombos.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/CombosIcon.png")));
