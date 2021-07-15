@@ -46,11 +46,11 @@ public class ListarFactura extends JDialog {
 	private static Object[] rows;
 	private JTable tableFactura;
 	private Combo selectedCombo = null;
-	private JLabel lblNewLabel_1;
 	private JTextField txtCedulaFact;
 	int indexCbx = 0;
 	String cedulaClienteFact = null;
 	private JComboBox<String> cbxTipoFactura;
+	private JLabel lblNewLabel_1;
 	
 	/**
 	 * Launch the application.
@@ -186,7 +186,21 @@ public class ListarFactura extends JDialog {
 		panel_1.add(lblNewLabel);
 		lblNewLabel.setIcon(new ImageIcon(ListarFactura.class.getResource("/Imagenes/FacturaLabelBlanco.png")));
 		
-		lblNewLabel_1 = new JLabel("Coming Soon");
+		lblNewLabel_1 = new JLabel("Detalles");
+		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Aqui no hay nada, lo mismo que sentía ella por ti");
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblNewLabel_1.setBackground(new Color(0, 155, 124));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblNewLabel_1.setBackground(new Color(36, 37, 38));
+			}
+		});
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setBounds(0, 160, 288, 44);
 		panel_1.add(lblNewLabel_1);
@@ -196,7 +210,7 @@ public class ListarFactura extends JDialog {
 		lblNewLabel_1.setBackground(new Color(36, 37, 38));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 34));
 		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setIcon(null);
+		lblNewLabel_1.setIcon(new ImageIcon(ListarFactura.class.getResource("/Imagenes/OjoIcon.png")));
 		
 		JLabel lblCancelar = new JLabel(" Cancelar");
 		lblCancelar.setHorizontalAlignment(SwingConstants.CENTER);
