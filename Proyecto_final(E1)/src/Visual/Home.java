@@ -368,7 +368,7 @@ public class Home extends JFrame {
 		
 		productos.add(p2);
 		Factura f2 = new Factura(new String("Fact-"+Factura.cod), v1, c2, productos);
-		f2.setEsACredito(true);
+		f2.setACredito(true);
 		
 		productos.add(p3);
 		Factura f3 = new Factura("Fact-3", v1,c5, productos);
@@ -477,6 +477,11 @@ public class Home extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				JOptionPane.showMessageDialog(null, "Coming Soon");
+				
+				
+				
+				
+				
 			}
 		});
 		crearFactura.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -906,7 +911,7 @@ public class Home extends JFrame {
 				rows[2] = factura.getMiVendedor().getNombre();
 				rows[3] = factura.getMisProductos().size();
 				rows[4] = factura.getPrecioTotal();
-				if (factura.isEsACredito()) {
+				if (factura.isACredito()) {
 					rows[5] = "Si";
 				}else {
 					rows[5] = "No";
@@ -921,7 +926,7 @@ public class Home extends JFrame {
 					rows[2] = factura.getMiVendedor().getNombre();
 					rows[3] = factura.getMisProductos().size();
 					rows[4] = factura.getPrecioTotal();
-					if (factura.isEsACredito()) {
+					if (factura.isACredito()) {
 						rows[5] = "Si";
 					}else {
 						rows[5] = "No";
@@ -931,7 +936,7 @@ public class Home extends JFrame {
 			}
 		}else if(cedulaCliente == null && selection == 1) {
 			for (Factura factura : Tienda.getInstance().getMisFacturas()) {
-				if (factura.isEsACredito() == false ) {
+				if (factura.isACredito() == false ) {
 					rows[0] = factura.getCodigo();
 					rows[1] = factura.getMiCliente().getNombre();
 					rows[2] = factura.getMiVendedor().getNombre();
@@ -943,7 +948,7 @@ public class Home extends JFrame {
 			}
 		}else if (cedulaCliente != null && selection == 1) {
 			for (Factura factura : Tienda.getInstance().getMisFacturas()) {
-				if (factura.getMiCliente().equals(clienteSel) && factura.isEsACredito() == false ) {
+				if (factura.getMiCliente().equals(clienteSel) && factura.isACredito() == false ) {
 					rows[0] = factura.getCodigo();
 					rows[1] = factura.getMiCliente().getNombre();
 					rows[2] = factura.getMiVendedor().getNombre();
@@ -955,7 +960,7 @@ public class Home extends JFrame {
 			}
 		}else if (cedulaCliente == null && selection == 2) {
 			for (Factura factura : Tienda.getInstance().getMisFacturas()) {
-				if (factura.isEsACredito()) {
+				if (factura.isACredito()) {
 					rows[0] = factura.getCodigo();
 					rows[1] = factura.getMiCliente().getNombre();
 					rows[2] = factura.getMiVendedor().getNombre();
@@ -967,7 +972,7 @@ public class Home extends JFrame {
 			}
 		}else if (cedulaCliente != null && selection == 2) {
 			for (Factura factura : Tienda.getInstance().getMisFacturas()) {
-				if (factura.getMiCliente().equals(clienteSel) && factura.isEsACredito()) {
+				if (factura.getMiCliente().equals(clienteSel) && factura.isACredito()) {
 					rows[0] = factura.getCodigo();
 					rows[1] = factura.getMiCliente().getNombre();
 					rows[2] = factura.getMiVendedor().getNombre();

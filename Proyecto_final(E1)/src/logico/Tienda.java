@@ -159,7 +159,7 @@ public class Tienda {
 		return factura.calcPrecioFactura();
 	}
 	
-	public float calPrecioTotalPC(ArrayList<Producto> productos) {
+	public float calPrecioTotalProductos(ArrayList<Producto> productos) {
 		float precioTotal = 0;
 		for (Producto producto : misProductos) {
 			precioTotal += producto.getPrecio();
@@ -196,80 +196,88 @@ public class Tienda {
 	}
 	
 	public void crearOrdenesCompra() {
-		
 		Producto productoAOrdenar = null;
 		
 		for (Producto producto : misProductos) {
-				if (producto.getCantidad() < producto.getDispMin()) {
-					if (ExisteOrdenDelProducto(producto) == false) 
-						productoAOrdenar = producto;
+			if (producto.getCantidad() < producto.getDispMin()) {
+				if (ExisteOrdenDelProducto(producto) == false) {
+					productoAOrdenar = producto;
 				}
-			OrdenCompra orden = new OrdenCompra(new String("Orden-"+OrdenCompra.numOrdenCompra), productoAOrdenar);
+			}
 			
-			Tienda.getInstance().addOrdenCompra(orden);
-			
-			for (Empleado empleado : misEmpleados) {
-				if (empleado instanceof Administrador) {
-					((Administrador)empleado).addOrdenPendiente(orden);
+			if(productoAOrdenar != null) {
+				OrdenCompra orden = new OrdenCompra(new String("Orden-"+OrdenCompra.numOrdenCompra), productoAOrdenar);
+				
+				Tienda.getInstance().addOrdenCompra(orden);
+					
+				for (Empleado empleado : misEmpleados) {
+					if (empleado instanceof Administrador) {
+						((Administrador)empleado).addOrdenPendiente(orden);
+					}
 				}
 			}
 		}
 	}
 
 	private boolean ExisteOrdenDelProducto(Producto producto) {
+		boolean existe = false;
 		
 		for (OrdenCompra orden : misOrdenesCompra) {
 			if (orden.getProducto().equals(producto)) {
-				return true;
+				existe = true;
+				return existe;
 			}
 		}
-		return false;
+		return existe;
 	}
 	
-	public boolean hacerCompra(Factura factura) {
+	public boolean hacerFactura(Factura factura) {
+		boolean esPosible = false;
 		
-		if (factura.isEsACredito()) {
+		if (factura.isACredito()) {
 			if (factura.getMiCliente().getCredito() < factura.getPrecioTotal()  || clienteYaTieneCredito(factura.getMiCliente())) {
-				return false;
+				return esPosible;
 			}
 		}
-		//factura.getMiVendedor().setTotalVendido(factura.getPrecioTotal() + factura.getMiVendedor().getTotalVendido());
-		
+		esPosible = true;
+		//factura.getMiVendedor().setTotalVendido(factura.getPrecioTotal());
 		for (Producto producto : factura.getMisProductos()) {
 			//En la parte visual hay que mostrar solamente los productos que tengan cantidad > 0.
 			producto.setCantidad(producto.getCantidad() - 1);
 		}
-		
 		addFactura(factura);
-		return true;
+		return esPosible;
 	}
 
 	private boolean clienteYaTieneCredito(Cliente miCliente) {
+		boolean yaTiene = true;
+		
 		for (Factura factura : misFacturas) {
-			if (factura.isEsACredito()) {
+			if (factura.isACredito()) {
 				if (factura.getMiCliente().equals(miCliente)) {
-					return true;
+					return yaTiene;
 				}
 			}
 		}
-		return false;
+		yaTiene = false;
+		return yaTiene;
 	}
 	
 	public boolean abonarFacturaCredito(String cod, float abono) {
+		boolean esPosible = false;
 		Factura f1 = buscarFacturaByCodigo(cod);
 		
-		if (f1.isEsACredito() == true) {
+		if (f1.isACredito()) {
 			if (f1.getPrecioTotal() < abono) {
-				return false;
+				return esPosible;
 			}
 			f1.setLineaCredito(f1.getLineaCredito() - abono);
 			if (f1.getLineaCredito() == 0) {
-				f1.setEsACredito(false);
+				f1.setACredito(false);
 			}
-			return true;
+			esPosible = true;
 		}
-		return false;
+		return esPosible;
 	}
-	
-	
+		
 }

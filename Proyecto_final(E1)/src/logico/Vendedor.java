@@ -13,7 +13,7 @@ public class Vendedor extends Empleado {
 		return totalVendido;
 	}
 	public void setTotalVendido(float totalVendido) {
-		this.totalVendido = totalVendido;
+		this.totalVendido = (getTotalVendido() + totalVendido);
 	}
 	
 }

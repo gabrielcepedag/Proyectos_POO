@@ -9,7 +9,7 @@ public class Factura {
 	private Vendedor miVendedor;
 	private ArrayList<Producto> misProductos = new ArrayList<Producto>();
 	private float precioTotal;
-	private boolean esACredito;
+	private boolean aCredito;
 	public static int cod = 1;
 	public float lineaCredito;
 	
@@ -20,7 +20,7 @@ public class Factura {
 		this.miCliente = miCliente;
 		this.misProductos = misProductos;
 		this.precioTotal = 0;
-		esACredito = false;
+		this.aCredito = false;
 		this.lineaCredito = 0;
 		Factura.cod++;
 	}
@@ -58,12 +58,12 @@ public class Factura {
 		return calcPrecioFactura();
 	}
 	
-	public boolean isEsACredito() {
-		return esACredito;
+	public boolean isACredito() {
+		return aCredito;
 	}
 
-	public void setEsACredito(boolean esACredito) {
-		this.esACredito = esACredito;
+	public void setACredito(boolean aCredito) {
+		this.aCredito = aCredito;
 	}
 	
 	public float getLineaCredito() {
