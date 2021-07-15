@@ -10,7 +10,6 @@ public class Tienda {
 	private ArrayList<Empleado> misEmpleados;
 	private ArrayList<Combo> misCombos;
 	private ArrayList<OrdenCompra> misOrdenesCompra;
-	private ArrayList<Distribuidor> misDistribuidores;
 
 	private static Tienda tienda = null;
 	
@@ -22,7 +21,6 @@ public class Tienda {
 		this.misEmpleados = new ArrayList<Empleado>();
 		this.misCombos = new ArrayList<Combo>();
 		this.misOrdenesCompra = new ArrayList<OrdenCompra>();
-		this.misDistribuidores = new ArrayList<Distribuidor>();
 	}
 	
 	public static Tienda getInstance() {
@@ -53,14 +51,6 @@ public class Tienda {
 		this.misFacturas = misFacturas;
 	}
 
-	public ArrayList<Distribuidor> getMisDistribuidores() {
-		return misDistribuidores;
-	}
-
-	public void setMisDistribuidores(ArrayList<Distribuidor> misDistribuidores) {
-		this.misDistribuidores = misDistribuidores;
-	}
-	
 	public ArrayList<Empleado> getMisEmpleados() {
 		return misEmpleados;
 	}
@@ -109,9 +99,6 @@ public class Tienda {
 		misOrdenesCompra.add(orden);
 	}
 	
-	public void addDistribuidor(Distribuidor d1) {
-		misDistribuidores.add(d1);
-	}
 	public void eliminarProducto(Producto producto) {
 		misProductos.remove(producto);
 	}
@@ -126,10 +113,6 @@ public class Tienda {
 	
 	public void eliminarCliente(Cliente cliente) {
 		misClientes.remove(cliente);
-	}
-	
-	public void eliminarDistribuidor(Distribuidor d1) {
-		misDistribuidores.remove(d1);
 	}
 	
 	public Cliente buscarClienteByCedula(String cedula) {
