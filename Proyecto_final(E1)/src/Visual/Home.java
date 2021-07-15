@@ -158,6 +158,25 @@ public class Home extends JFrame {
 				listarProducto.setModal(true);
 			}
 		});
+		
+		JLabel lblDistribuidor = new JLabel("Datos Generales");
+		lblDistribuidor.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblDistribuidor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Coming Soon");
+			}
+		});
+		lblDistribuidor.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/EstadisticaIcon.png")));
+		lblDistribuidor.setForeground(Color.WHITE);
+		lblDistribuidor.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblDistribuidor.setBounds(381, 574, 357, 122);
+		panelAdministrar.add(lblDistribuidor);
+		
+		JLabel label_20 = new JLabel("");
+		label_20.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
+		label_20.setBounds(466, 548, 290, 175);
+		panelAdministrar.add(label_20);
 		lblProductos_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblProductos_1.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/ProductosIcon.png")));
 		lblProductos_1.setForeground(Color.WHITE);
@@ -172,12 +191,12 @@ public class Home extends JFrame {
 		lblCuenta.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/settingsIcon.png")));
 		lblCuenta.setForeground(Color.WHITE);
 		lblCuenta.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblCuenta.setBounds(378, 574, 222, 122);
+		lblCuenta.setBounds(86, 574, 222, 122);
 		panelAdministrar.add(lblCuenta);
 		
 		JLabel label_17 = new JLabel("");
 		label_17.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
-		label_17.setBounds(338, 548, 290, 175);
+		label_17.setBounds(46, 548, 290, 175);
 		panelAdministrar.add(label_17);
 		
 		JLabel lblOrdenDeCompra = new JLabel(" Pedidos");
@@ -220,23 +239,9 @@ public class Home extends JFrame {
 		label_16.setBounds(46, 345, 290, 175);
 		panelAdministrar.add(label_16);
 		
-		JLabel lblDistribuidor = new JLabel("Distribuidor");
-		lblDistribuidor.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblDistribuidor.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
-			}
-		});
-		lblDistribuidor.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Distribuidor.png")));
-		lblDistribuidor.setForeground(Color.WHITE);
-		lblDistribuidor.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblDistribuidor.setBounds(360, 367, 249, 122);
-		panelAdministrar.add(lblDistribuidor);
-		
 		JLabel label_15 = new JLabel("");
 		label_15.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
-		label_15.setBounds(338, 345, 290, 175);
+		label_15.setBounds(338, 548, 422, 175);
 		panelAdministrar.add(label_15);
 		
 		JLabel lblCombos = new JLabel(" Combos");
@@ -271,12 +276,12 @@ public class Home extends JFrame {
 		lblVendedores.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/VendedoresIcon.png")));
 		lblVendedores.setForeground(Color.WHITE);
 		lblVendedores.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblVendedores.setBounds(68, 570, 249, 122);
+		lblVendedores.setBounds(360, 367, 249, 122);
 		panelAdministrar.add(lblVendedores);
 		
 		JLabel label_12 = new JLabel("");
 		label_12.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Group 3.png")));
-		label_12.setBounds(46, 548, 290, 175);
+		label_12.setBounds(338, 345, 290, 175);
 		panelAdministrar.add(label_12);
 		
 		JLabel lblClientes_2 = new JLabel("  Clientes");

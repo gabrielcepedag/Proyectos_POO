@@ -45,12 +45,13 @@ public class ListarFactura extends JDialog {
 	private static DefaultTableModel modelFactura;
 	private static Object[] rows;
 	private JTable tableFactura;
-	private Combo selectedCombo = null;
+	private Factura selectedFactura = null;
 	private JTextField txtCedulaFact;
 	int indexCbx = 0;
 	String cedulaClienteFact = null;
 	private JComboBox<String> cbxTipoFactura;
-	private JLabel lblNewLabel_1;
+	private JLabel detalles;
+	
 	
 	/**
 	 * Launch the application.
@@ -87,6 +88,18 @@ public class ListarFactura extends JDialog {
 		modelFactura.setColumnIdentifiers(headerFactura);
 		
 		tableFactura = new JTable();
+		tableFactura.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = -1;
+				index = tableFactura.getSelectedRow();
+				if(index != -1) {
+					detalles.setEnabled(true);
+					String codigo = (String)(modelFactura.getValueAt(index, 0));
+					selectedFactura = Tienda.getInstance().buscarFacturaByCodigo(codigo);
+				}
+			}
+		});
 		tableFactura.setModel(modelFactura);
 		tableFactura.getTableHeader().setBackground(new Color(0, 155, 124));
 		tableFactura.getTableHeader().setForeground(Color.white);
@@ -186,31 +199,32 @@ public class ListarFactura extends JDialog {
 		panel_1.add(lblNewLabel);
 		lblNewLabel.setIcon(new ImageIcon(ListarFactura.class.getResource("/Imagenes/FacturaLabelBlanco.png")));
 		
-		lblNewLabel_1 = new JLabel("Detalles");
-		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+		detalles = new JLabel("Detalles");
+		detalles.setEnabled(false);
+		detalles.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JOptionPane.showMessageDialog(null, "Aqui no hay nada, lo mismo que sentía ella por ti");
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				lblNewLabel_1.setBackground(new Color(0, 155, 124));
+				detalles.setBackground(new Color(0, 155, 124));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblNewLabel_1.setBackground(new Color(36, 37, 38));
+				detalles.setBackground(new Color(36, 37, 38));
 			}
 		});
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(0, 160, 288, 44);
-		panel_1.add(lblNewLabel_1);
+		detalles.setHorizontalAlignment(SwingConstants.CENTER);
+		detalles.setBounds(0, 160, 288, 44);
+		panel_1.add(detalles);
 		
-		lblNewLabel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblNewLabel_1.setOpaque(true);
-		lblNewLabel_1.setBackground(new Color(36, 37, 38));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 34));
-		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setIcon(new ImageIcon(ListarFactura.class.getResource("/Imagenes/OjoIcon.png")));
+		detalles.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		detalles.setOpaque(true);
+		detalles.setBackground(new Color(36, 37, 38));
+		detalles.setFont(new Font("Tahoma", Font.PLAIN, 34));
+		detalles.setForeground(Color.WHITE);
+		detalles.setIcon(new ImageIcon(ListarFactura.class.getResource("/Imagenes/OjoIcon.png")));
 		
 		JLabel lblCancelar = new JLabel(" Cancelar");
 		lblCancelar.setHorizontalAlignment(SwingConstants.CENTER);

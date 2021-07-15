@@ -46,7 +46,7 @@ public class ListarCliente extends JDialog {
 	private JLabel Modificar;
 	private JTable tableCliente;
 	private Cliente selectedCliente = null;
-	private JLabel lblNewLabel_1;
+	private JLabel credito;
 	private JTextField txtCedulaCliente;
 	private Cliente clienteBuscado = null;
 	private String cedulaClienteFact = null;
@@ -132,6 +132,7 @@ public class ListarCliente extends JDialog {
 				if(index != -1) {
 					Eliminar.setEnabled(true);
 					Modificar.setEnabled(true);
+					credito.setEnabled(true);
 					String cedula = (String)(modelCliente.getValueAt(index, 0));
 					selectedCliente = Tienda.getInstance().buscarClienteByCedula(cedula);
 				}
@@ -159,30 +160,31 @@ public class ListarCliente extends JDialog {
 		panel_1.add(lblNewLabel);
 		lblNewLabel.setIcon(new ImageIcon(ListarCliente.class.getResource("/Imagenes/ClientesLabelBlanco.png")));
 		
-		lblNewLabel_1 = new JLabel(" Cr\u00E9dito");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(0, 160, 288, 44);
-		panel_1.add(lblNewLabel_1);
-		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+		credito = new JLabel(" Cr\u00E9dito");
+		credito.setEnabled(false);
+		credito.setHorizontalAlignment(SwingConstants.CENTER);
+		credito.setBounds(0, 160, 288, 44);
+		panel_1.add(credito);
+		credito.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				JOptionPane.showMessageDialog(null, "Usted no puede entrar aquí por que notamos una falta de amor propio, subase el autoestima y vuelva");
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				lblNewLabel_1.setBackground(new Color(0, 155, 124));
+				credito.setBackground(new Color(0, 155, 124));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblNewLabel_1.setBackground(new Color(36, 37, 38));
+				credito.setBackground(new Color(36, 37, 38));
 			}
 		});
-		lblNewLabel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblNewLabel_1.setOpaque(true);
-		lblNewLabel_1.setBackground(new Color(36, 37, 38));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 34));
-		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setIcon(new ImageIcon(ListarCliente.class.getResource("/Imagenes/A\u00F1adirIcon.png")));
+		credito.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		credito.setOpaque(true);
+		credito.setBackground(new Color(36, 37, 38));
+		credito.setFont(new Font("Tahoma", Font.PLAIN, 34));
+		credito.setForeground(Color.WHITE);
+		credito.setIcon(new ImageIcon(ListarCliente.class.getResource("/Imagenes/A\u00F1adirIcon.png")));
 		
 		Eliminar = new JLabel(" Eliminar");
 		Eliminar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -195,6 +197,7 @@ public class ListarCliente extends JDialog {
 				Tienda.getInstance().eliminarCliente(selectedCliente);;
 				Modificar.setEnabled(false);
 				Eliminar.setEnabled(false);
+				credito.setEnabled(false);
 				loadTableCliente(null);
 			}
 			@Override
