@@ -11,6 +11,7 @@ public class Factura {
 	private float precioTotal;
 	private boolean esACredito;
 	public static int cod = 1;
+	public float lineaCredito;
 	
 	public Factura(String codigo, Vendedor miVendedor, Cliente miCliente, ArrayList<Producto> misProductos) {
 		super();
@@ -20,6 +21,7 @@ public class Factura {
 		this.misProductos = misProductos;
 		this.precioTotal = 0;
 		esACredito = false;
+		this.lineaCredito = 0;
 		Factura.cod++;
 	}
 
@@ -64,6 +66,14 @@ public class Factura {
 		this.esACredito = esACredito;
 	}
 	
+	public float getLineaCredito() {
+		return lineaCredito;
+	}
+
+	public void setLineaCredito(float lineaCredito) {
+		this.lineaCredito = lineaCredito;
+	}
+
 	public float calcPrecioFactura() {
 		if (precioTotal > 0) {
 			return precioTotal;

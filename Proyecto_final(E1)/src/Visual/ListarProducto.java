@@ -183,7 +183,7 @@ public class ListarProducto extends JDialog {
 				Tienda.getInstance().eliminarProducto(selectedProducto);
 				Modificar.setEnabled(false);
 				Eliminar.setEnabled(false);
-				loadTableProductos(0);
+				loadTableProductos(cbxTipoProducto.getSelectedIndex());
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {

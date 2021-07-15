@@ -69,8 +69,11 @@ public class Home extends JFrame {
 	private JTextField txtCedulaFact;
 	Cliente clienteBuscado = null;
 	int indexCbx = 0;
-	String cedulaClienteSel = null;
+	String cedulaClienteFact = null;
+	String cedulaCliente = null;
 	private JComboBox<String> cbxTipoFactura;
+	private JTextField txtCedulaCliente;
+	private JLabel label_19;
 	
 	/**
 	 * Launch the application.
@@ -437,14 +440,17 @@ public class Home extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				if (!(txtCedulaFact.getText().isEmpty())) {
 					indexCbx = cbxTipoFactura.getSelectedIndex();
-					cedulaClienteSel = txtCedulaFact.getText();
-					loadTableFactura(indexCbx, cedulaClienteSel);
+					cedulaClienteFact = txtCedulaFact.getText();
+					loadTableFactura(indexCbx, cedulaClienteFact);
+				}else {
+					txtCedulaFact.setText("");
+					loadTableFactura(indexCbx, null);
 				}
 			}
 		});
 		lblNewLabel_4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblNewLabel_4.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Lupa.png")));
-		lblNewLabel_4.setBounds(535, 129, 150, 33);
+		lblNewLabel_4.setBounds(535, 128, 150, 37);
 		panelFactura.add(lblNewLabel_4);
 		
 		txtCedulaFact = new JTextField();
@@ -504,7 +510,11 @@ public class Home extends JFrame {
 				index = cbxTipoFactura.getSelectedIndex();
 				if (index != -1) {
 					indexCbx = index;
-					loadTableFactura(index, cedulaClienteSel);
+					if (txtCedulaFact.getText().isEmpty()) {
+						loadTableFactura(indexCbx, null);
+					}else {
+						loadTableFactura(indexCbx, cedulaClienteFact);
+					}
 				}
 			}
 		});
@@ -544,8 +554,37 @@ public class Home extends JFrame {
 		panelClientes.setBounds(401, 13, 967, 850);
 		panel.add(panelClientes);
 		
+		txtCedulaCliente = new JTextField();
+		txtCedulaCliente.setHorizontalAlignment(SwingConstants.CENTER);
+		txtCedulaCliente.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		txtCedulaCliente.setColumns(10);
+		txtCedulaCliente.setBackground(Color.WHITE);
+		txtCedulaCliente.setBounds(73, 128, 210, 40);
+		panelClientes.add(txtCedulaCliente);
+		
+		label_19 = new JLabel("Buscar");
+		label_19.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (!(txtCedulaCliente.getText().isEmpty())) {
+					cedulaCliente = txtCedulaCliente.getText();
+					loadTableCliente(cedulaCliente);
+				}else {
+					txtCedulaFact.setText("");
+					loadTableCliente(null);
+				}
+			}
+		});
+		label_19.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		label_19.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Lupa.png")));
+		label_19.setOpaque(true);
+		label_19.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		label_19.setBackground(new Color(0, 155, 124));
+		label_19.setBounds(300, 128, 150, 40);
+		panelClientes.add(label_19);
+		
 		scrollPaneCliente = new JScrollPane();
-		scrollPaneCliente.setBounds(73, 140, 795, 639);
+		scrollPaneCliente.setBounds(73, 179, 795, 585);
 		panelClientes.add(scrollPaneCliente);
 		
 		String header[] = {"Cédula", "Nombre", "Telefono", "Dirección","Crédito"};
@@ -725,26 +764,40 @@ public class Home extends JFrame {
 		lblNewLabel.setBounds(31, 30, 358, 835);
 		panel.add(lblNewLabel);
 		
-		loadTableCliente();
+		loadTableCliente(null);
 		cbxTipoProducto.setSelectedIndex(0);
 		loadTableProductos(0);
-		loadTableFactura(indexCbx,cedulaClienteSel);
+		cbxTipoFactura.setSelectedIndex(0);
+		loadTableFactura(indexCbx,cedulaClienteFact);
 	}
 	
-	public static void loadTableCliente() {
+	public static void loadTableCliente(String cedula) {
 		
 		modelCliente.setRowCount(0);
 		rows = new Object[modelCliente.getColumnCount()];
 		
-		for (Cliente cliente : Tienda.getInstance().getMisClientes()) {
-			rows[0] = cliente.getCedula();
-			rows[1] = cliente.getNombre();
-			rows[2] = cliente.getTelefono();
-			rows[3] = cliente.getDireccion();
-			rows[4] = cliente.getCredito();
-			modelCliente.addRow(rows);
+		Cliente clienteSel = Tienda.getInstance().buscarClienteByCedula(cedula);
+		
+		if (cedula == null) {
+			for (Cliente cliente : Tienda.getInstance().getMisClientes()) {
+				rows[0] = cliente.getCedula();
+				rows[1] = cliente.getNombre();
+				rows[2] = cliente.getTelefono();
+				rows[3] = cliente.getDireccion();
+				rows[4] = cliente.getCredito();
+				modelCliente.addRow(rows);
+			}
+		}else if (clienteSel != null) {
+				rows[0] = clienteSel.getCedula();
+				rows[1] = clienteSel.getNombre();
+				rows[2] = clienteSel.getTelefono();
+				rows[3] = clienteSel.getDireccion();
+				rows[4] = clienteSel.getCredito();
+				modelCliente.addRow(rows);
 		}
+		
 	}
+	
 	public static void loadTableProductos(int selection) {
 		
 		modelProductos.setRowCount(0);
@@ -854,13 +907,13 @@ public class Home extends JFrame {
 				rows[3] = factura.getMisProductos().size();
 				rows[4] = factura.getPrecioTotal();
 				if (factura.isEsACredito()) {
-					rows[5] = "Si aplica";
+					rows[5] = "Si";
 				}else {
-					rows[5] = "No aplica";
+					rows[5] = "No";
 				}
 				modelFactura.addRow(rows);
 			}
-		} else if (clienteSel != null && selection == 0){
+		} else if (cedulaCliente != null && selection == 0){
 			for (Factura factura : Tienda.getInstance().getMisFacturas()) {
 				if (factura.getMiCliente().equals(clienteSel)) {
 					rows[0] = factura.getCodigo();
@@ -869,9 +922,9 @@ public class Home extends JFrame {
 					rows[3] = factura.getMisProductos().size();
 					rows[4] = factura.getPrecioTotal();
 					if (factura.isEsACredito()) {
-						rows[5] = "Si aplica";
+						rows[5] = "Si";
 					}else {
-						rows[5] = "No aplica";
+						rows[5] = "No";
 					}
 					modelFactura.addRow(rows);
 				}
@@ -884,11 +937,11 @@ public class Home extends JFrame {
 					rows[2] = factura.getMiVendedor().getNombre();
 					rows[3] = factura.getMisProductos().size();
 					rows[4] = factura.getPrecioTotal();
-					rows[5] = "No aplica";
+					rows[5] = "No";
 					modelFactura.addRow(rows);
 				}
 			}
-		}else if (clienteSel != null && selection == 1) {
+		}else if (cedulaCliente != null && selection == 1) {
 			for (Factura factura : Tienda.getInstance().getMisFacturas()) {
 				if (factura.getMiCliente().equals(clienteSel) && factura.isEsACredito() == false ) {
 					rows[0] = factura.getCodigo();
@@ -896,7 +949,7 @@ public class Home extends JFrame {
 					rows[2] = factura.getMiVendedor().getNombre();
 					rows[3] = factura.getMisProductos().size();
 					rows[4] = factura.getPrecioTotal();
-					rows[5] = "No aplica";
+					rows[5] = "No";
 					modelFactura.addRow(rows);
 				}
 			}
@@ -908,11 +961,11 @@ public class Home extends JFrame {
 					rows[2] = factura.getMiVendedor().getNombre();
 					rows[3] = factura.getMisProductos().size();
 					rows[4] = factura.getPrecioTotal();
-					rows[5] = "aplica";
+					rows[5] = "si";
 					modelFactura.addRow(rows);
 				}
 			}
-		}else if (clienteSel != null && selection == 2) {
+		}else if (cedulaCliente != null && selection == 2) {
 			for (Factura factura : Tienda.getInstance().getMisFacturas()) {
 				if (factura.getMiCliente().equals(clienteSel) && factura.isEsACredito()) {
 					rows[0] = factura.getCodigo();
@@ -920,13 +973,10 @@ public class Home extends JFrame {
 					rows[2] = factura.getMiVendedor().getNombre();
 					rows[3] = factura.getMisProductos().size();
 					rows[4] = factura.getPrecioTotal();
-					rows[5] = "aplica";
+					rows[5] = "si";
 					modelFactura.addRow(rows);
 				}
 			}
-		}else if (clienteSel == null) {
-			JOptionPane.showMessageDialog(null, "Usuario no encontrado.", "Búsqueda de facturas", JOptionPane.WARNING_MESSAGE);
-			loadTableFactura(selection, null);
 		}
 		
 	}

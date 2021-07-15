@@ -10,6 +10,7 @@ public class Tienda {
 	private ArrayList<Empleado> misEmpleados;
 	private ArrayList<Combo> misCombos;
 	private ArrayList<OrdenCompra> misOrdenesCompra;
+	private ArrayList<Distribuidor> misDistribuidores;
 
 	
 	private static Tienda tienda = null;
@@ -22,6 +23,7 @@ public class Tienda {
 		this.misEmpleados = new ArrayList<Empleado>();
 		this.misCombos = new ArrayList<Combo>();
 		this.misOrdenesCompra = new ArrayList<OrdenCompra>();
+		this.misDistribuidores = new ArrayList<Distribuidor>();
 	}
 	
 	public static Tienda getInstance() {
@@ -52,6 +54,14 @@ public class Tienda {
 		this.misFacturas = misFacturas;
 	}
 
+	public ArrayList<Distribuidor> getMisDistribuidores() {
+		return misDistribuidores;
+	}
+
+	public void setMisDistribuidores(ArrayList<Distribuidor> misDistribuidores) {
+		this.misDistribuidores = misDistribuidores;
+	}
+
 	public void addCliente(Cliente cliente) {
 		misClientes.add(cliente);
 	}
@@ -76,6 +86,9 @@ public class Tienda {
 		misOrdenesCompra.add(orden);
 	}
 	
+	public void addDistribuidor(Distribuidor d1) {
+		misDistribuidores.add(d1);
+	}
 	public void eliminarProducto(Producto producto) {
 		misProductos.remove(producto);
 	}
@@ -90,6 +103,10 @@ public class Tienda {
 	
 	public void eliminarCliente(Cliente cliente) {
 		misClientes.remove(cliente);
+	}
+	
+	public void eliminarDistribuidor(Distribuidor d1) {
+		misDistribuidores.remove(d1);
 	}
 	
 	public Cliente buscarClienteByCedula(String cedula) {
@@ -150,7 +167,7 @@ public class Tienda {
 		return precioTotal;
 	}
 	
-	public float calcTotalVendidoByVendedor(String cedula) {
+	/*public float calcTotalVendidoByVendedor(String cedula) {
 		Vendedor vendedor = (Vendedor) buscarEmpleadoByCedula(cedula);
 		float suma = 0;
 		
@@ -161,6 +178,21 @@ public class Tienda {
 		}
 		vendedor.setTotalVendido(suma);
 		return suma;
+	} Ya esto no es necesario, lo hago en la clase visual desde que el metodo hacerCompra retorna true. */
+	
+	public Vendedor vendedorDelMes() {
+		float mayor = 0;
+		Vendedor vendedorDelMes = null;
+		
+		for (Empleado empleado : misEmpleados) {
+			if(empleado instanceof Vendedor) {
+				if  ( ((Vendedor)empleado).getTotalVendido() > mayor) {
+					mayor = ((Vendedor)empleado).getTotalVendido();
+					vendedorDelMes = (Vendedor) empleado;
+				}
+			}
+		}
+		return vendedorDelMes;
 	}
 	
 	public void crearOrdenesCompra() {
@@ -175,14 +207,12 @@ public class Tienda {
 			OrdenCompra orden = new OrdenCompra(new String("Orden-"+OrdenCompra.numOrdenCompra), productoAOrdenar);
 			
 			Tienda.getInstance().addOrdenCompra(orden);
-			Administrador admin = (Administrador) misEmpleados.get(0); //Asumiendo que el primero en registrarse es el administrador.
-			admin.addOrdenPendiente(orden);
 			
-			/*for (Empleado empleado : misEmpleados) {
+			for (Empleado empleado : misEmpleados) {
 				if (empleado instanceof Administrador) {
 					((Administrador)empleado).addOrdenPendiente(orden);
 				}
-			} Esto en caso de que haya mas de 1 administrador*/
+			}
 		}
 	}
 
@@ -192,6 +222,51 @@ public class Tienda {
 			if (orden.getProducto().equals(producto)) {
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	public boolean hacerCompra(Factura factura) {
+		
+		if (factura.isEsACredito()) {
+			if (factura.getMiCliente().getCredito() < factura.getPrecioTotal()  || clienteYaTieneCredito(factura.getMiCliente())) {
+				return false;
+			}
+		}
+		//factura.getMiVendedor().setTotalVendido(factura.getPrecioTotal() + factura.getMiVendedor().getTotalVendido());
+		
+		for (Producto producto : factura.getMisProductos()) {
+			//En la parte visual hay que mostrar solamente los productos que tengan cantidad > 0.
+			producto.setCantidad(producto.getCantidad() - 1);
+		}
+		
+		addFactura(factura);
+		return true;
+	}
+
+	private boolean clienteYaTieneCredito(Cliente miCliente) {
+		for (Factura factura : misFacturas) {
+			if (factura.isEsACredito()) {
+				if (factura.getMiCliente().equals(miCliente)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean abonarFacturaCredito(String cod, float abono) {
+		Factura f1 = buscarFacturaByCodigo(cod);
+		
+		if (f1.isEsACredito() == true) {
+			if (f1.getPrecioTotal() < abono) {
+				return false;
+			}
+			f1.setLineaCredito(f1.getLineaCredito() - abono);
+			if (f1.getLineaCredito() == 0) {
+				f1.setEsACredito(false);
+			}
+			return true;
 		}
 		return false;
 	}
