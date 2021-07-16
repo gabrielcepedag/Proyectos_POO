@@ -40,6 +40,7 @@ public class ListarPedido extends JDialog {
 	private JTable tablePedido;
 	private OrdenCompra selectedOrdenCompra = null;
 	private JLabel lblNewLabel_1;
+	private JLabel detalles;
 	
 	/**
 	 * Launch the application.
@@ -96,6 +97,7 @@ public class ListarPedido extends JDialog {
 				index = tablePedido.getSelectedRow();
 				if(index != -1) {
 					Confirmar.setEnabled(true);
+					detalles.setEnabled(true);
 					String codigo = (String)(modelPedido.getValueAt(index, 0));
 					selectedOrdenCompra = Tienda.getInstance().buscarOrdenDeCompraByCod(codigo);
 				}
@@ -152,9 +154,12 @@ public class ListarPedido extends JDialog {
 		Confirmar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				selectedOrdenCompra.setProcesada(true);
-				Confirmar.setEnabled(false);
-				loadTablePedido();;
+				if (selectedOrdenCompra != null) {
+					selectedOrdenCompra.setProcesada(true);
+					Confirmar.setEnabled(false);
+					detalles.setEnabled(false);
+					loadTablePedido();
+				}
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -194,6 +199,32 @@ public class ListarPedido extends JDialog {
 		lblAdministracin.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblAdministracin.setBounds(75, 81, 144, 64);
 		panel_1.add(lblAdministracin);
+		
+		detalles = new JLabel("Detalles");
+		detalles.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Patrocinado por la unica tienda que nada... La sirena");
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				detalles.setBackground(new Color(0, 155, 124));
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				detalles.setBackground(new Color(36, 37, 38));
+			}
+		});
+		detalles.setIcon(new ImageIcon(ListarPedido.class.getResource("/Imagenes/OjoIcon.png")));
+		detalles.setOpaque(true);
+		detalles.setHorizontalAlignment(SwingConstants.CENTER);
+		detalles.setForeground(Color.WHITE);
+		detalles.setFont(new Font("Tahoma", Font.PLAIN, 34));
+		detalles.setEnabled(false);
+		detalles.setBackground(new Color(36, 37, 38));
+		detalles.setBounds(0, 270, 288, 44);
+		panel_1.add(detalles);
 		
 		final JLabel label = new JLabel("X");
 		label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
