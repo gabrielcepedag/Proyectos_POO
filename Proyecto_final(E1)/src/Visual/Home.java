@@ -141,7 +141,9 @@ public class Home extends JFrame {
 		lblCuenta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
+				Cuenta cuenta = new Cuenta();
+				cuenta.setVisible(true);
+				cuenta.setModal(true);
 			}
 		});
 		
@@ -160,7 +162,9 @@ public class Home extends JFrame {
 		lblDistribuidor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
+				ListarDatosGenerales listarDatosGenerales = new ListarDatosGenerales();
+				listarDatosGenerales.setVisible(true);
+				listarDatosGenerales.setModal(true);
 			}
 		});
 		lblDistribuidor.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/EstadisticaIcon.png")));

@@ -36,7 +36,6 @@ public class Cuenta extends JDialog {
 	private static DefaultTableModel modelCombo;
 	private static Object[] rows;
 	private Combo selectedCombo = null;
-	private JLabel lblNewLabel_1;
 	
 	/**
 	 * Launch the application.
@@ -85,34 +84,10 @@ public class Cuenta extends JDialog {
 		modelCombo.setColumnIdentifiers(header);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(12, 46, 1105, 644);
+		panel_1.setBounds(0, 46, 1117, 657);
 		panel_1.setBackground(new Color(36, 37, 38));
 		contentPanel.add(panel_1);
 		panel_1.setLayout(null);
-		
-		lblNewLabel_1 = new JLabel("Qsy");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(564, 300, 288, 44);
-		panel_1.add(lblNewLabel_1);
-		lblNewLabel_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Usted no puede entrar aquí por que notamos una falta de amor propio, subase el autoestima y vuelva");
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblNewLabel_1.setBackground(new Color(0, 155, 124));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblNewLabel_1.setBackground(new Color(36, 37, 38));
-			}
-		});
-		lblNewLabel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblNewLabel_1.setOpaque(true);
-		lblNewLabel_1.setBackground(new Color(36, 37, 38));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 34));
-		lblNewLabel_1.setForeground(Color.WHITE);
 		
 		JLabel lblPatrocinadoPorLa = new JLabel("Patrocinado por la \u00FAnica tienda que nada... La sirena");
 		lblPatrocinadoPorLa.setOpaque(true);
@@ -120,7 +95,7 @@ public class Cuenta extends JDialog {
 		lblPatrocinadoPorLa.setForeground(Color.WHITE);
 		lblPatrocinadoPorLa.setFont(new Font("Tahoma", Font.PLAIN, 34));
 		lblPatrocinadoPorLa.setBackground(new Color(36, 37, 38));
-		lblPatrocinadoPorLa.setBounds(187, 371, 883, 44);
+		lblPatrocinadoPorLa.setBounds(144, 385, 883, 44);
 		panel_1.add(lblPatrocinadoPorLa);
 		
 		final JLabel label = new JLabel("X");
