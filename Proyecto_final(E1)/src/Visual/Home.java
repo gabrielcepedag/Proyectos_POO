@@ -152,8 +152,8 @@ public class Home extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ListarProducto listarProducto = new ListarProducto();
-				listarProducto.setVisible(true);
 				listarProducto.setModal(true);
+				listarProducto.setVisible(true);
 			}
 		});
 		
@@ -163,8 +163,8 @@ public class Home extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ListarDatosGenerales listarDatosGenerales = new ListarDatosGenerales();
-				listarDatosGenerales.setVisible(true);
 				listarDatosGenerales.setModal(true);
+				listarDatosGenerales.setVisible(true);
 			}
 		});
 		lblDistribuidor.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/EstadisticaIcon.png")));
@@ -226,8 +226,8 @@ public class Home extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ListarFactura listarFactura = new ListarFactura();
-				listarFactura.setVisible(true);
 				listarFactura.setModal(true);
+				listarFactura.setVisible(true);
 			}
 		});
 		lblFacturas.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/FacturaIcon.png")));
@@ -252,8 +252,8 @@ public class Home extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ListarCombo listarCombo = new ListarCombo();
-				listarCombo.setVisible(true);
 				listarCombo.setModal(true);
+				listarCombo.setVisible(true);
 			}
 		});
 		lblCombos.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/CombosIcon.png")));
@@ -273,8 +273,8 @@ public class Home extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ListarVendedor listarVendedor = new ListarVendedor();
-				listarVendedor.setVisible(true);
 				listarVendedor.setModal(true);
+				listarVendedor.setVisible(true);
 			}
 		});
 		lblVendedores.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/VendedoresIcon.png")));
@@ -294,8 +294,8 @@ public class Home extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ListarCliente listarCliente = new ListarCliente();
-				listarCliente.setVisible(true);
 				listarCliente.setModal(true);
+				listarCliente.setVisible(true);
 			}
 		});
 		lblClientes_2.setForeground(Color.WHITE);

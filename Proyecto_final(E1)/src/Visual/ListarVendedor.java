@@ -51,7 +51,6 @@ public class ListarVendedor extends JDialog {
 		}
 	}
 
-
 	public ListarVendedor() {
 		setUndecorated(true);
 		setBounds(100, 100, 1117, 703);
@@ -148,7 +147,9 @@ public class ListarVendedor extends JDialog {
 		nuevo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Usted no puede entrar aquí por que notamos una falta de amor propio, subase el autoestima y vuelva");
+				RegVendedor regVendedor = new RegVendedor();
+				regVendedor.setModal(true);
+				regVendedor.setVisible(true);
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
