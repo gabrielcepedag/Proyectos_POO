@@ -204,7 +204,9 @@ public class Home extends JFrame {
 		lblOrdenDeCompra.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
+				ListarPedido listarPedido = new ListarPedido();
+				listarPedido.setModal(true);
+				listarPedido.setVisible(true);
 			}
 		});
 		lblOrdenDeCompra.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/PedidoIcon.png")));
@@ -326,7 +328,7 @@ public class Home extends JFrame {
 		lblClientes_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
+				JOptionPane.showMessageDialog(null, "Coming Soon","Aviso",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		lblClientes_1.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/PanelHome.png")));
@@ -441,7 +443,7 @@ public class Home extends JFrame {
 		detalles.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
+				JOptionPane.showMessageDialog(null, "Coming Soon","Aviso",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		
@@ -490,7 +492,7 @@ public class Home extends JFrame {
 		crearFactura.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Coming Soon");
+				JOptionPane.showMessageDialog(null, "Coming Soon","Aviso",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		crearFactura.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -544,7 +546,7 @@ public class Home extends JFrame {
 				}
 			}
 		});
-		cbxTipoFactura.setModel(new DefaultComboBoxModel(new String[] {"<Todas>", "Facturas sin cr\u00E9dito", "Facturas a cr\u00E9dito"}));
+		cbxTipoFactura.setModel(new DefaultComboBoxModel<String>(new String[] {"<Todas>", "Facturas sin cr\u00E9dito", "Facturas a cr\u00E9dito"}));
 		cbxTipoFactura.setSelectedIndex(0);
 		cbxTipoFactura.setOpaque(false);
 		cbxTipoFactura.setIgnoreRepaint(true);
@@ -704,8 +706,8 @@ public class Home extends JFrame {
 				lblAdministrar.setBackground(new Color(36, 37, 38));
 				panelProductos.setVisible(false);
 				panelClientes.setVisible(false);
-				panelFactura.setVisible(true);
 				panelAdministrar.setVisible(false);
+				panelFactura.setVisible(true);
 			}
 		});
 		lblFactura.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -727,9 +729,9 @@ public class Home extends JFrame {
 				lblFactura.setBackground(new Color(36, 37, 38));
 				lblAdministrar.setBackground(new Color(36, 37, 38));
 				panelProductos.setVisible(false);
-				panelClientes.setVisible(true);
 				panelFactura.setVisible(false);
 				panelAdministrar.setVisible(false);
+				panelClientes.setVisible(true);
 			}
 		});
 		lblClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -751,10 +753,10 @@ public class Home extends JFrame {
 				lblClientes.setBackground(new Color(36, 37, 38));
 				lblFactura.setBackground(new Color(36, 37, 38));
 				lblAdministrar.setBackground(new Color(36, 37, 38));
-				panelProductos.setVisible(true);
 				panelClientes.setVisible(false);
 				panelFactura.setVisible(false);
 				panelAdministrar.setVisible(false);
+				panelProductos.setVisible(true);
 			}
 		});
 		lblProductos.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/ProductosIcon.png")));

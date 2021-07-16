@@ -168,7 +168,7 @@ public class ListarCliente extends JDialog {
 		credito.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Usted no puede entrar aquí por que notamos una falta de amor propio, subase el autoestima y vuelva");
+				JOptionPane.showMessageDialog(null, "Coming Soon","Aviso",JOptionPane.INFORMATION_MESSAGE);
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {

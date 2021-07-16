@@ -30,6 +30,10 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.SwingConstants;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ListarPedido extends JDialog {
 
@@ -41,6 +45,8 @@ public class ListarPedido extends JDialog {
 	private OrdenCompra selectedOrdenCompra = null;
 	private JLabel lblNewLabel_1;
 	private JLabel detalles;
+	int indexCbx = 0;
+	private JComboBox<String> cbxTipoPedido;
 	
 	/**
 	 * Launch the application.
@@ -68,8 +74,22 @@ public class ListarPedido extends JDialog {
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
 		
+		cbxTipoPedido = new JComboBox<String>();
+		cbxTipoPedido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				indexCbx = cbxTipoPedido.getSelectedIndex();
+				if (indexCbx != -1) {
+					loadTablePedido(indexCbx);
+				}
+			}
+		});
+		cbxTipoPedido.setModel(new DefaultComboBoxModel<String>(new String[] {"<Todos>", "Procesados", "Sin procesar"}));
+		cbxTipoPedido.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		cbxTipoPedido.setBounds(352, 63, 187, 30);
+		contentPanel.add(cbxTipoPedido);
+		
 		JScrollPane scrollPanePedido = new JScrollPane();
-		scrollPanePedido.setBounds(352, 43, 720, 607);
+		scrollPanePedido.setBounds(352, 104, 720, 546);
 		contentPanel.add(scrollPanePedido);
 		
 		//Combos de Prueba:
@@ -84,6 +104,13 @@ public class ListarPedido extends JDialog {
 		ordenCompra.setPrecioTotal(ordenCompra.getProducto().getPrecio());
 		ordenCompra.setProcesada(false);
 		Tienda.getInstance().addOrdenCompra(ordenCompra);
+		
+		OrdenCompra ordenCompra2 = new OrdenCompra("Ord -2", p3);
+		ordenCompra.setCantidad(5);
+		ordenCompra.setDistribuidor("Tu padrastro");
+		ordenCompra.setPrecioTotal(ordenCompra.getProducto().getPrecio());
+		ordenCompra.setProcesada(true);
+		Tienda.getInstance().addOrdenCompra(ordenCompra2);
 		
 		String header[] = {"Código", "Distribuidos", "Producto", "Cantidad", "Precio total", "Fecha de Solicitud", "Estado"};
 		modelPedido = new DefaultTableModel();
@@ -158,7 +185,7 @@ public class ListarPedido extends JDialog {
 					selectedOrdenCompra.setProcesada(true);
 					Confirmar.setEnabled(false);
 					detalles.setEnabled(false);
-					loadTablePedido();
+					loadTablePedido(indexCbx);
 				}
 			}
 			@Override
@@ -250,23 +277,58 @@ public class ListarPedido extends JDialog {
 		lblNewLabel_2.setOpaque(true);
 		lblNewLabel_2.setBounds(312, 8, 793, 682);
 		contentPanel.add(lblNewLabel_2);
-		loadTablePedido();
+		
+		loadTablePedido(0);
 	}
 	
-	public static void loadTablePedido() {
+	public static void loadTablePedido(int selection) {
 		
 		modelPedido.setRowCount(0);
 		rows = new Object[modelPedido.getColumnCount()];
 		
-		for (OrdenCompra ordenCompra : Tienda.getInstance().getMisOrdenesCompra()) {
-			rows[0] = ordenCompra.getCodigo();
-			rows[1] =  ordenCompra.getDistribuidor();
-			rows[2] = ordenCompra.getProducto().getClass().getSimpleName();
-			rows[3] = ordenCompra.getCantidad();
-			rows[4] = ordenCompra.getPrecioTotal();
-			rows[5] = ordenCompra.getFechaSolicitud();
-			rows[6] = ordenCompra.isProcesada();
-			modelPedido.addRow(rows);
+		switch (selection) {
+		case 0:
+			for (OrdenCompra ordenCompra : Tienda.getInstance().getMisOrdenesCompra()) {
+				rows[0] = ordenCompra.getCodigo();
+				rows[1] =  ordenCompra.getDistribuidor();
+				rows[2] = ordenCompra.getProducto().getClass().getSimpleName();
+				rows[3] = ordenCompra.getCantidad();
+				rows[4] = ordenCompra.getPrecioTotal();
+				rows[5] = ordenCompra.getFechaSolicitud();
+				rows[6] = ordenCompra.isProcesada();
+				modelPedido.addRow(rows);
+			}
+			break;
+			
+		case 1:
+			for (OrdenCompra ordenCompra : Tienda.getInstance().getMisOrdenesCompra()) {
+				if (ordenCompra.isProcesada()) {
+					rows[0] = ordenCompra.getCodigo();
+					rows[1] =  ordenCompra.getDistribuidor();
+					rows[2] = ordenCompra.getProducto().getClass().getSimpleName();
+					rows[3] = ordenCompra.getCantidad();
+					rows[4] = ordenCompra.getPrecioTotal();
+					rows[5] = ordenCompra.getFechaSolicitud();
+					rows[6] = ordenCompra.isProcesada();
+					modelPedido.addRow(rows);
+				}
+			}
+			break;
+		case 2:
+			for (OrdenCompra ordenCompra : Tienda.getInstance().getMisOrdenesCompra()) {
+				if (!ordenCompra.isProcesada()) {
+					rows[0] = ordenCompra.getCodigo();
+					rows[1] =  ordenCompra.getDistribuidor();
+					rows[2] = ordenCompra.getProducto().getClass().getSimpleName();
+					rows[3] = ordenCompra.getCantidad();
+					rows[4] = ordenCompra.getPrecioTotal();
+					rows[5] = ordenCompra.getFechaSolicitud();
+					rows[6] = ordenCompra.isProcesada();
+					modelPedido.addRow(rows);
+				}
+			}
+			break;
 		}
+		
 	}
 }

@@ -25,6 +25,7 @@ import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
+import javax.swing.JTextField;
 
 public class ListarVendedor extends JDialog {
 
@@ -36,6 +37,9 @@ public class ListarVendedor extends JDialog {
 	private JTable tableClienteVendedor;
 	private Cliente selectedCliente = null;
 	private JLabel nuevo;
+	private JLabel lblNewLabel_1;
+	private JTextField txtCedulaVend;
+	String cedulaVendedor = null;
 	
 	public static void main(String[] args) {
 		try {
@@ -58,14 +62,44 @@ public class ListarVendedor extends JDialog {
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
 		
+		txtCedulaVend = new JTextField();
+		txtCedulaVend.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		txtCedulaVend.setBounds(366, 34, 208, 35);
+		contentPanel.add(txtCedulaVend);
+		txtCedulaVend.setColumns(10);
+		
+		lblNewLabel_1 = new JLabel("Buscar");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (!txtCedulaVend.getText().isEmpty()) {
+					cedulaVendedor = txtCedulaVend.getText();
+					loadTableVendedor(cedulaVendedor);
+				}else {
+					txtCedulaVend.setText("");
+					loadTableVendedor(null);
+				}
+			}
+		});
+		lblNewLabel_1.setOpaque(true);
+		lblNewLabel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblNewLabel_1.setBackground(new Color(0, 155, 124));
+		lblNewLabel_1.setIcon(new ImageIcon(ListarVendedor.class.getResource("/Imagenes/Lupa.png")));
+		lblNewLabel_1.setBounds(598, 34, 130, 35);
+	
+		contentPanel.add(lblNewLabel_1);
+		
 		JScrollPane scrollPaneVendedor = new JScrollPane();
-		scrollPaneVendedor.setBounds(352, 44, 730, 602);
+		scrollPaneVendedor.setBounds(352, 76, 730, 570);
 		contentPanel.add(scrollPaneVendedor);
 		
 		//Vendedores de prrueba;
 		
 		Vendedor v1 = new Vendedor("sdas", "adsasd", "asdsad", "asdassad", "asadas", "asdsadads");
+		Vendedor v2 = new Vendedor("DarvyBM", "KLK", "Darvy Betances", "2434332", "809-247-2240", "Santiago de los caballeros");
 		Tienda.getInstance().addEmpleado(v1);
+		Tienda.getInstance().addEmpleado(v2);
 		
 		String header[] = {"Cédula", "Nombre", "Usename", "Contraseñá","Telefono", "Dirección", "Total vendido"};
 		modelVendedor = new DefaultTableModel();
@@ -143,8 +177,7 @@ public class ListarVendedor extends JDialog {
 				Tienda.getInstance().eliminarCliente(selectedCliente);;
 				Eliminar.setEnabled(false);
 				Modificar.setEnabled(false);
-				
-				loadTableVendedor();
+				loadTableVendedor(null);
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -234,25 +267,41 @@ public class ListarVendedor extends JDialog {
 		lblNewLabel_2.setOpaque(true);
 		lblNewLabel_2.setBounds(327, 8, 778, 682);
 		contentPanel.add(lblNewLabel_2);
-		loadTableVendedor();
+		
+		loadTableVendedor(null);
 	}
 	
-	public static void loadTableVendedor() {
+	public static void loadTableVendedor(String cedula) {
 		
 		modelVendedor.setRowCount(0);
 		rows = new Object[modelVendedor.getColumnCount()];
-		for (Empleado empleado : Tienda.getInstance().getMisEmpleados()) {
-			if(empleado instanceof Vendedor) {
-				rows[0] = empleado.getCedula();
-				rows[1] = empleado.getNombre();
-				rows[2] = empleado.getUsername();
-				rows[3] = empleado.getPassword();
-				rows[4] = empleado.getTelefono();
-				rows[5] = empleado.getDireccion();
-				rows[6] = ((Vendedor) empleado).getTotalVendido();
-				modelVendedor.addRow(rows);
+		
+		Empleado vendedor = (Vendedor) Tienda.getInstance().buscarEmpleadoByCedula(cedula);
+		
+		if (cedula == null) {
+			for (Empleado empleado : Tienda.getInstance().getMisEmpleados()) {
+				if(empleado instanceof Vendedor) {
+					rows[0] = empleado.getCedula();
+					rows[1] = empleado.getNombre();
+					rows[2] = empleado.getUsername();
+					rows[3] = empleado.getPassword();
+					rows[4] = empleado.getTelefono();
+					rows[5] = empleado.getDireccion();
+					rows[6] = ((Vendedor) empleado).getTotalVendido();
+					modelVendedor.addRow(rows);
+				}
 			}
+		}else if (vendedor != null) {
+				rows[0] = vendedor.getCedula();
+				rows[1] = vendedor.getNombre();
+				rows[2] = vendedor.getUsername();
+				rows[3] = vendedor.getPassword();
+				rows[4] = vendedor.getTelefono();
+				rows[5] = vendedor.getDireccion();
+				rows[6] = ((Vendedor)vendedor).getTotalVendido();
+				modelVendedor.addRow(rows);
 		}
+		
 	}
 }
 
