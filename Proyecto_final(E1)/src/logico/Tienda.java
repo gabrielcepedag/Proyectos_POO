@@ -170,6 +170,17 @@ public class Tienda {
 		return comboAux;
 	}
 	
+	public OrdenCompra buscarOrdenDeCompraByCod(String codigo) {
+		OrdenCompra ordenCompraAux = null;
+		for (OrdenCompra ordenCompra : misOrdenesCompra) {
+			if (ordenCompra.getCodigo().equalsIgnoreCase(codigo)) {
+				ordenCompraAux = ordenCompra;
+				return ordenCompraAux;
+			}
+		}
+		return ordenCompraAux;
+	}
+	
 	public float calcTotalFactura(String codFactura) {
 		Factura factura = buscarFacturaByCodigo(codFactura);
 		
