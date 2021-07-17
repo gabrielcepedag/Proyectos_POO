@@ -155,7 +155,9 @@ public class ListarProducto extends JDialog {
 		lblNewLabel_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				JOptionPane.showMessageDialog(null, "No disponible por problemas de feura");
+				RegProducto regProducto  = new RegProducto();
+				regProducto.setModal(true);
+				regProducto.setVisible(true);
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
