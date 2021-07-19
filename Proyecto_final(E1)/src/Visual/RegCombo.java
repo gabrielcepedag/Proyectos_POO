@@ -31,6 +31,8 @@ import javax.swing.JSpinner;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JSeparator;
 
 public class RegCombo extends JDialog {
 
@@ -41,6 +43,10 @@ public class RegCombo extends JDialog {
 	private JPanel panelDiscoDuro;
 	private JSpinner spnDispReal;
 	private JLabel lblRegistrar;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTable table;
+	private JTable table_1;
 
 	/**
 	 * Launch the application.
@@ -63,7 +69,7 @@ public class RegCombo extends JDialog {
 	 */
 	public RegCombo() {
 		setUndecorated(true);
-		setBounds(100, 100, 647, 693);
+		setBounds(100, 100, 647, 741);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -78,16 +84,22 @@ public class RegCombo extends JDialog {
 		panelDiscoDuro = new JPanel();
 		panelDiscoDuro.setLayout(null);
 		panelDiscoDuro.setBackground(Color.WHITE);
-		panelDiscoDuro.setBounds(11, 300, 613, 323);
+		panelDiscoDuro.setBounds(11, 300, 613, 369);
 		panel.add(panelDiscoDuro);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 56, 228, 256);
+		scrollPane.setBounds(12, 56, 228, 227);
 		panelDiscoDuro.add(scrollPane);
 		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(376, 56, 228, 256);
+		scrollPane_1.setBounds(376, 56, 228, 227);
 		panelDiscoDuro.add(scrollPane_1);
+		
+		table_1 = new JTable();
+		scrollPane_1.setViewportView(table_1);
 		
 		JLabel label = new JLabel("<<");
 		label.setOpaque(true);
@@ -116,6 +128,41 @@ public class RegCombo extends JDialog {
 		lblElejidos.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		lblElejidos.setBounds(376, 1, 205, 55);
 		panelDiscoDuro.add(lblElejidos);
+		
+		JLabel lblPrecio_1 = new JLabel("Precio:");
+		lblPrecio_1.setForeground(Color.BLACK);
+		lblPrecio_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblPrecio_1.setBounds(12, 300, 125, 55);
+		panelDiscoDuro.add(lblPrecio_1);
+		
+		textField = new JTextField();
+		textField.setEnabled(false);
+		textField.setForeground(new Color(0, 153, 153));
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		textField.setColumns(10);
+		textField.setBackground(Color.WHITE);
+		textField.setBounds(84, 305, 186, 45);
+		panelDiscoDuro.add(textField);
+		
+		JLabel lblPrecioNeto = new JLabel("Precio neto:");
+		lblPrecioNeto.setForeground(Color.BLACK);
+		lblPrecioNeto.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblPrecioNeto.setBounds(297, 300, 125, 55);
+		panelDiscoDuro.add(lblPrecioNeto);
+		
+		textField_1 = new JTextField();
+		textField_1.setEnabled(false);
+		textField_1.setForeground(new Color(0, 153, 153));
+		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		textField_1.setColumns(10);
+		textField_1.setBackground(Color.WHITE);
+		textField_1.setBounds(418, 305, 186, 45);
+		panelDiscoDuro.add(textField_1);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBackground(new Color(0, 155, 124));
+		separator.setBounds(12, 296, 589, 2);
+		panelDiscoDuro.add(separator);
 		
 		panelRegistro = new JPanel();
 		panelRegistro.setLayout(null);
@@ -192,7 +239,7 @@ public class RegCombo extends JDialog {
 		
 		JLabel lblCancelar = new JLabel("Cancelar");
 		lblCancelar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblCancelar.setBounds(168, 630, 225, 45);
+		lblCancelar.setBounds(169, 675, 225, 45);
 		panel.add(lblCancelar);
 		lblCancelar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -214,7 +261,7 @@ public class RegCombo extends JDialog {
 			}
 		});
 		lblRegistrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblRegistrar.setBounds(399, 630, 225, 45);
+		lblRegistrar.setBounds(400, 675, 225, 45);
 		panel.add(lblRegistrar);
 
 		lblRegistrar.setOpaque(true);
