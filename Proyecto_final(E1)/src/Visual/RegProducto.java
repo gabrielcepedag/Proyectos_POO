@@ -1,14 +1,22 @@
 package Visual;
 
 import java.awt.BorderLayout;
+
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import logico.Administrador;
 import logico.Cliente;
+import logico.DiscoDuro;
 import logico.Empleado;
+import logico.MemoriaRam;
+import logico.MicroProcesador;
+import logico.MotherBoard;
+import logico.Producto;
 import logico.Tienda;
 import logico.Vendedor;
 
@@ -32,29 +40,43 @@ import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class RegProducto extends JDialog {
 
 	private JPanel contentPane;
-	private JTextField txtNombre;
-	private JTextField txtTelefono;
+	private JTextField txtMarca;
+	private JTextField txtPrecio;
 	private JPanel panelRegistro;
 	Cliente selected = null;
-	private JTextField txtcedula;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txtNumSerie;
+	private JTextField txtModeloTM;
+	private JTextField txtModeloDiscoDuro;
 	private JPanel panelDiscoDuro;
-	private JTextField textField_2;
-	private JTextField textField_4;
+	private JTextField txtCapacidadDiscoDuro;
+	private JTextField txtCapacidadMRAM;
 	private JPanel panelMemoriaRam;
-	private JTextField textField_3;
-	private JTextField textField_5;
+	private JTextField txtModeloMicroP;
+	private JTextField txtVelProcesamiento;
 	private JPanel panelTarjetaMadre;
 	private JPanel panelMicroProcesador;
 	private JRadioButton btnDiscoDuro;
 	private JRadioButton btnMemoriaRam;
 	private JRadioButton btnTarjetaMadre;
 	private JRadioButton btnMicroProcesador;
+	private JComboBox cbxTipoRamTM;
+	private JComboBox cbxSocketTM;
+	private JRadioButton rdbtnIde;
+	private JRadioButton rdbtnSata;
+	private JRadioButton rdbtnSata2;
+	private JRadioButton rdbtnSata3;
+	private JComboBox cbxTipoMemoriaRam;
+	private JComboBox cbxSocketDiscoDuro;
+	private JSpinner spnDispMin;
+	private JSpinner spnDispReal;
+	private JSpinner spnDispMax;
+	private JComboBox cbxSocketMicroP;
+	private JLabel lblRegistrar;
 
 	/**
 	 * Launch the application.
@@ -77,7 +99,7 @@ public class RegProducto extends JDialog {
 	 */
 	public RegProducto() {
 		setUndecorated(true);
-		setBounds(100, 100, 585, 840);
+		setBounds(100, 100, 700, 750);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -96,257 +118,267 @@ public class RegProducto extends JDialog {
 		panelTarjetaMadre.setVisible(false);
 		panelTarjetaMadre.setLayout(null);
 		panelTarjetaMadre.setBackground(Color.WHITE);
-		panelTarjetaMadre.setBounds(11, 515, 553, 236);
+		panelTarjetaMadre.setBounds(11, 465, 669, 215);
 		panel.add(panelTarjetaMadre);
 		
-		JLabel lblModelo = new JLabel("Modelo:");
-		lblModelo.setForeground(Color.BLACK);
-		lblModelo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblModelo.setBounds(29, 9, 125, 55);
-		panelTarjetaMadre.add(lblModelo);
+		JLabel lblModeloTM = new JLabel("Modelo:");
+		lblModeloTM.setForeground(Color.BLACK);
+		lblModeloTM.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblModeloTM.setBounds(33, 6, 125, 55);
+		panelTarjetaMadre.add(lblModeloTM);
 		
-		textField = new JTextField();
-		textField.setForeground(new Color(0, 153, 153));
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField.setColumns(10);
-		textField.setBackground(Color.WHITE);
-		textField.setBounds(153, 11, 377, 50);
-		panelTarjetaMadre.add(textField);
+		txtModeloTM = new JTextField();
+		txtModeloTM.setForeground(new Color(0, 153, 153));
+		txtModeloTM.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtModeloTM.setColumns(10);
+		txtModeloTM.setBackground(Color.WHITE);
+		txtModeloTM.setBounds(179, 11, 480, 45);
+		panelTarjetaMadre.add(txtModeloTM);
 		
-		JLabel lblSocket = new JLabel("Socket:");
-		lblSocket.setForeground(Color.BLACK);
-		lblSocket.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblSocket.setBounds(29, 70, 112, 55);
-		panelTarjetaMadre.add(lblSocket);
+		JLabel lblSocketTM = new JLabel("Socket:");
+		lblSocketTM.setForeground(Color.BLACK);
+		lblSocketTM.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblSocketTM.setBounds(33, 60, 112, 55);
+		panelTarjetaMadre.add(lblSocketTM);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(153, 72, 377, 50);
-		panelTarjetaMadre.add(comboBox);
+		cbxSocketTM = new JComboBox();
+		cbxSocketTM.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		cbxSocketTM.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "LGA", "hexLGA", "PGA", "mPGA"}));
+		cbxSocketTM.setBounds(179, 65, 480, 45);
+		panelTarjetaMadre.add(cbxSocketTM);
 		
-		JLabel lblTipoDeRam = new JLabel("Tipo de Ram:");
-		lblTipoDeRam.setForeground(Color.BLACK);
-		lblTipoDeRam.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTipoDeRam.setBounds(29, 131, 138, 55);
-		panelTarjetaMadre.add(lblTipoDeRam);
+		JLabel lblTipoRamTM = new JLabel("Tipo de Ram:");
+		lblTipoRamTM.setForeground(Color.BLACK);
+		lblTipoRamTM.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblTipoRamTM.setBounds(33, 115, 138, 55);
+		panelTarjetaMadre.add(lblTipoRamTM);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(179, 133, 351, 50);
-		panelTarjetaMadre.add(comboBox_1);
+		cbxTipoRamTM = new JComboBox();
+		cbxTipoRamTM.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "DDR", "DDR-2", "DDR-3", "DDR-4", "SDRAM", "RDRAM"}));
+		cbxTipoRamTM.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		cbxTipoRamTM.setBounds(179, 120, 480, 45);
+		panelTarjetaMadre.add(cbxTipoRamTM);
 		
-		JRadioButton rdbtnIde = new JRadioButton("IDE");
+		rdbtnIde = new JRadioButton("IDE");
 		rdbtnIde.setForeground(Color.BLACK);
 		rdbtnIde.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		rdbtnIde.setBounds(29, 195, 94, 25);
+		rdbtnIde.setBounds(48, 180, 94, 25);
 		panelTarjetaMadre.add(rdbtnIde);
 		
-		JRadioButton rdbtnSata = new JRadioButton("SATA");
+		rdbtnSata = new JRadioButton("SATA");
 		rdbtnSata.setForeground(Color.BLACK);
 		rdbtnSata.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		rdbtnSata.setBounds(149, 195, 102, 25);
+		rdbtnSata.setBounds(190, 180, 102, 25);
 		panelTarjetaMadre.add(rdbtnSata);
 		
-		JRadioButton rdbtnSata_1 = new JRadioButton("SATA-2");
-		rdbtnSata_1.setForeground(Color.BLACK);
-		rdbtnSata_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		rdbtnSata_1.setBounds(281, 195, 112, 25);
-		panelTarjetaMadre.add(rdbtnSata_1);
+		rdbtnSata2 = new JRadioButton("SATA-2");
+		rdbtnSata2.setForeground(Color.BLACK);
+		rdbtnSata2.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		rdbtnSata2.setBounds(340, 180, 112, 25);
+		panelTarjetaMadre.add(rdbtnSata2);
 		
-		JRadioButton rdbtnSata_2 = new JRadioButton("SATA-3");
-		rdbtnSata_2.setForeground(Color.BLACK);
-		rdbtnSata_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		rdbtnSata_2.setBounds(411, 195, 119, 25);
-		panelTarjetaMadre.add(rdbtnSata_2);
+		rdbtnSata3 = new JRadioButton("SATA-3");
+		rdbtnSata3.setForeground(Color.BLACK);
+		rdbtnSata3.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		rdbtnSata3.setBounds(500, 180, 119, 25);
+		panelTarjetaMadre.add(rdbtnSata3);
 		panelMicroProcesador.setLayout(null);
 		panelMicroProcesador.setBackground(Color.WHITE);
-		panelMicroProcesador.setBounds(15, 515, 553, 236);
+		panelMicroProcesador.setBounds(11, 465, 669, 215);
 		panel.add(panelMicroProcesador);
 		
-		JLabel lblModelo_1 = new JLabel("Modelo:");
-		lblModelo_1.setForeground(Color.BLACK);
-		lblModelo_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblModelo_1.setBounds(29, 13, 112, 55);
-		panelMicroProcesador.add(lblModelo_1);
+		JLabel lblModeloMicroP = new JLabel("Modelo:");
+		lblModeloMicroP.setForeground(Color.BLACK);
+		lblModeloMicroP.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblModeloMicroP.setBounds(33, 12, 112, 55);
+		panelMicroProcesador.add(lblModeloMicroP);
 		
-		JLabel lblSocket_1 = new JLabel("Socket:");
-		lblSocket_1.setForeground(Color.BLACK);
-		lblSocket_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblSocket_1.setBounds(29, 74, 112, 55);
-		panelMicroProcesador.add(lblSocket_1);
+		JLabel lblSocketMicroP = new JLabel("Socket:");
+		lblSocketMicroP.setForeground(Color.BLACK);
+		lblSocketMicroP.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblSocketMicroP.setBounds(33, 79, 112, 55);
+		panelMicroProcesador.add(lblSocketMicroP);
 		
-		JComboBox comboBox_4 = new JComboBox();
-		comboBox_4.setBounds(153, 76, 377, 50);
-		panelMicroProcesador.add(comboBox_4);
+		cbxSocketMicroP = new JComboBox();
+		cbxSocketMicroP.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "LGA", "hexLGA", "PGA", "mPGA"}));
+		cbxSocketMicroP.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		cbxSocketMicroP.setBounds(179, 84, 480, 45);
+		panelMicroProcesador.add(cbxSocketMicroP);
 		
-		textField_3 = new JTextField();
-		textField_3.setForeground(new Color(0, 153, 153));
-		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField_3.setColumns(10);
-		textField_3.setBackground(Color.WHITE);
-		textField_3.setBounds(153, 15, 377, 50);
-		panelMicroProcesador.add(textField_3);
+		txtModeloMicroP = new JTextField();
+		txtModeloMicroP.setForeground(new Color(0, 153, 153));
+		txtModeloMicroP.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtModeloMicroP.setColumns(10);
+		txtModeloMicroP.setBackground(Color.WHITE);
+		txtModeloMicroP.setBounds(179, 17, 480, 45);
+		panelMicroProcesador.add(txtModeloMicroP);
 		
-		JLabel lblVelocidadDeProcesamiento = new JLabel("Velocidad de procesamiento:");
-		lblVelocidadDeProcesamiento.setForeground(Color.BLACK);
-		lblVelocidadDeProcesamiento.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblVelocidadDeProcesamiento.setBounds(29, 142, 268, 55);
-		panelMicroProcesador.add(lblVelocidadDeProcesamiento);
+		JLabel lblVelProcesamiento = new JLabel("Velocidad de procesamiento:");
+		lblVelProcesamiento.setForeground(Color.BLACK);
+		lblVelProcesamiento.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblVelProcesamiento.setBounds(33, 146, 268, 55);
+		panelMicroProcesador.add(lblVelProcesamiento);
 		
-		textField_5 = new JTextField();
-		textField_5.setForeground(new Color(0, 153, 153));
-		textField_5.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField_5.setColumns(10);
-		textField_5.setBackground(Color.WHITE);
-		textField_5.setBounds(298, 144, 232, 50);
-		panelMicroProcesador.add(textField_5);
+		txtVelProcesamiento = new JTextField();
+		txtVelProcesamiento.setForeground(new Color(0, 153, 153));
+		txtVelProcesamiento.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtVelProcesamiento.setColumns(10);
+		txtVelProcesamiento.setBackground(Color.WHITE);
+		txtVelProcesamiento.setBounds(300, 151, 359, 45);
+		panelMicroProcesador.add(txtVelProcesamiento);
 		
 		panelMemoriaRam = new JPanel();
 		panelMemoriaRam.setVisible(false);
 		panelMemoriaRam.setLayout(null);
 		panelMemoriaRam.setBackground(Color.WHITE);
-		panelMemoriaRam.setBounds(11, 515, 553, 236);
+		panelMemoriaRam.setBounds(11, 465, 669, 215);
 		panel.add(panelMemoriaRam);
 		
-		JLabel label_1 = new JLabel("Capacidad:");
-		label_1.setForeground(Color.BLACK);
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		label_1.setBounds(29, 13, 112, 55);
-		panelMemoriaRam.add(label_1);
+		JLabel lblCapacidadMRam = new JLabel("Capacidad:");
+		lblCapacidadMRam.setForeground(Color.BLACK);
+		lblCapacidadMRam.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblCapacidadMRam.setBounds(33, 35, 112, 55);
+		panelMemoriaRam.add(lblCapacidadMRam);
 		
-		JLabel lblTipoDeMemoria = new JLabel("Tipo de Memoria:");
-		lblTipoDeMemoria.setForeground(Color.BLACK);
-		lblTipoDeMemoria.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTipoDeMemoria.setBounds(29, 74, 165, 55);
-		panelMemoriaRam.add(lblTipoDeMemoria);
+		JLabel lblTipoMemoriaRam = new JLabel("Tipo de Memoria:");
+		lblTipoMemoriaRam.setForeground(Color.BLACK);
+		lblTipoMemoriaRam.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblTipoMemoriaRam.setBounds(33, 125, 165, 55);
+		panelMemoriaRam.add(lblTipoMemoriaRam);
 		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(195, 76, 335, 50);
-		panelMemoriaRam.add(comboBox_2);
+		cbxTipoMemoriaRam = new JComboBox();
+		cbxTipoMemoriaRam.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "DDR", "DDR-2", "DDR-3", "DDR-4", "SDRAM", "RDRAM"}));
+		cbxTipoMemoriaRam.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		cbxTipoMemoriaRam.setBounds(215, 127, 444, 50);
+		panelMemoriaRam.add(cbxTipoMemoriaRam);
 		
-		textField_4 = new JTextField();
-		textField_4.setForeground(new Color(0, 153, 153));
-		textField_4.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField_4.setColumns(10);
-		textField_4.setBackground(Color.WHITE);
-		textField_4.setBounds(153, 15, 377, 50);
-		panelMemoriaRam.add(textField_4);
+		txtCapacidadMRAM = new JTextField();
+		txtCapacidadMRAM.setForeground(new Color(0, 153, 153));
+		txtCapacidadMRAM.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtCapacidadMRAM.setColumns(10);
+		txtCapacidadMRAM.setBackground(Color.WHITE);
+		txtCapacidadMRAM.setBounds(215, 37, 444, 50);
+		panelMemoriaRam.add(txtCapacidadMRAM);
 		
 		panelDiscoDuro = new JPanel();
 		panelDiscoDuro.setLayout(null);
 		panelDiscoDuro.setBackground(Color.WHITE);
-		panelDiscoDuro.setBounds(11, 515, 553, 236);
+		panelDiscoDuro.setBounds(11, 465, 669, 215);
 		panel.add(panelDiscoDuro);
 		
-		JLabel lblMarca = new JLabel("Modelo:");
-		lblMarca.setForeground(Color.BLACK);
-		lblMarca.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblMarca.setBounds(29, 9, 125, 55);
-		panelDiscoDuro.add(lblMarca);
+		JLabel lblModeloDiscoDuro = new JLabel("Modelo:");
+		lblModeloDiscoDuro.setForeground(Color.BLACK);
+		lblModeloDiscoDuro.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblModeloDiscoDuro.setBounds(33, 12, 125, 55);
+		panelDiscoDuro.add(lblModeloDiscoDuro);
 		
-		textField_1 = new JTextField();
-		textField_1.setForeground(new Color(0, 153, 153));
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField_1.setColumns(10);
-		textField_1.setBackground(Color.WHITE);
-		textField_1.setBounds(153, 11, 377, 50);
-		panelDiscoDuro.add(textField_1);
+		txtModeloDiscoDuro = new JTextField();
+		txtModeloDiscoDuro.setForeground(new Color(0, 153, 153));
+		txtModeloDiscoDuro.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtModeloDiscoDuro.setColumns(10);
+		txtModeloDiscoDuro.setBackground(Color.WHITE);
+		txtModeloDiscoDuro.setBounds(190, 16, 469, 50);
+		panelDiscoDuro.add(txtModeloDiscoDuro);
 		
-		JLabel lblCapacidad = new JLabel("Capacidad:");
-		lblCapacidad.setForeground(Color.BLACK);
-		lblCapacidad.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblCapacidad.setBounds(29, 70, 112, 55);
-		panelDiscoDuro.add(lblCapacidad);
+		JLabel lblCapacidadDiscoDuro = new JLabel("Capacidad:");
+		lblCapacidadDiscoDuro.setForeground(Color.BLACK);
+		lblCapacidadDiscoDuro.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblCapacidadDiscoDuro.setBounds(33, 79, 112, 55);
+		panelDiscoDuro.add(lblCapacidadDiscoDuro);
 		
-		JLabel lblTipoDeSocket = new JLabel("Tipo de Socket:");
-		lblTipoDeSocket.setForeground(Color.BLACK);
-		lblTipoDeSocket.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTipoDeSocket.setBounds(29, 131, 154, 55);
-		panelDiscoDuro.add(lblTipoDeSocket);
+		JLabel lblTipoSocketDiscoDuro = new JLabel("Tipo de Socket:");
+		lblTipoSocketDiscoDuro.setForeground(Color.BLACK);
+		lblTipoSocketDiscoDuro.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblTipoSocketDiscoDuro.setBounds(33, 146, 154, 55);
+		panelDiscoDuro.add(lblTipoSocketDiscoDuro);
 		
-		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setBounds(179, 133, 351, 50);
-		panelDiscoDuro.add(comboBox_3);
+		cbxSocketDiscoDuro = new JComboBox();
+		cbxSocketDiscoDuro.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		cbxSocketDiscoDuro.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "LGA", "hexLGA", "PGA", "mPGA"}));
+		cbxSocketDiscoDuro.setBounds(190, 148, 469, 50);
+		panelDiscoDuro.add(cbxSocketDiscoDuro);
 		
-		textField_2 = new JTextField();
-		textField_2.setForeground(new Color(0, 153, 153));
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField_2.setColumns(10);
-		textField_2.setBackground(Color.WHITE);
-		textField_2.setBounds(153, 72, 377, 50);
-		panelDiscoDuro.add(textField_2);
+		txtCapacidadDiscoDuro = new JTextField();
+		txtCapacidadDiscoDuro.setForeground(new Color(0, 153, 153));
+		txtCapacidadDiscoDuro.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtCapacidadDiscoDuro.setColumns(10);
+		txtCapacidadDiscoDuro.setBackground(Color.WHITE);
+		txtCapacidadDiscoDuro.setBounds(190, 82, 469, 50);
+		panelDiscoDuro.add(txtCapacidadDiscoDuro);
 		
 		panelRegistro = new JPanel();
 		panelRegistro.setLayout(null);
 		panelRegistro.setBackground(Color.WHITE);
-		panelRegistro.setBounds(11, 12, 553, 442);
+		panelRegistro.setBounds(11, 12, 669, 395);
 		panel.add(panelRegistro);
 		
-		txtTelefono = new JTextField();
-		txtTelefono.setForeground(new Color(0, 153, 153));
-		txtTelefono.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		txtTelefono.setColumns(10);
-		txtTelefono.setBackground(Color.WHITE);
-		txtTelefono.setBounds(113, 233, 421, 50);
-		panelRegistro.add(txtTelefono);
+		txtPrecio = new JTextField();
+		txtPrecio.setForeground(new Color(0, 153, 153));
+		txtPrecio.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtPrecio.setColumns(10);
+		txtPrecio.setBackground(Color.WHITE);
+		txtPrecio.setBounds(192, 210, 467, 45);
+		panelRegistro.add(txtPrecio);
 		
-		txtNombre = new JTextField();
-		txtNombre.setForeground(new Color(0, 153, 153));
-		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		txtNombre.setColumns(10);
-		txtNombre.setBackground(Color.WHITE);
-		txtNombre.setBounds(113, 168, 421, 50);
-		panelRegistro.add(txtNombre);
+		txtMarca = new JTextField();
+		txtMarca.setForeground(new Color(0, 153, 153));
+		txtMarca.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtMarca.setColumns(10);
+		txtMarca.setBackground(Color.WHITE);
+		txtMarca.setBounds(192, 147, 467, 45);
+		panelRegistro.add(txtMarca);
 		
-		JLabel lblDireccin = new JLabel("Disp Max:");
-		lblDireccin.setForeground(Color.BLACK);
-		lblDireccin.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblDireccin.setBounds(292, 360, 136, 55);
-		panelRegistro.add(lblDireccin);
+		JLabel lblDispMax = new JLabel("Disp. M\u00E1xima:");
+		lblDispMax.setForeground(Color.BLACK);
+		lblDispMax.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblDispMax.setBounds(364, 330, 136, 55);
+		panelRegistro.add(lblDispMax);
 		
-		JLabel lblContrasea = new JLabel("Disp Min:");
-		lblContrasea.setForeground(Color.BLACK);
-		lblContrasea.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblContrasea.setBounds(34, 360, 162, 55);
-		panelRegistro.add(lblContrasea);
+		JLabel lblDispMin = new JLabel("Disp. M\u00EDnima:");
+		lblDispMin.setForeground(Color.BLACK);
+		lblDispMin.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblDispMin.setBounds(33, 330, 162, 55);
+		panelRegistro.add(lblDispMin);
 		
-		JLabel lblUsername = new JLabel("Cantidad:");
-		lblUsername.setForeground(Color.BLACK);
-		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblUsername.setBounds(34, 290, 162, 55);
-		panelRegistro.add(lblUsername);
+		JLabel lblCantidad = new JLabel("Cantidad:");
+		lblCantidad.setForeground(Color.BLACK);
+		lblCantidad.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblCantidad.setBounds(33, 268, 162, 55);
+		panelRegistro.add(lblCantidad);
 		
-		JLabel lblNmero = new JLabel("Precio:");
-		lblNmero.setForeground(Color.BLACK);
-		lblNmero.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNmero.setBounds(34, 227, 125, 55);
-		panelRegistro.add(lblNmero);
+		JLabel lblPrecio = new JLabel("Precio:");
+		lblPrecio.setForeground(Color.BLACK);
+		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblPrecio.setBounds(33, 205, 125, 55);
+		panelRegistro.add(lblPrecio);
 		
-		JLabel lblRegistrar = new JLabel("Registrar Producto:");
-		lblRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblRegistrar.setBounds(33, 13, 322, 55);
-		panelRegistro.add(lblRegistrar);
+		JLabel lblRegistrarProducto = new JLabel("Registrar Producto:");
+		lblRegistrarProducto.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblRegistrarProducto.setBounds(33, 13, 322, 55);
+		panelRegistro.add(lblRegistrarProducto);
 		
-		JLabel lblNumDeSerie = new JLabel("Num. De serie:");
-		lblNumDeSerie.setForeground(Color.BLACK);
-		lblNumDeSerie.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNumDeSerie.setBounds(32, 101, 196, 55);
-		panelRegistro.add(lblNumDeSerie);
+		JLabel lblNumSerie = new JLabel("Num. De serie:");
+		lblNumSerie.setForeground(Color.BLACK);
+		lblNumSerie.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNumSerie.setBounds(33, 79, 196, 55);
+		panelRegistro.add(lblNumSerie);
 		
-		txtcedula = new JTextField();
-		txtcedula.setForeground(new Color(0, 153, 153));
-		txtcedula.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		txtcedula.setColumns(10);
-		txtcedula.setBackground(Color.WHITE);
-		txtcedula.setBounds(179, 103, 355, 52);
-		panelRegistro.add(txtcedula);
+		txtNumSerie = new JTextField();
+		txtNumSerie.setForeground(new Color(0, 153, 153));
+		txtNumSerie.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtNumSerie.setColumns(10);
+		txtNumSerie.setBackground(Color.WHITE);
+		txtNumSerie.setBounds(192, 84, 467, 45);
+		panelRegistro.add(txtNumSerie);
 		
-		JLabel lblNombre = new JLabel("Marca:");
-		lblNombre.setForeground(Color.BLACK);
-		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNombre.setBounds(34, 164, 125, 55);
-		panelRegistro.add(lblNombre);
+		JLabel lblMarca = new JLabel("Marca:");
+		lblMarca.setForeground(Color.BLACK);
+		lblMarca.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblMarca.setBounds(33, 142, 125, 55);
+		panelRegistro.add(lblMarca);
 		
 		final JLabel lblX = new JLabel("X");
-		lblX.setBounds(496, 0, 57, 55);
+		lblX.setBounds(602, 0, 57, 55);
 		panelRegistro.add(lblX);
 		lblX.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblX.addMouseListener(new MouseAdapter() {
@@ -363,33 +395,33 @@ public class RegProducto extends JDialog {
 		lblX.setHorizontalAlignment(SwingConstants.CENTER);
 		lblX.setForeground(Color.DARK_GRAY);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(0, 155, 124));
-		panel_1.setBounds(34, 64, 390, 4);
-		panelRegistro.add(panel_1);
+		JPanel panel1 = new JPanel();
+		panel1.setBackground(new Color(0, 155, 124));
+		panel1.setBounds(34, 64, 420, 4);
+		panelRegistro.add(panel1);
 		
-		JSpinner spinner = new JSpinner();
-		spinner.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		spinner.setBounds(136, 362, 131, 51);
-		panelRegistro.add(spinner);
+		spnDispMin = new JSpinner();
+		spnDispMin.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		spnDispMin.setBounds(192, 335, 100, 45);
+		panelRegistro.add(spnDispMin);
 		
-		JSpinner spinner_1 = new JSpinner();
-		spinner_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		spinner_1.setBounds(403, 362, 131, 51);
-		panelRegistro.add(spinner_1);
+		spnDispMax = new JSpinner();
+		spnDispMax.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		spnDispMax.setBounds(559, 335, 100, 45);
+		panelRegistro.add(spnDispMax);
 		
-		JSpinner spinner_2 = new JSpinner();
-		spinner_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		spinner_2.setBounds(136, 296, 398, 51);
-		panelRegistro.add(spinner_2);
+		spnDispReal = new JSpinner();
+		spnDispReal.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		spnDispReal.setBounds(192, 273, 467, 45);
+		panelRegistro.add(spnDispReal);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panel_2.setBackground(Color.WHITE);
-		panel_2.setBounds(11, 463, 553, 42);
+		panel_2.setBounds(11, 415, 669, 42);
 		panel.add(panel_2);
 		
-		btnDiscoDuro = new JRadioButton("D Duro");
+		btnDiscoDuro = new JRadioButton("Disco Duro");
 		btnDiscoDuro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				panelDiscoDuro.setVisible(true);
@@ -406,10 +438,10 @@ public class RegProducto extends JDialog {
 		btnDiscoDuro.setSelected(true);
 		btnDiscoDuro.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnDiscoDuro.setForeground(new Color(0, 0, 0));
-		btnDiscoDuro.setBounds(8, 11, 102, 25);
+		btnDiscoDuro.setBounds(11, 9, 133, 25);
 		panel_2.add(btnDiscoDuro);
 		
-		btnMemoriaRam = new JRadioButton("M Ram");
+		btnMemoriaRam = new JRadioButton("Memoria Ram");
 		btnMemoriaRam.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelDiscoDuro.setVisible(false);
@@ -425,10 +457,10 @@ public class RegProducto extends JDialog {
 		});
 		btnMemoriaRam.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnMemoriaRam.setForeground(new Color(0, 0, 0));
-		btnMemoriaRam.setBounds(130, 11, 102, 25);
+		btnMemoriaRam.setBounds(155, 9, 150, 25);
 		panel_2.add(btnMemoriaRam);
 		
-		btnTarjetaMadre = new JRadioButton("Tarj. Madre");
+		btnTarjetaMadre = new JRadioButton("Tarjeta Madre");
 		btnTarjetaMadre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				panelDiscoDuro.setVisible(false);
@@ -444,10 +476,10 @@ public class RegProducto extends JDialog {
 		});
 		btnTarjetaMadre.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnTarjetaMadre.setForeground(new Color(0, 0, 0));
-		btnTarjetaMadre.setBounds(251, 11, 142, 25);
+		btnTarjetaMadre.setBounds(316, 9, 151, 25);
 		panel_2.add(btnTarjetaMadre);
 		
-		btnMicroProcesador = new JRadioButton("Mic. Proces");
+		btnMicroProcesador = new JRadioButton("Micro Procesador");
 		btnMicroProcesador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelDiscoDuro.setVisible(false);
@@ -463,38 +495,109 @@ public class RegProducto extends JDialog {
 		});
 		btnMicroProcesador.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnMicroProcesador.setForeground(new Color(0, 0, 0));
-		btnMicroProcesador.setBounds(411, 11, 134, 25);
+		btnMicroProcesador.setBounds(478, 9, 176, 25);
 		panel_2.add(btnMicroProcesador);
 		
-		JLabel lblNewLabel = new JLabel("Cancelar");
-		lblNewLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblNewLabel.setBounds(101, 764, 225, 55);
-		panel.add(lblNewLabel);
-		lblNewLabel.addMouseListener(new MouseAdapter() {
+		JLabel lblCancelar = new JLabel("Cancelar");
+		lblCancelar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblCancelar.setBounds(80, 687, 225, 45);
+		panel.add(lblCancelar);
+		lblCancelar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				dispose();
 			}
 		});
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setBackground(new Color(0, 155, 124));
-		lblNewLabel.setOpaque(true);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblCancelar.setForeground(Color.WHITE);
+		lblCancelar.setBackground(new Color(0, 155, 124));
+		lblCancelar.setOpaque(true);
+		lblCancelar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCancelar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		JLabel lblRegistrar_1 = new JLabel("Registrar");
-		lblRegistrar_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblRegistrar_1.setBounds(339, 764, 225, 55);
-		panel.add(lblRegistrar_1);
+		lblRegistrar = new JLabel("Registrar");
+		lblRegistrar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Producto aux = null;
+				String numSerie = txtNumSerie.getText();
+				String marca = txtMarca.getText();
+				float precio = new Float(txtPrecio.getText().toString());
+				int dispReal = new Integer(spnDispReal.getValue().toString());
+				int dispMax = new Integer(spnDispMax.getValue().toString());
+				int dispMin = new Integer(spnDispMin.getValue().toString());
+				
+				if(btnDiscoDuro.isSelected()) {
+					String modelo = txtModeloDiscoDuro.getText();
+					String socket = cbxSocketDiscoDuro.getSelectedItem().toString();
+					int capacidad = new Integer(txtCapacidadDiscoDuro.getText());
+					aux = new DiscoDuro(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, capacidad, socket);
+				}
+				if(btnMemoriaRam.isSelected()) {
+					String tipo = cbxTipoMemoriaRam.getSelectedItem().toString();
+					int capacidad = new Integer(txtCapacidadMRAM.getText());
+					aux = new MemoriaRam(numSerie, dispReal, precio, marca, dispMin, dispMax, capacidad, tipo);
+				}
+				if(btnMicroProcesador.isSelected()) {
+					String modelo = txtModeloMicroP.getText();
+					String socket = cbxSocketMicroP.getSelectedItem().toString();
+					float velocidad = new Float(txtVelProcesamiento.getText());
+					aux = new MicroProcesador(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, socket, velocidad);
+				}
+				if(btnTarjetaMadre.isSelected()) {
+					String modelo = txtModeloTM.getText();
+					String socket = cbxSocketTM.getSelectedItem().toString();
+					String tipoRam = cbxTipoRamTM.getSelectedItem().toString();
+					aux= new MotherBoard(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, socket, tipoRam);
+				}
+				Tienda.getInstance().addProducto(aux);
+				JOptionPane.showMessageDialog(null, "El prodcuto ha sido registrado satisfactoriamente.", "Registro de Producto", JOptionPane.INFORMATION_MESSAGE);
+				clean();	
+				
+				/* LOGICA DE MODIFICAR PRODUCTO
+				 * if(selected == null){
+				 * 
+				 * }else{
+				 * 
+				 * } 
+				 */
+			}
+		});
+		lblRegistrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblRegistrar.setBounds(385, 687, 225, 45);
+		panel.add(lblRegistrar);
 
-		lblRegistrar_1.setOpaque(true);
-		lblRegistrar_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRegistrar_1.setForeground(Color.WHITE);
-		lblRegistrar_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblRegistrar_1.setBackground(new Color(0, 155, 124));
+		lblRegistrar.setOpaque(true);
+		lblRegistrar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRegistrar.setForeground(Color.WHITE);
+		lblRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblRegistrar.setBackground(new Color(0, 155, 124));
 		
 	}
+	
 	private void clean() {
-
+		txtNumSerie.setText(" ");
+		txtMarca.setText(" ");
+		txtModeloDiscoDuro.setText(" ");
+		txtPrecio.setText(" ");
+		txtModeloTM.setText(" ");
+		txtModeloMicroP.setText(" ");
+		txtModeloDiscoDuro.setText(" ");
+		txtCapacidadDiscoDuro.setText(" ");
+		txtCapacidadMRAM.setText(" ");
+		
+		spnDispReal.setValue(0);
+		spnDispMax.setValue(0);
+		spnDispMin.setValue(0);
+		cbxSocketMicroP.setSelectedIndex(0);
+		
+		cbxSocketTM.setSelectedIndex(0);
+		cbxTipoMemoriaRam.setSelectedIndex(0);
+		cbxTipoRamTM.setSelectedIndex(0);
+		cbxSocketDiscoDuro.setSelectedIndex(0);
+		
+		rdbtnIde.setSelected(false);
+		rdbtnSata.setSelected(false);
+		rdbtnSata2.setSelected(false);
+		rdbtnSata3.setSelected(false);
 	}
 }

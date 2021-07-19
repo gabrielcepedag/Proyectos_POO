@@ -63,7 +63,7 @@ public class RegVendedor extends JDialog {
 	 */
 	public RegVendedor() {
 		setUndecorated(true);
-		setBounds(100, 100, 586, 618);
+		setBounds(100, 100, 586, 600);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -78,7 +78,7 @@ public class RegVendedor extends JDialog {
 		panelRegistro = new JPanel();
 		panelRegistro.setLayout(null);
 		panelRegistro.setBackground(Color.WHITE);
-		panelRegistro.setBounds(11, 12, 553, 587);
+		panelRegistro.setBounds(11, 12, 553, 567);
 		panel.add(panelRegistro);
 		
 		txtDireccion = new JTextField();
@@ -186,7 +186,7 @@ public class RegVendedor extends JDialog {
 		lblNewLabel.setOpaque(true);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel.setBounds(72, 496, 225, 55);
+		lblNewLabel.setBounds(34, 496, 225, 55);
 		panelRegistro.add(lblNewLabel);
 		
 		final JLabel lblX = new JLabel("X");
@@ -228,7 +228,7 @@ public class RegVendedor extends JDialog {
 		lblRegistrar_1.setForeground(Color.WHITE);
 		lblRegistrar_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblRegistrar_1.setBackground(new Color(0, 155, 124));
-		lblRegistrar_1.setBounds(309, 496, 225, 55);
+		lblRegistrar_1.setBounds(293, 496, 225, 55);
 		panelRegistro.add(lblRegistrar_1);
 		
 		JPanel panel_1 = new JPanel();

@@ -195,7 +195,8 @@ public class Tienda {
 		return precioTotal;
 	}
 	
-	/*public float calcTotalVendidoByVendedor(String cedula) {
+	/*
+	public float calcTotalVendidoByVendedor(String cedula) {
 		Vendedor vendedor = (Vendedor) buscarEmpleadoByCedula(cedula);
 		float suma = 0;
 		
@@ -206,7 +207,9 @@ public class Tienda {
 		}
 		vendedor.setTotalVendido(suma);
 		return suma;
-	} Ya esto no es necesario, lo hago en la clase visual desde que el metodo hacerCompra retorna true. */
+	} 
+	//Ya esto no es necesario, lo hago en la clase visual desde que el metodo hacerCompra retorna true.
+	*/
 	
 	public Vendedor vendedorDelMes() {
 		float mayor = 0;
@@ -222,6 +225,15 @@ public class Tienda {
 		}
 		return vendedorDelMes;
 	}
+	//--------------------------------PENDIENTE---------------------------------------//
+	public Cliente clienteDelMes(){
+		Cliente clienteDelMes = null;
+		
+		
+		
+		return clienteDelMes;
+	}
+	//--------------------------------------------------------------------------------//
 	
 	public void crearOrdenesCompra() {
 		Producto productoAOrdenar = null;
@@ -306,5 +318,70 @@ public class Tienda {
 			esPosible = true;
 		}
 		return esPosible;
-	}		
+	}
+	
+	//--------------------------------PENDIENTE---------------------------------------//
+	public Cliente getClienteMasCompras() {
+		int mayor = 0;
+		Cliente aux = null;
+		
+		for (Cliente cliente : misClientes) {
+			if(cliente.getCantCompras() > mayor) {
+				mayor = cliente.getCantCompras();
+			}
+		}
+		
+		for (Cliente cliente : misClientes) {
+			if(cliente.getCantCompras() == mayor) {
+				aux = cliente;
+			}
+		}
+		return aux;
+	}
+	
+	public Cliente getClienteMenosCompras() {
+		int mayor = 0;
+		int menor;
+		Cliente aux = null;
+		
+		for (Cliente cliente : misClientes) {
+			if(cliente.getCantCompras() > mayor) {
+				mayor = cliente.getCantCompras();
+			}
+		}
+		menor = mayor;
+		for (Cliente cliente : misClientes) {
+			if(cliente.getCantCompras() < menor) {
+				menor = cliente.getCantCompras();
+			}
+		}
+		
+		for (Cliente cliente : misClientes) {
+			if(cliente.getCantCompras() == menor) {
+				aux = cliente;
+			}
+		}
+		return aux;
+	}
+	
+	public Cliente getClienteMayorDeuda(){
+		Cliente aux = null;
+		float mayor = 0;
+		
+		for (Factura factura : misFacturas) {
+			if(factura.isACredito()) {
+				if(factura.getPrecioTotal() > mayor) {
+					mayor = factura.getPrecioTotal();
+				}
+			}
+		}
+		
+		for (Factura factura : misFacturas) {
+			if(factura.getPrecioTotal() == mayor) {
+				aux = factura.getMiCliente();
+			}
+		}
+		return aux;
+	}
+	
 }

@@ -7,6 +7,7 @@ public class Cliente {
 	private String direccion;
 	private String telefono;
 	private float credito;
+	private int cantCompras;
 	
 	public Cliente(String cedula, String nombre, String direccion, String telefono) {
 		super();
@@ -15,6 +16,7 @@ public class Cliente {
 		this.direccion = direccion;
 		this.telefono = telefono;
 		this.credito = 0;
+		this.cantCompras = 0;
 	}
 	
 	public String getCedula() {
@@ -48,8 +50,14 @@ public class Cliente {
 	public float getCredito() {
 		return credito;
 	}
-
 	public void setCredito(float credito) {
 		this.credito = credito;
+	}
+
+	public int getCantCompras() {
+		return cantCompras;
+	}
+	public void setCantCompras(int cantCompras) {
+		this.cantCompras = cantCompras;
 	}
 }
