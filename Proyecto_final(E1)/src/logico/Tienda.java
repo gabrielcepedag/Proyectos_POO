@@ -9,8 +9,7 @@ public class Tienda {
 	private ArrayList<Factura> misFacturas;
 	private ArrayList<Empleado> misEmpleados;
 	private ArrayList<Combo> misCombos;
-	private ArrayList<OrdenCompra> misOrdenesCompraProcesadas;
-	private ArrayList<OrdenCompra> misOrdenesCompraSinProcesar;
+	private ArrayList<OrdenCompra> misOrdenesCompra;
 
 	private static Tienda tienda = null;
 	
@@ -21,8 +20,7 @@ public class Tienda {
 		this.misFacturas = new ArrayList<Factura>();
 		this.misEmpleados = new ArrayList<Empleado>();
 		this.misCombos = new ArrayList<Combo>();
-		this.misOrdenesCompraProcesadas = new ArrayList<OrdenCompra>();
-		this.misOrdenesCompraSinProcesar = new ArrayList<OrdenCompra>();
+		this.misOrdenesCompra = new ArrayList<OrdenCompra>();
 	}
 	
 	public static Tienda getInstance() {
@@ -70,19 +68,11 @@ public class Tienda {
 	}
 
 	public ArrayList<OrdenCompra> getMisOrdenesCompra() {
-		return misOrdenesCompraProcesadas;
+		return misOrdenesCompra;
 	}
 
 	public void setMisOrdenesCompra(ArrayList<OrdenCompra> misOrdenesCompra) {
-		this.misOrdenesCompraProcesadas = misOrdenesCompra;
-	}
-
-	public ArrayList<OrdenCompra> getMisOrdenesCompraSinProcesar() {
-		return misOrdenesCompraSinProcesar;
-	}
-
-	public void setMisOrdenesCompraSinProcesar(ArrayList<OrdenCompra> misOrdenesCompraSinProcesar) {
-		this.misOrdenesCompraSinProcesar = misOrdenesCompraSinProcesar;
+		this.misOrdenesCompra = misOrdenesCompra;
 	}
 
 	public void addCliente(Cliente cliente) {
@@ -106,11 +96,7 @@ public class Tienda {
 	}
 	
 	public void addOrdenCompra(OrdenCompra orden) {
-		if (orden.isProcesada()) {
-			misOrdenesCompraProcesadas.add(orden);
-		}else {
-			misOrdenesCompraSinProcesar.add(orden);
-		}
+		misOrdenesCompra.add(orden);
 	}
 	
 	public void eliminarProducto(Producto producto) {
@@ -186,7 +172,7 @@ public class Tienda {
 	
 	public OrdenCompra buscarOrdenDeCompraByCod(String codigo) {
 		OrdenCompra ordenCompraAux = null;
-		for (OrdenCompra ordenCompra : misOrdenesCompraProcesadas) {
+		for (OrdenCompra ordenCompra : misOrdenesCompra) {
 			if (ordenCompra.getCodigo().equalsIgnoreCase(codigo)) {
 				ordenCompraAux = ordenCompra;
 				return ordenCompraAux;
@@ -270,7 +256,7 @@ public class Tienda {
 	private boolean ExisteOrdenDelProducto(Producto producto) {
 		boolean existe = false;
 		
-		for (OrdenCompra orden : misOrdenesCompraProcesadas) {
+		for (OrdenCompra orden : misOrdenesCompra) {
 			if (orden.getProducto().equals(producto)) {
 				existe = true;
 				return existe;
