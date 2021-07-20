@@ -12,6 +12,7 @@ public class OrdenCompra {
 	private Date fechaSolicitud;
 	private boolean procesada;
 	public static int numOrdenCompra = 1;
+	private Administrador miAdministrador;
 	
 	public OrdenCompra(String codigo, Producto producto) {
 		super();
@@ -69,6 +70,14 @@ public class OrdenCompra {
 
 	public void setProcesada(boolean procesada) {
 		this.procesada = procesada;
+	}
+
+	public Administrador getMiAdministrador() {
+		return miAdministrador;
+	}
+
+	public void setMiAdministrador(Administrador miAdministrador) {
+		this.miAdministrador = miAdministrador;
 	}
 		
 }

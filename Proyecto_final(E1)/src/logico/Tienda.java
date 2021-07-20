@@ -9,7 +9,8 @@ public class Tienda {
 	private ArrayList<Factura> misFacturas;
 	private ArrayList<Empleado> misEmpleados;
 	private ArrayList<Combo> misCombos;
-	private ArrayList<OrdenCompra> misOrdenesCompra;
+	private ArrayList<OrdenCompra> misOrdenesCompraProcesadas;
+	private ArrayList<OrdenCompra> misOrdenesCompraSinProcesar;
 
 	private static Tienda tienda = null;
 	
@@ -20,7 +21,8 @@ public class Tienda {
 		this.misFacturas = new ArrayList<Factura>();
 		this.misEmpleados = new ArrayList<Empleado>();
 		this.misCombos = new ArrayList<Combo>();
-		this.misOrdenesCompra = new ArrayList<OrdenCompra>();
+		this.misOrdenesCompraProcesadas = new ArrayList<OrdenCompra>();
+		this.misOrdenesCompraSinProcesar = new ArrayList<OrdenCompra>();
 	}
 	
 	public static Tienda getInstance() {
@@ -68,11 +70,19 @@ public class Tienda {
 	}
 
 	public ArrayList<OrdenCompra> getMisOrdenesCompra() {
-		return misOrdenesCompra;
+		return misOrdenesCompraProcesadas;
 	}
 
 	public void setMisOrdenesCompra(ArrayList<OrdenCompra> misOrdenesCompra) {
-		this.misOrdenesCompra = misOrdenesCompra;
+		this.misOrdenesCompraProcesadas = misOrdenesCompra;
+	}
+
+	public ArrayList<OrdenCompra> getMisOrdenesCompraSinProcesar() {
+		return misOrdenesCompraSinProcesar;
+	}
+
+	public void setMisOrdenesCompraSinProcesar(ArrayList<OrdenCompra> misOrdenesCompraSinProcesar) {
+		this.misOrdenesCompraSinProcesar = misOrdenesCompraSinProcesar;
 	}
 
 	public void addCliente(Cliente cliente) {
@@ -96,7 +106,11 @@ public class Tienda {
 	}
 	
 	public void addOrdenCompra(OrdenCompra orden) {
-		misOrdenesCompra.add(orden);
+		if (orden.isProcesada()) {
+			misOrdenesCompraProcesadas.add(orden);
+		}else {
+			misOrdenesCompraSinProcesar.add(orden);
+		}
 	}
 	
 	public void eliminarProducto(Producto producto) {
@@ -172,7 +186,7 @@ public class Tienda {
 	
 	public OrdenCompra buscarOrdenDeCompraByCod(String codigo) {
 		OrdenCompra ordenCompraAux = null;
-		for (OrdenCompra ordenCompra : misOrdenesCompra) {
+		for (OrdenCompra ordenCompra : misOrdenesCompraProcesadas) {
 			if (ordenCompra.getCodigo().equalsIgnoreCase(codigo)) {
 				ordenCompraAux = ordenCompra;
 				return ordenCompraAux;
@@ -189,7 +203,7 @@ public class Tienda {
 	
 	public float calPrecioTotalProductos(ArrayList<Producto> productos) {
 		float precioTotal = 0;
-		for (Producto producto : misProductos) {
+		for (Producto producto : productos) {
 			precioTotal += producto.getPrecio();
 		}
 		return precioTotal;
@@ -249,12 +263,6 @@ public class Tienda {
 				OrdenCompra orden = new OrdenCompra(new String("Orden-"+OrdenCompra.numOrdenCompra), productoAOrdenar);
 				
 				Tienda.getInstance().addOrdenCompra(orden);
-					
-				for (Empleado empleado : misEmpleados) {
-					if (empleado instanceof Administrador) {
-						((Administrador)empleado).addOrdenPendiente(orden);
-					}
-				}
 			}
 		}
 	}
@@ -262,7 +270,7 @@ public class Tienda {
 	private boolean ExisteOrdenDelProducto(Producto producto) {
 		boolean existe = false;
 		
-		for (OrdenCompra orden : misOrdenesCompra) {
+		for (OrdenCompra orden : misOrdenesCompraProcesadas) {
 			if (orden.getProducto().equals(producto)) {
 				existe = true;
 				return existe;

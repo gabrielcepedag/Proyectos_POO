@@ -8,6 +8,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import logico.Combo;
+import logico.DiscoDuro;
+import logico.MemoriaRam;
+import logico.MicroProcesador;
+import logico.MotherBoard;
+import logico.Producto;
+import logico.Tienda;
 
 import java.awt.Rectangle;
 import java.awt.Color;
@@ -16,6 +25,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -30,23 +41,38 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JSeparator;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class RegCombo extends JDialog {
 
 	private JPanel contentPane;
-	private JTextField txtMarca;
+	private JTextField txtNombre;
 	private JPanel panelRegistro;
-	private JTextField txtNumSerie;
+	private JTextField txtCodigo;
 	private JPanel panelDiscoDuro;
-	private JSpinner spnDispReal;
+	private JSpinner spnDescuento;
 	private JLabel lblRegistrar;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTable table;
-	private JTable table_1;
+	private JTable tableDisp;
+	private static DefaultTableModel modelDisp;
+	private static Object[] rows;
+	private JTable tableElegidos;
+	private static DefaultTableModel modelElegidos;
+	float precio = 0;
+	float precioNeto = 0;
+	private JSpinner spnPrecioNeto;
+	private JSpinner spnPrecio;
+	private JLabel btnDerecha;
+	private JLabel btnIzquierda;
+	private DefaultListModel<String> listModelDisp;
+	private DefaultListModel<String> listModelActivo;
+	ArrayList<Producto> productosSelected = new ArrayList<Producto>();
 
 	/**
 	 * Launch the application.
@@ -76,6 +102,16 @@ public class RegCombo extends JDialog {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
+		/*Productos de prueba*/
+		Producto p1 = new MotherBoard("402", 3, 25000, "RTX", 1, 20, "QSY", "QSY", "QSY");
+		Producto p2 = new MemoriaRam("403", 100, 10000, "TridentZ", 1, 500, 32, "DDR4");
+		Producto p3 = new MicroProcesador("404", 2, 5500, "MSI", 10, 60, "QSY", "buena", 100);
+		Producto p4 = new DiscoDuro("405", 20, 4500, "Esto", 5, 90, "Funciona", 500, "Maravilla");
+		Tienda.getInstance().addProducto(p1);
+		Tienda.getInstance().addProducto(p2);
+		Tienda.getInstance().addProducto(p3);
+		Tienda.getInstance().addProducto(p4);
+		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(36, 37, 38));
 		contentPane.add(panel, BorderLayout.CENTER);
@@ -91,43 +127,112 @@ public class RegCombo extends JDialog {
 		scrollPane.setBounds(12, 56, 228, 227);
 		panelDiscoDuro.add(scrollPane);
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
+		String header[] = {"# Serie", "Categoria","Marca"};
+		modelDisp = new DefaultTableModel();
+		modelDisp.setColumnIdentifiers(header);
+		
+		tableDisp = new JTable();
+		tableDisp.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableDisp.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = -1;
+				index = tableDisp.getSelectedRow();
+				String numSerie = (String)(modelDisp.getValueAt(index, 0));
+				if (index != -1 && Tienda.getInstance().buscarProductoByNumSerie(numSerie).getCantidad() > 0) {
+					btnDerecha.setEnabled(true);
+				}else if (Tienda.getInstance().buscarProductoByNumSerie(numSerie).getCantidad() <= 0) {
+					JOptionPane.showMessageDialog(null, "No hay cantidad disponible para el producto seleccionado.", "Selección de productos", JOptionPane.OK_OPTION);
+				}
+			}
+		});
+		tableDisp.setModel(modelDisp);
+		scrollPane.setViewportView(tableDisp);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(376, 56, 228, 227);
 		panelDiscoDuro.add(scrollPane_1);
 		
-		table_1 = new JTable();
-		scrollPane_1.setViewportView(table_1);
+		modelElegidos = new DefaultTableModel();
+		modelElegidos.setColumnIdentifiers(header);
+		tableElegidos = new JTable();
+		tableElegidos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = -1;
+				index = tableElegidos.getSelectedRow();
+				if (index != -1) {
+					btnIzquierda.setEnabled(true);
+				}
+			}
+		});
+		tableElegidos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableElegidos.setModel(modelElegidos);
+		scrollPane_1.setViewportView(tableElegidos);
 		
-		JLabel label = new JLabel("<<");
-		label.setOpaque(true);
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setForeground(Color.WHITE);
-		label.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		label.setBackground(new Color(0, 155, 124));
-		label.setBounds(260, 137, 99, 45);
-		panelDiscoDuro.add(label);
+		btnDerecha = new JLabel(">>");
+		btnDerecha.setEnabled(false);
+		btnDerecha.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int index = -1;
+				index = tableDisp.getSelectedRow();
+				if (index != -1) {
+					String numSerie = (String)(modelDisp.getValueAt(index, 0));
+					Producto productoAux = Tienda.getInstance().buscarProductoByNumSerie(numSerie);
+					productosSelected.add(productoAux);
+					productoAux.setCantidad(productoAux.getCantidad() - 1);
+					loadProductosElegidos();
+					loadProductosDisp();
+					btnDerecha.setEnabled(false);
+					actualizarPrecio();
+				}
+			}
+		});
+		btnDerecha.setOpaque(true);
+		btnDerecha.setHorizontalAlignment(SwingConstants.CENTER);
+		btnDerecha.setForeground(Color.WHITE);
+		btnDerecha.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnDerecha.setBackground(new Color(0, 155, 124));
+		btnDerecha.setBounds(265, 116, 99, 45);
+		panelDiscoDuro.add(btnDerecha);
 		
-		JLabel label_1 = new JLabel(">>");
-		label_1.setOpaque(true);
-		label_1.setHorizontalAlignment(SwingConstants.CENTER);
-		label_1.setForeground(Color.WHITE);
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		label_1.setBackground(new Color(0, 155, 124));
-		label_1.setBounds(260, 195, 99, 45);
-		panelDiscoDuro.add(label_1);
+		btnIzquierda = new JLabel("<<");
+		btnIzquierda.setEnabled(false);
+		btnIzquierda.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = -1;
+				index = tableElegidos.getSelectedRow();
+				if (index != -1) {
+					String numSerie = (String)(modelElegidos.getValueAt(index, 0));
+					Producto productoAux = Tienda.getInstance().buscarProductoByNumSerie(numSerie);
+					productosSelected.remove(productoAux);
+					productoAux.setCantidad(productoAux.getCantidad() + 1);
+					loadProductosElegidos();
+					loadProductosDisp();
+					btnIzquierda.setEnabled(false);
+					actualizarPrecio();
+				}
+			}
+		});
+		btnIzquierda.setOpaque(true);
+		btnIzquierda.setHorizontalAlignment(SwingConstants.CENTER);
+		btnIzquierda.setForeground(Color.WHITE);
+		btnIzquierda.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnIzquierda.setBackground(new Color(0, 155, 124));
+		btnIzquierda.setBounds(265, 174, 99, 45);
+		panelDiscoDuro.add(btnIzquierda);
 		
 		JLabel lblDisponibles = new JLabel("Disponibles:");
 		lblDisponibles.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		lblDisponibles.setBounds(12, 1, 205, 55);
 		panelDiscoDuro.add(lblDisponibles);
 		
-		JLabel lblElejidos = new JLabel("Elejidos:");
-		lblElejidos.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		lblElejidos.setBounds(376, 1, 205, 55);
-		panelDiscoDuro.add(lblElejidos);
+		JLabel lblElegidos = new JLabel("Elegidos:");
+		lblElegidos.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblElegidos.setBounds(376, 1, 205, 55);
+		panelDiscoDuro.add(lblElegidos);
 		
 		JLabel lblPrecio_1 = new JLabel("Precio:");
 		lblPrecio_1.setForeground(Color.BLACK);
@@ -135,34 +240,29 @@ public class RegCombo extends JDialog {
 		lblPrecio_1.setBounds(12, 300, 125, 55);
 		panelDiscoDuro.add(lblPrecio_1);
 		
-		textField = new JTextField();
-		textField.setEnabled(false);
-		textField.setForeground(new Color(0, 153, 153));
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField.setColumns(10);
-		textField.setBackground(Color.WHITE);
-		textField.setBounds(84, 305, 186, 45);
-		panelDiscoDuro.add(textField);
-		
 		JLabel lblPrecioNeto = new JLabel("Precio neto:");
 		lblPrecioNeto.setForeground(Color.BLACK);
 		lblPrecioNeto.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblPrecioNeto.setBounds(297, 300, 125, 55);
 		panelDiscoDuro.add(lblPrecioNeto);
 		
-		textField_1 = new JTextField();
-		textField_1.setEnabled(false);
-		textField_1.setForeground(new Color(0, 153, 153));
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField_1.setColumns(10);
-		textField_1.setBackground(Color.WHITE);
-		textField_1.setBounds(418, 305, 186, 45);
-		panelDiscoDuro.add(textField_1);
-		
 		JSeparator separator = new JSeparator();
 		separator.setBackground(new Color(0, 155, 124));
 		separator.setBounds(12, 296, 589, 2);
 		panelDiscoDuro.add(separator);
+		
+		spnPrecio = new JSpinner();
+		spnPrecio.setModel(new SpinnerNumberModel(new Float(0), null, null, new Float(1)));
+		spnPrecio.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		spnPrecio.setEnabled(false);
+		spnPrecio.setBounds(88, 308, 186, 45);
+		panelDiscoDuro.add(spnPrecio);
+		
+		spnPrecioNeto = new JSpinner();
+		spnPrecioNeto.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		spnPrecioNeto.setEnabled(false);
+		spnPrecioNeto.setBounds(415, 310, 186, 45);
+		panelDiscoDuro.add(spnPrecioNeto);
 		
 		panelRegistro = new JPanel();
 		panelRegistro.setLayout(null);
@@ -170,13 +270,13 @@ public class RegCombo extends JDialog {
 		panelRegistro.setBounds(11, 12, 613, 282);
 		panel.add(panelRegistro);
 		
-		txtMarca = new JTextField();
-		txtMarca.setForeground(new Color(0, 153, 153));
-		txtMarca.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		txtMarca.setColumns(10);
-		txtMarca.setBackground(Color.WHITE);
-		txtMarca.setBounds(148, 147, 440, 45);
-		panelRegistro.add(txtMarca);
+		txtNombre = new JTextField();
+		txtNombre.setForeground(new Color(0, 153, 153));
+		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtNombre.setColumns(10);
+		txtNombre.setBackground(Color.WHITE);
+		txtNombre.setBounds(148, 147, 440, 45);
+		panelRegistro.add(txtNombre);
 		
 		JLabel lblPrecio = new JLabel("Descuento:");
 		lblPrecio.setForeground(Color.BLACK);
@@ -195,13 +295,15 @@ public class RegCombo extends JDialog {
 		lblNumSerie.setBounds(33, 79, 196, 55);
 		panelRegistro.add(lblNumSerie);
 		
-		txtNumSerie = new JTextField();
-		txtNumSerie.setForeground(new Color(0, 153, 153));
-		txtNumSerie.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		txtNumSerie.setColumns(10);
-		txtNumSerie.setBackground(Color.WHITE);
-		txtNumSerie.setBounds(148, 84, 440, 45);
-		panelRegistro.add(txtNumSerie);
+		txtCodigo = new JTextField();
+		txtCodigo.setEditable(false);
+		txtCodigo.setForeground(new Color(0, 153, 153));
+		txtCodigo.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtCodigo.setColumns(10);
+		txtCodigo.setBackground(Color.WHITE);
+		txtCodigo.setBounds(148, 84, 440, 45);
+		txtCodigo.setText(new String("Combo-"+Combo.cod));
+		panelRegistro.add(txtCodigo);
 		
 		JLabel lblMarca = new JLabel("Nombre:");
 		lblMarca.setForeground(Color.BLACK);
@@ -232,10 +334,21 @@ public class RegCombo extends JDialog {
 		panel1.setBounds(34, 64, 420, 4);
 		panelRegistro.add(panel1);
 		
-		spnDispReal = new JSpinner();
-		spnDispReal.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		spnDispReal.setBounds(148, 210, 440, 45);
-		panelRegistro.add(spnDispReal);
+		spnDescuento = new JSpinner();
+		spnDescuento.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				actualizarPrecio();
+			}
+		});
+		spnDescuento.setModel(new SpinnerNumberModel(new Float(0), new Float(0), new Float(100), new Float(1)));
+		spnDescuento.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		spnDescuento.setBounds(148, 210, 398, 45);
+		panelRegistro.add(spnDescuento);
+		
+		JLabel lblNewLabel = new JLabel("%");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblNewLabel.setBounds(550, 213, 43, 38);
+		panelRegistro.add(lblNewLabel);
 		
 		JLabel lblCancelar = new JLabel("Cancelar");
 		lblCancelar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -257,7 +370,14 @@ public class RegCombo extends JDialog {
 		lblRegistrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				if (!txtNombre.getText().isEmpty() && modelElegidos.getRowCount() > 0) {
+					Combo comboAux = new Combo(txtCodigo.getText(), txtNombre.getText(), productosSelected, Float.parseFloat(spnDescuento.getValue().toString()));
+					Tienda.getInstance().addCombo(comboAux);
+					JOptionPane.showMessageDialog(null, "Combo registrado satisfactoriamente !", "Registro de combo", JOptionPane.INFORMATION_MESSAGE);
+					clean();
+				}else {
+					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos requeridos.", "Registro de combo", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		lblRegistrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -270,9 +390,65 @@ public class RegCombo extends JDialog {
 		lblRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblRegistrar.setBackground(new Color(0, 155, 124));
 		
+		loadProductosDisp();
 	}
 	
+	private void loadProductosElegidos() {
+		
+		modelElegidos.setRowCount(0);
+		rows = new Object[modelElegidos.getColumnCount()];
+		
+		for (Producto producto : productosSelected) {
+			rows[0] = producto.getNumSerie();
+			rows[1] = producto.getClass().getSimpleName();
+			rows[2] = producto.getMarca();
+			
+			modelElegidos.addRow(rows);
+		}
+	}
+
+	private void loadProductosDisp() {
+		
+		modelDisp.setRowCount(0);
+		rows = new Object[modelDisp.getColumnCount()];
+		
+		for (int i = modelDisp.getRowCount() - 1; i >= 0; i--) {
+			modelDisp.removeRow(i);
+		}
+		
+		for (Producto producto : Tienda.getInstance().getMisProductos()) {
+			rows[0] = producto.getNumSerie();
+			rows[1] = producto.getClass().getSimpleName();
+			rows[2] = producto.getMarca();
+			modelDisp.addRow(rows);
+		}
+	}
+
+	private void actualizarPrecio() {
+		
+		if (productosSelected.size() > 0) {
+			precio = Tienda.getInstance().calPrecioTotalProductos(productosSelected);
+			spnPrecio.setValue(precio);
+
+			float descuento = Float.parseFloat(spnDescuento.getValue().toString()) / 100;
+			descuento = precio * descuento;
+			
+			spnPrecioNeto.setValue(precio - descuento);
+		}else {
+			spnPrecio.setValue(0);
+			spnPrecioNeto.setValue(0);
+		}
+	}
+
 	private void clean() {
 		
+		txtCodigo.setText("Combo-"+Combo.cod);
+		txtNombre.setText("");
+		productosSelected.removeAll(productosSelected);
+		spnDescuento.setValue(0);
+		spnPrecio.setValue(0.0);
+		spnPrecioNeto.setValue(0.0);
+		loadProductosDisp();
+		loadProductosElegidos();
 	}
 }

@@ -10,6 +10,7 @@ public class Combo {
 	private float descuento;
 	private float precioNeto;
 	private float precioTotal;
+	public static int cod = 1;
 	
 	public Combo(String codigo, String nombre, ArrayList<Producto> misProductos, float descuento) {
 		super();
@@ -19,6 +20,7 @@ public class Combo {
 		this.descuento = descuento;
 		this.precioNeto = calcPrecioNeto();
 		this.precioTotal = calcPrecioTotal();
+		Combo.cod++;
 	}
 
 	public String getCodigo() {
