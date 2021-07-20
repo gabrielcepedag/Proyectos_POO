@@ -375,6 +375,7 @@ public class RegCombo extends JDialog {
 					Tienda.getInstance().addCombo(comboAux);
 					JOptionPane.showMessageDialog(null, "Combo registrado satisfactoriamente !", "Registro de combo", JOptionPane.INFORMATION_MESSAGE);
 					clean();
+					ListarCombo.loadTableCombo();
 				}else {
 					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos requeridos.", "Registro de combo", JOptionPane.WARNING_MESSAGE);
 				}

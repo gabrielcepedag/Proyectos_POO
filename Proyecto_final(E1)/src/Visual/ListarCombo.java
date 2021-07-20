@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.TextUI;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Combo;
@@ -134,7 +135,9 @@ public class ListarCombo extends JDialog {
 		lblNewLabel_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Usted no puede entrar aquí por que notamos una falta de amor propio, subase el autoestima y vuelva");
+				RegCombo regCombo = new RegCombo();
+				regCombo.setModal(true);
+				regCombo.setVisible(true);
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {

@@ -492,7 +492,9 @@ public class Home extends JFrame {
 		crearFactura.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Coming Soon","Aviso",JOptionPane.INFORMATION_MESSAGE);
+				RegFactura regFactura = new RegFactura();
+				regFactura.setModal(true);
+				regFactura.setVisible(true);
 			}
 		});
 		crearFactura.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -708,6 +710,7 @@ public class Home extends JFrame {
 				panelClientes.setVisible(false);
 				panelAdministrar.setVisible(false);
 				panelFactura.setVisible(true);
+				loadTableFactura(0, null);
 			}
 		});
 		lblFactura.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -732,6 +735,7 @@ public class Home extends JFrame {
 				panelFactura.setVisible(false);
 				panelAdministrar.setVisible(false);
 				panelClientes.setVisible(true);
+				loadTableCliente(null);
 			}
 		});
 		lblClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -757,6 +761,7 @@ public class Home extends JFrame {
 				panelFactura.setVisible(false);
 				panelAdministrar.setVisible(false);
 				panelProductos.setVisible(true);
+				loadTableProductos(0);
 			}
 		});
 		lblProductos.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/ProductosIcon.png")));

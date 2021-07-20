@@ -552,6 +552,7 @@ public class RegProducto extends JDialog {
 				Tienda.getInstance().addProducto(aux);
 				JOptionPane.showMessageDialog(null, "El prodcuto ha sido registrado satisfactoriamente.", "Registro de Producto", JOptionPane.INFORMATION_MESSAGE);
 				clean();	
+				ListarProducto.loadTableProductos(0);;
 				
 				/* LOGICA DE MODIFICAR PRODUCTO
 				 * if(selected == null){
