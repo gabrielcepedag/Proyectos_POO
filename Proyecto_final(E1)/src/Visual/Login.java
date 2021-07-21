@@ -136,7 +136,7 @@ public class Login extends JFrame implements Serializable{
 		
 		panelLogin = new JPanel();
 		panelLogin.setBackground(new Color(36, 37, 38, 100));
-		panelLogin.setBounds(545, 13, 613, 681);
+		panelLogin.setBounds(545, 13, 598, 681);
 		panel.add(panelLogin);
 		panelLogin.setLayout(null);
 		
@@ -218,9 +218,24 @@ public class Login extends JFrame implements Serializable{
 		label_9.setHorizontalAlignment(SwingConstants.CENTER);
 		label_9.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/panelLogin.png")));
 		
+		JLabel label_6 = new JLabel("");
+		label_6.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Ellipse2.png")));
+		label_6.setBounds(486, 243, 243, 142);
+		panel.add(label_6);
+		
+		JLabel label_8 = new JLabel("");
+		label_8.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Ellipse3.png")));
+		label_8.setBounds(533, 275, 225, 142);
+		panel.add(label_8);
+		
+		JLabel label_7 = new JLabel("");
+		label_7.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Elipse1.png")));
+		label_7.setBounds(443, 204, 256, 142);
+		panel.add(label_7);
+		
 		final JLabel lblX = new JLabel("X");
-		lblX.setBounds(570, 0, 57, 55);
-		panelLogin.add(lblX);
+		lblX.setBounds(1120, 0, 57, 55);
+		panel.add(lblX);
 		lblX.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblX.addMouseListener(new MouseAdapter() {
 			@Override
@@ -246,21 +261,6 @@ public class Login extends JFrame implements Serializable{
 		lblX.setFont(new Font("Tahoma", Font.PLAIN, 40));
 		lblX.setHorizontalAlignment(SwingConstants.CENTER);
 		lblX.setForeground(Color.WHITE);
-		
-		JLabel label_6 = new JLabel("");
-		label_6.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Ellipse2.png")));
-		label_6.setBounds(486, 243, 243, 142);
-		panel.add(label_6);
-		
-		JLabel label_8 = new JLabel("");
-		label_8.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Ellipse3.png")));
-		label_8.setBounds(533, 275, 225, 142);
-		panel.add(label_8);
-		
-		JLabel label_7 = new JLabel("");
-		label_7.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Elipse1.png")));
-		label_7.setBounds(443, 204, 256, 142);
-		panel.add(label_7);
 		
 	}
 	private void clean() {

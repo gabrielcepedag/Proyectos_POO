@@ -1,9 +1,14 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MotherBoard extends Producto{
+public class MotherBoard extends Producto implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String modelo;
 	private String socket;
 	private String tipoRam;

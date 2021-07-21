@@ -1,9 +1,15 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class OrdenCompra {
+public class OrdenCompra implements Serializable{
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String codigo;
 	private Producto producto;
 	private int cantidad;

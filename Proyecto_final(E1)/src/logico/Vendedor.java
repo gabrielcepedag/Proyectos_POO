@@ -1,7 +1,10 @@
 package logico;
 
-public class Vendedor extends Empleado {
+import java.io.Serializable;
 
+public class Vendedor extends Empleado implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private float totalVendido;
 	private float comision;
 

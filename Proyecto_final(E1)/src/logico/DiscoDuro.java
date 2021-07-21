@@ -1,7 +1,11 @@
 package logico;
 
-public class DiscoDuro extends Producto{
+import java.io.Serializable;
+
+public class DiscoDuro extends Producto implements Serializable{
 	
+
+	private static final long serialVersionUID = 1L;
 	private String modelo;
 	private int capacidad;
 	private String socket;

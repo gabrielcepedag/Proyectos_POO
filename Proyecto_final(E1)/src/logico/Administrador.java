@@ -1,9 +1,11 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Administrador extends Empleado {
+public class Administrador extends Empleado implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Vendedor> misVendedores;
 	
 	public Administrador(String username, String password, String nombre, String cedula, String telefono, String direccion) {
