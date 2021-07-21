@@ -7,7 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import logico.Administrador;
 import logico.Cliente;
+import logico.Empleado;
 import logico.Tienda;
 
 import java.awt.Rectangle;
@@ -17,6 +19,15 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -27,20 +38,51 @@ import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Login extends JFrame {
+public class Login extends JFrame implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtemail;
-	private JPasswordField passwordField;
+	private JTextField txtUSer;
+	private JPasswordField txtPassword;
 	private JPanel panelLogin;
 	Cliente selected = null;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				FileInputStream tienda;
+				FileOutputStream tienda2;
+				ObjectInputStream tiendaRead;
+				ObjectOutputStream tiendaWrite;
+				
+				try {
+					tienda = new FileInputStream ("empresa.dat");
+					tiendaRead = new ObjectInputStream(tienda);
+					Tienda temp = (Tienda)tiendaRead.readObject();
+					Tienda.setTienda(temp);
+					tienda.close();
+					tiendaRead.close();
+					System.out.println("Leyó");
+				} catch (FileNotFoundException e) {
+					try {
+						System.out.println("Está Creando");
+						tienda2 = new  FileOutputStream("empresa.dat");
+						tiendaWrite = new ObjectOutputStream(tienda2);
+						Administrador aux = new Administrador("Admin", "Admin", "Administrador", "-", "-", "-");
+						Tienda.getInstance().addEmpleado(aux);
+						tiendaWrite.writeObject(Tienda.getInstance());
+						tienda2.close();
+						tiendaWrite.close();
+					} catch (FileNotFoundException e1) {
+					} catch (IOException e1) {
+					}
+				} catch (IOException e) {
+					
+					
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				
 				try {
 					Login frame = new Login();
 					frame.setVisible(true);
@@ -51,9 +93,6 @@ public class Login extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Login() {
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -120,14 +159,14 @@ public class Login extends JFrame {
 		lblEmail.setForeground(Color.BLACK);
 		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		txtemail = new JTextField();
-		txtemail.setBounds(70, 253, 455, 50);
-		panelLogin.add(txtemail);
-		txtemail.setBorder(null);
-		txtemail.setBackground(new Color(255, 255, 255));
-		txtemail.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		txtemail.setForeground(new Color(0, 153, 153));
-		txtemail.setColumns(10);
+		txtUSer = new JTextField();
+		txtUSer.setBounds(70, 253, 455, 50);
+		panelLogin.add(txtUSer);
+		txtUSer.setBorder(null);
+		txtUSer.setBackground(new Color(255, 255, 255));
+		txtUSer.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtUSer.setForeground(new Color(0, 153, 153));
+		txtUSer.setColumns(10);
 		
 		JLabel label_10 = new JLabel("");
 		label_10.setBounds(70, 307, 461, 3);
@@ -142,12 +181,12 @@ public class Login extends JFrame {
 		lblEmail_1.setForeground(Color.BLACK);
 		lblEmail_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(70, 386, 455, 50);
-		panelLogin.add(passwordField);
-		passwordField.setBorder(null);
-		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		passwordField.setForeground(new Color(0, 153, 153));
+		txtPassword = new JPasswordField();
+		txtPassword.setBounds(70, 386, 455, 50);
+		panelLogin.add(txtPassword);
+		txtPassword.setBorder(null);
+		txtPassword.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtPassword.setForeground(new Color(0, 153, 153));
 		
 		JLabel label_11 = new JLabel("");
 		label_11.setBounds(70, 438, 461, 3);
@@ -156,6 +195,19 @@ public class Login extends JFrame {
 		label_11.setBackground(new Color(0, 153, 153));
 		
 		JButton btnNewButton = new JButton("");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				System.out.println(txtUSer.getText());
+				System.out.println(txtPassword.getText());
+				if (Tienda.getInstance().confirmLogin(txtUSer.getText(), txtPassword.getText())) {
+					System.out.println("PAso por aqui");
+					Home frame = new Home();
+					dispose();
+					frame.setVisible(true);
+				}
+			}
+		});
 		btnNewButton.setBounds(66, 464, 455, 55);
 		panelLogin.add(btnNewButton);
 		btnNewButton.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/iniciar.png")));
@@ -173,6 +225,17 @@ public class Login extends JFrame {
 		lblX.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				FileOutputStream tienda2;
+				ObjectOutputStream tiendaWrite;
+				try {
+					tienda2 = new  FileOutputStream("empresa.dat");
+					tiendaWrite = new ObjectOutputStream(tienda2);
+					tiendaWrite.writeObject(Tienda.getInstance());
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				dispose();
 			}
 			@Override
@@ -201,7 +264,7 @@ public class Login extends JFrame {
 		
 	}
 	private void clean() {
-		txtemail.setText("");
-		passwordField.setText("");
+		txtUSer.setText("");
+		txtPassword.setText("");
 	}
 }

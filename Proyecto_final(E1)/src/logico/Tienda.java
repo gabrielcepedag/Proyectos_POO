@@ -1,18 +1,24 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Tienda {
+public class Tienda implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Producto> misProductos;
 	private ArrayList<Cliente> misClientes;
 	private ArrayList<Factura> misFacturas;
 	private ArrayList<Empleado> misEmpleados;
 	private ArrayList<Combo> misCombos;
 	private ArrayList<OrdenCompra> misOrdenesCompra;
-
 	private static Tienda tienda = null;
-	
+	private static Empleado loginUserEmpleado = null;
+
+
 	private Tienda() {
 		super();
 		this.misProductos = new ArrayList<Producto>();
@@ -74,6 +80,18 @@ public class Tienda {
 	public void setMisOrdenesCompra(ArrayList<OrdenCompra> misOrdenesCompra) {
 		this.misOrdenesCompra = misOrdenesCompra;
 	}
+	
+	public static void setTienda(Tienda tienda) {
+		Tienda.tienda = tienda;
+	}
+
+	public Empleado getLoginUserEmpleado() {
+		return loginUserEmpleado;
+	}
+
+	public void setLoginUserEmpleado(Empleado loginUserEmpleado) {
+		Tienda.loginUserEmpleado = loginUserEmpleado;
+	}
 
 	public void addCliente(Cliente cliente) {
 		misClientes.add(cliente);
@@ -113,6 +131,17 @@ public class Tienda {
 	
 	public void eliminarCliente(Cliente cliente) {
 		misClientes.remove(cliente);
+	}
+	
+	public boolean confirmLogin(String user, String password) {
+		boolean login = false;
+		for (Empleado empleado : misEmpleados) { 
+			if (empleado.getUsername().equals(user) && empleado.getPassword().equals(password)) {
+				loginUserEmpleado = empleado;
+				login = true;
+			}
+		}
+		return login;
 	}
 	
 	public Cliente buscarClienteByCedula(String cedula) {

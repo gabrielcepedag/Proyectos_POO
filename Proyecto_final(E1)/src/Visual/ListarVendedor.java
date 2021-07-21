@@ -35,7 +35,7 @@ public class ListarVendedor extends JDialog {
 	private JLabel Eliminar;
 	private JLabel Modificar;
 	private JTable tableClienteVendedor;
-	private Cliente selectedCliente = null;
+	private Vendedor selectedVendedor = null;
 	private JLabel nuevo;
 	private JLabel lblNewLabel_1;
 	private JTextField txtCedulaVend;
@@ -114,7 +114,7 @@ public class ListarVendedor extends JDialog {
 					Eliminar.setEnabled(true);
 					Modificar.setEnabled(true);
 					String cedula = (String)(modelVendedor.getValueAt(index, 0));
-					selectedCliente = Tienda.getInstance().buscarClienteByCedula(cedula);
+					selectedVendedor = (Vendedor) Tienda.getInstance().buscarEmpleadoByCedula(cedula);
 				}
 			}
 		});
@@ -175,7 +175,7 @@ public class ListarVendedor extends JDialog {
 		Eliminar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				Tienda.getInstance().eliminarCliente(selectedCliente);;
+				Tienda.getInstance().eliminarVendededor(selectedVendedor);
 				Eliminar.setEnabled(false);
 				Modificar.setEnabled(false);
 				loadTableVendedor(null);

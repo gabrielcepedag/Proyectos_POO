@@ -30,8 +30,13 @@ import java.awt.Font;
 import java.awt.ScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.time.chrono.HijrahEra;
 import java.util.ArrayList;
+import java.util.ResourceBundle.Control;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -119,6 +124,17 @@ public class Home extends JFrame {
 		lblX.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				FileOutputStream tienda2;
+				ObjectOutputStream tiendaWrite;
+				try {
+					tienda2 = new  FileOutputStream("empresa.dat");
+					tiendaWrite = new ObjectOutputStream(tienda2);
+					tiendaWrite.writeObject(Tienda.getInstance());
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				dispose();
 			}
 			@Override
@@ -659,8 +675,19 @@ public class Home extends JFrame {
 		lblSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				dispose();
+				FileOutputStream tienda2;
+				ObjectOutputStream tiendaWrite;
+				try {
+					tienda2 = new  FileOutputStream("empresa.dat");
+					tiendaWrite = new ObjectOutputStream(tienda2);
+					tiendaWrite.writeObject(Tienda.getInstance());
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				Login login = new Login();
+				dispose();
 				login.setVisible(true);
 			}
 		});
@@ -678,14 +705,16 @@ public class Home extends JFrame {
 		lblAdministrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lblProductos.setBackground(new Color(36, 37, 38));
-				lblClientes.setBackground(new Color(36, 37, 38));
-				lblFactura.setBackground(new Color(36, 37, 38));
-				lblAdministrar.setBackground(new Color(0, 155, 124));
-				panelProductos.setVisible(false);
-				panelClientes.setVisible(false);
-				panelFactura.setVisible(false);
-				panelAdministrar.setVisible(true);
+				if (lblAdministrar.isEnabled()) {
+					lblProductos.setBackground(new Color(36, 37, 38));
+					lblClientes.setBackground(new Color(36, 37, 38));
+					lblFactura.setBackground(new Color(36, 37, 38));
+					lblAdministrar.setBackground(new Color(0, 155, 124));
+					panelProductos.setVisible(false);
+					panelClientes.setVisible(false);
+					panelFactura.setVisible(false);
+					panelAdministrar.setVisible(true);
+				}
 			}
 		});
 		lblAdministrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -771,14 +800,14 @@ public class Home extends JFrame {
 		lblProductos.setBounds(31, 367, 358, 78);
 		panel.add(lblProductos);
 		
-		JLabel lblAdministrador = new JLabel("Administrador");
+		JLabel lblAdministrador = new JLabel(Tienda.getInstance().getLoginUserEmpleado().getClass().getSimpleName());
 		lblAdministrador.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAdministrador.setForeground(Color.WHITE);
 		lblAdministrador.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblAdministrador.setBounds(112, 299, 193, 55);
 		panel.add(lblAdministrador);
 		
-		JLabel lblDarvyBetances = new JLabel("Darvy Betances");
+		JLabel lblDarvyBetances = new JLabel(Tienda.getInstance().getLoginUserEmpleado().getNombre());
 		lblDarvyBetances.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		lblDarvyBetances.setForeground(Color.WHITE);
 		lblDarvyBetances.setHorizontalAlignment(SwingConstants.CENTER);
@@ -802,6 +831,10 @@ public class Home extends JFrame {
 		loadTableProductos(0);
 		cbxTipoFactura.setSelectedIndex(0);
 		loadTableFactura(indexCbx,cedulaClienteFact);
+		
+		if (!Tienda.getInstance().getLoginUserEmpleado().getClass().getSimpleName().equalsIgnoreCase("Administrador")) {
+			lblAdministrar.setEnabled(false);
+		}
 	}
 	
 	public static void loadTableCliente(String cedula) {
