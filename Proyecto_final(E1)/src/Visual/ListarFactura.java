@@ -166,7 +166,7 @@ public class ListarFactura extends JDialog {
 		label_1.setBounds(814, 33, 150, 37);
 		contentPanel.add(label_1);
 		
-		//Facturas de Prueba:
+		/*Facturas de Prueba:
 		
 		Vendedor v1 = new Vendedor("DarvyBM", "KLK", "Darvy Betances", "2434-332", "809-247-2240", "Santiago de los caballeros");
 		Cliente c1 = new Cliente("24234", "Fulanito", "Cerca de ti bb", "334-233-4244");
@@ -180,7 +180,7 @@ public class ListarFactura extends JDialog {
 		
 		Factura f3 = new Factura("Fact-3", v1,c1, productos);
 		Tienda.getInstance().addFactura(f2);
-		Tienda.getInstance().addFactura(f3);
+		Tienda.getInstance().addFactura(f3);*/
 		
 		//*************************************************************************************************************************************
 				

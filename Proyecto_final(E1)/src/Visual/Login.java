@@ -62,13 +62,11 @@ public class Login extends JFrame implements Serializable{
 					Tienda.setTienda(temp);
 					tienda.close();
 					tiendaRead.close();
-					System.out.println("Leyó");
 				} catch (FileNotFoundException e) {
 					try {
-						System.out.println("Está Creando");
 						tienda2 = new  FileOutputStream("empresa.dat");
 						tiendaWrite = new ObjectOutputStream(tienda2);
-						Administrador aux = new Administrador("Admin", "Admin", "Administrador", "-", "-", "-");
+						Empleado aux = new Administrador("Admin", "Admin", "Administrador", "-", "-", "-");
 						Tienda.getInstance().addEmpleado(aux);
 						tiendaWrite.writeObject(Tienda.getInstance());
 						tienda2.close();
@@ -107,6 +105,35 @@ public class Login extends JFrame implements Serializable{
 		panel.setBackground(new Color(36, 37, 38));
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
+		
+		final JLabel lblX = new JLabel("X");
+		lblX.setBounds(1120, 0, 57, 55);
+		panel.add(lblX);
+		lblX.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblX.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				FileOutputStream tienda2;
+				ObjectOutputStream tiendaWrite;
+				try {
+					tienda2 = new  FileOutputStream("empresa.dat");
+					tiendaWrite = new ObjectOutputStream(tienda2);
+					tiendaWrite.writeObject(Tienda.getInstance());
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				dispose();
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				lblX.setForeground(Color.red);
+			}
+		});
+		lblX.setFont(new Font("Tahoma", Font.PLAIN, 40));
+		lblX.setHorizontalAlignment(SwingConstants.CENTER);
+		lblX.setForeground(Color.WHITE);
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Tecno-4C.png")));
@@ -201,7 +228,6 @@ public class Login extends JFrame implements Serializable{
 				System.out.println(txtUSer.getText());
 				System.out.println(txtPassword.getText());
 				if (Tienda.getInstance().confirmLogin(txtUSer.getText(), txtPassword.getText())) {
-					System.out.println("PAso por aqui");
 					Home frame = new Home();
 					dispose();
 					frame.setVisible(true);
@@ -232,35 +258,6 @@ public class Login extends JFrame implements Serializable{
 		label_7.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Elipse1.png")));
 		label_7.setBounds(443, 204, 256, 142);
 		panel.add(label_7);
-		
-		final JLabel lblX = new JLabel("X");
-		lblX.setBounds(1120, 0, 57, 55);
-		panel.add(lblX);
-		lblX.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblX.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				FileOutputStream tienda2;
-				ObjectOutputStream tiendaWrite;
-				try {
-					tienda2 = new  FileOutputStream("empresa.dat");
-					tiendaWrite = new ObjectOutputStream(tienda2);
-					tiendaWrite.writeObject(Tienda.getInstance());
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				dispose();
-			}
-			@Override
-			public void mousePressed(MouseEvent e) {
-				lblX.setForeground(Color.red);
-			}
-		});
-		lblX.setFont(new Font("Tahoma", Font.PLAIN, 40));
-		lblX.setHorizontalAlignment(SwingConstants.CENTER);
-		lblX.setForeground(Color.WHITE);
 		
 	}
 	private void clean() {

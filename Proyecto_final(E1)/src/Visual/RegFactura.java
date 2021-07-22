@@ -85,6 +85,7 @@ public class RegFactura extends JDialog {
 	private JLabel lblAbajoProductos;
 	private JLabel lblArribaProductos;
 	private Cliente auxCliente = null;
+	private Vendedor auxVendedor = null;
 	//private Vendedor AuxVendedor;
 	private Factura factura = null;
 	private JRadioButton rdbtnFacturaACredito;
@@ -257,18 +258,16 @@ public class RegFactura extends JDialog {
 							auxCliente = new Cliente(txtCedula.getText(), txtNombre.getText(), txtDireccion.getText(), txtTelefono.getText());
 							Tienda.getInstance().addCliente(auxCliente);
 						}
-						/* CAUSA DE COMENTARIOS: 
-						 * 		DEFINIR COMO IDENTIFICAR CUAL ES EL VENDEDOR ACTUAL
-						 */
-						//factura = new Factura(new String("F-0"+Factura.cod), auxVendedor, auxCliente, productosSeleccionados);
+						auxVendedor = (Vendedor) Tienda.getInstance().getLoginUserEmpleado();
+						factura = new Factura(new String("F-0" + Factura.cod), auxVendedor, auxCliente, productosSeleccionados);
 						if(rdbtnFacturaACredito.isSelected()) {
 							factura.setACredito(true); 
 						}
 						for (Producto producto : productosSeleccionados) {
 							producto.setCantidad(producto.getCantidad() - 1);							
 						}
-						//auxVendedor.setTotalVendido(factura.getPrecioTotal());
-						//auxVendedor.setComision((float)factura.getPrecioTotal()*0.05); //(Para un 5% comisión)
+						auxVendedor.setTotalVendido(factura.getPrecioTotal());
+						auxVendedor.setComision((float) (factura.getPrecioTotal()*0.05)); 
 						Tienda.getInstance().addFactura(factura);
 						JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
 						cleanCliente();
@@ -289,19 +288,15 @@ public class RegFactura extends JDialog {
 								auxListCompra.add(producto);
 							}
 						}
-						
-						/* CAUSA DE COMENTARIOS: 
-						 * 		DEFINIR COMO IDENTIFICAR CUAL ES EL VENDEDOR ACTUAL (AuxVendedor)
-						 */
-						//factura = new Factura(new String("F-0"+Factura.cod), auxVendedor, auxCliente, auxListCompra);
+						factura = new Factura(new String("F-0"+Factura.cod), auxVendedor, auxCliente, auxListCompra);
 						if(rdbtnFacturaACredito.isSelected()) {
 							factura.setACredito(true); 
 						}
 						for (Producto producto : auxListCompra) {
 							producto.setCantidad(producto.getCantidad() - 1);							
 						}
-						//auxVendedor.setTotalVendido(factura.getPrecioTotal());
-						//auxVendedor.setComision((float)factura.getPrecioTotal()*0.05); //(Para un 5% comisión)
+						auxVendedor.setTotalVendido(factura.getPrecioTotal());
+						auxVendedor.setComision((float) (factura.getPrecioTotal()*0.05)); //(Para un 5% comisión)
 						Tienda.getInstance().addFactura(factura);
 						JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);		
 						cleanCliente();
@@ -681,7 +676,7 @@ public class RegFactura extends JDialog {
 		listProductosSel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneProductosSel.setViewportView(listProductosSel);
 		
-		//------------------TEST TEST TEST--------------------------------//
+		/*------------------TEST TEST TEST--------------------------------//
 		
 		ArrayList<Producto> productos1 = new ArrayList<Producto>();
 		
@@ -700,7 +695,7 @@ public class RegFactura extends JDialog {
 		Tienda.getInstance().addCliente(cliente1);
 
 		
-		//------------------TEST TEST TEST--------------------------------//
+		//------------------TEST TEST TEST--------------------------------*/
 		
 		loadProductosDisponibles();
 		loadCombosDisponibles();

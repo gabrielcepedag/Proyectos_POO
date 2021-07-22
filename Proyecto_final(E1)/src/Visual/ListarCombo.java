@@ -72,7 +72,7 @@ public class ListarCombo extends JDialog {
 		scrollPaneCombo.setBounds(352, 43, 720, 607);
 		contentPanel.add(scrollPaneCombo);
 		
-		//Combos de Prueba:
+		/*Combos de Prueba:
 		Producto p1 = new MotherBoard("402", 10, 25000, "RTX", 1, 20, "QSY", "QSY", "QSY");
 		Producto p2 = new MemoriaRam("403", 100, 10000, "TridentZ", 1, 500, 32, "DDR4");
 		Producto p3 = new MicroProcesador("404", 55, 5500, "MSI", 10, 60, "QSY", "buena", 100);
@@ -86,7 +86,7 @@ public class ListarCombo extends JDialog {
 		Combo c2 = new Combo("C - 2", "La creme Gaming  ", productosCombo, 10);
 		
 		Tienda.getInstance().addCombo(c1);
-		Tienda.getInstance().addCombo(c2);
+		Tienda.getInstance().addCombo(c2);*/
 		
 		String header[] = {"Código", "Nombre", "Precio neto", "Descuento","Precio total", "Cant. De Productos"};
 		modelCombo = new DefaultTableModel();

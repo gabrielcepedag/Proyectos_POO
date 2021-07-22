@@ -92,7 +92,7 @@ public class ListarPedido extends JDialog {
 		scrollPanePedido.setBounds(352, 104, 720, 546);
 		contentPanel.add(scrollPanePedido);
 		
-		//Combos de Prueba:
+		/*Combos de Prueba:
 		Producto p1 = new MotherBoard("402", 10, 25000, "RTX", 1, 20, "QSY", "QSY", "QSY");
 		Producto p2 = new MemoriaRam("403", 100, 10000, "TridentZ", 1, 500, 32, "DDR4");
 		Producto p3 = new MicroProcesador("404", 55, 5500, "MSI", 10, 60, "QSY", "buena", 100);
@@ -111,6 +111,7 @@ public class ListarPedido extends JDialog {
 		ordenCompra.setPrecioTotal(ordenCompra.getProducto().getPrecio());
 		ordenCompra.setProcesada(true);
 		Tienda.getInstance().addOrdenCompra(ordenCompra2);
+		*/
 		
 		String header[] = {"Código", "Distribuidos", "Producto", "Cantidad", "Precio total", "Fecha de Solicitud", "Estado"};
 		modelPedido = new DefaultTableModel();

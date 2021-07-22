@@ -82,14 +82,14 @@ public class ListarProducto extends JDialog {
 		modelProductos = new DefaultTableModel();
 		modelProductos.setColumnIdentifiers(headerProducto);
 		
-		Producto p1 = new MotherBoard("402", 10, 25000, "RTX", 1, 20, "QSY", "QSY", "QSY");
+		/*Producto p1 = new MotherBoard("402", 10, 25000, "RTX", 1, 20, "QSY", "QSY", "QSY");
 		Producto p2 = new MemoriaRam("403", 100, 10000, "TridentZ", 1, 500, 32, "DDR4");
 		Producto p3 = new MicroProcesador("404", 55, 5500, "MSI", 10, 60, "QSY", "buena", 100);
 		Producto p4 = new DiscoDuro("405", 20, 4500, "Esto", 5, 90, "Funciona", 500, "Maravilla");
 		Tienda.getInstance().addProducto(p1);
 		Tienda.getInstance().addProducto(p2);
 		Tienda.getInstance().addProducto(p3);
-		Tienda.getInstance().addProducto(p4);
+		Tienda.getInstance().addProducto(p4);*/
 				
 		tableProductos_1 = new JTable();
 		tableProductos_1.addMouseListener(new MouseAdapter() {

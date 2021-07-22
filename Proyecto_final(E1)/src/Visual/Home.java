@@ -369,7 +369,7 @@ public class Home extends JFrame {
 			}
 		});
 		
-		//Productos de pruebas//
+		/*Productos de pruebas
 		Producto p1 = new MotherBoard("402", 10, 25000, "RTX", 1, 20, "QSY", "QSY", "QSY");
 		Producto p2 = new MemoriaRam("403", 100, 10000, "TridentZ", 1, 500, 32, "DDR4");
 		Producto p3 = new MicroProcesador("404", 55, 5500, "MSI", 10, 60, "QSY", "buena", 100);
@@ -405,6 +405,7 @@ public class Home extends JFrame {
 		Factura f3 = new Factura("Fact-3", v1,c5, productos);
 		Tienda.getInstance().addFactura(f2);
 		Tienda.getInstance().addFactura(f3);
+		*/
 		
 		cbxTipoProducto.setOpaque(false);
 		cbxTipoProducto.setIgnoreRepaint(true);
@@ -508,9 +509,11 @@ public class Home extends JFrame {
 		crearFactura.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				RegFactura regFactura = new RegFactura();
-				regFactura.setModal(true);
-				regFactura.setVisible(true);
+				if(crearFactura.isEnabled()) {
+					RegFactura regFactura = new RegFactura();
+					regFactura.setModal(true);
+					regFactura.setVisible(true);
+				}
 			}
 		});
 		crearFactura.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -834,6 +837,9 @@ public class Home extends JFrame {
 		
 		if (!Tienda.getInstance().getLoginUserEmpleado().getClass().getSimpleName().equalsIgnoreCase("Administrador")) {
 			lblAdministrar.setEnabled(false);
+		}
+		if (Tienda.getInstance().getLoginUserEmpleado().getClass().getSimpleName().equalsIgnoreCase("Administrador")) {
+			crearFactura.setEnabled(false);
 		}
 	}
 	

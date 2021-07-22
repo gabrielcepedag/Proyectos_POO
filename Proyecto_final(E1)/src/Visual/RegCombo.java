@@ -102,7 +102,7 @@ public class RegCombo extends JDialog {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		/*Productos de prueba*/
+		/*Productos de prueba
 		Producto p1 = new MotherBoard("402", 3, 25000, "RTX", 1, 20, "QSY", "QSY", "QSY");
 		Producto p2 = new MemoriaRam("403", 100, 10000, "TridentZ", 1, 500, 32, "DDR4");
 		Producto p3 = new MicroProcesador("404", 2, 5500, "MSI", 10, 60, "QSY", "buena", 100);
@@ -110,7 +110,7 @@ public class RegCombo extends JDialog {
 		Tienda.getInstance().addProducto(p1);
 		Tienda.getInstance().addProducto(p2);
 		Tienda.getInstance().addProducto(p3);
-		Tienda.getInstance().addProducto(p4);
+		Tienda.getInstance().addProducto(p4);*/
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(36, 37, 38));
