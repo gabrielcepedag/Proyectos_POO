@@ -268,8 +268,14 @@ public class RegFactura extends JDialog {
 						}
 						auxVendedor.setTotalVendido(factura.getPrecioTotal());
 						auxVendedor.setComision((float) (factura.getPrecioTotal()*0.05)); 
-						Tienda.getInstance().addFactura(factura);
-						JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
+						if (Tienda.getInstance().CrearFactura(factura)) {
+							JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "¡La factura NO ha sido registrada!", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+						}
 						cleanCliente();
 						productosSeleccionados.clear();
 						Home.loadTableFactura(0, null);
@@ -297,8 +303,14 @@ public class RegFactura extends JDialog {
 						}
 						auxVendedor.setTotalVendido(factura.getPrecioTotal());
 						auxVendedor.setComision((float) (factura.getPrecioTotal()*0.05)); //(Para un 5% comisión)
-						Tienda.getInstance().addFactura(factura);
-						JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);		
+						if (Tienda.getInstance().CrearFactura(factura)) {
+							JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "¡La factura NO ha sido registrada!", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+						}
 						cleanCliente();
 						combosSeleccionados.clear();
 						Home.loadTableFactura(0, null);

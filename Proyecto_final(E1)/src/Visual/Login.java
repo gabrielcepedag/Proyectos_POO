@@ -225,12 +225,13 @@ public class Login extends JFrame implements Serializable{
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				System.out.println(txtUSer.getText());
-				System.out.println(txtPassword.getText());
 				if (Tienda.getInstance().confirmLogin(txtUSer.getText(), txtPassword.getText())) {
 					Home frame = new Home();
 					dispose();
 					frame.setVisible(true);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Algún dato ingresado es incorrecto");
 				}
 			}
 		});

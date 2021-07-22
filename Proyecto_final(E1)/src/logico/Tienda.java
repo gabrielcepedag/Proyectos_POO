@@ -294,7 +294,7 @@ public class Tienda implements Serializable{
 		return existe;
 	}
 	
-	public boolean hacerFactura(Factura factura) {
+	public boolean CrearFactura(Factura factura) {
 		boolean esPosible = false;
 		
 		if (factura.isACredito()) {
