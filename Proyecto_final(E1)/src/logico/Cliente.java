@@ -10,7 +10,7 @@ public class Cliente implements Serializable{
 	private String direccion;
 	private String telefono;
 	private float credito;
-	private int cantCompras; //Verificar que se esté actualizando ese valor en HacerFactura
+	private int cantCompras; //Verificar que se esté actualizando ese valor en HacerFactura...
 	
 	public Cliente(String cedula, String nombre, String direccion, String telefono) {
 		super();

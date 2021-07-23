@@ -80,7 +80,7 @@ public class Home extends JFrame {
 	private JTextField txtCedulaCliente;
 	private JLabel label_19;
 	private JLabel detalles;
-	private Factura selectedFactura = null;
+	 private Factura selectedFactura = null;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

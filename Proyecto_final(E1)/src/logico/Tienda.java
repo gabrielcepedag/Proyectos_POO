@@ -43,6 +43,7 @@ public class Tienda implements Serializable{
 	public void setMisProductos(ArrayList<Producto> misProductos) {
 		this.misProductos = misProductos;
 	}
+	//Cualquier cosita
 
 	public ArrayList<Cliente> getMisClientes() {
 		return misClientes;
