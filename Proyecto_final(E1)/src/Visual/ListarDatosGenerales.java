@@ -316,7 +316,7 @@ public class ListarDatosGenerales extends JDialog {
 		
 		String comboMenosVendido = Tienda.getInstance().comboMenosVendido();
 		if (comboMenosVendido == null) {
-			comboMenosVendido = "--";
+			comboMenosVendido = "";
 		}
 		lblCmbMenosComp = new JLabel(comboMenosVendido);
 		lblCmbMenosComp.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -342,7 +342,7 @@ public class ListarDatosGenerales extends JDialog {
 		Factura facturaAux = Tienda.getInstance().facturaMasCara();
 		String facturaMasCara = null;
 		if (facturaAux != null) {
-			facturaMasCara = facturaAux.getCodigo();
+			facturaMasCara = new String(facturaAux.getCodigo() + " - " + facturaAux.getPrecioTotal());
 		}else {
 			facturaMasCara = "";
 		}
@@ -364,7 +364,7 @@ public class ListarDatosGenerales extends JDialog {
 		Factura facturaAux2 = Tienda.getInstance().facturaMenosCara();
 		String facturaMenosCara = null;
 		if (facturaAux2 != null) {
-			facturaMenosCara = facturaAux2.getCodigo();
+			facturaMenosCara = new String(facturaAux2.getCodigo() + " - " + facturaAux2.getPrecioTotal());
 		}else {
 			facturaMenosCara = "";
 		}
@@ -455,7 +455,7 @@ public class ListarDatosGenerales extends JDialog {
 		Vendedor vendedorAux = Tienda.getInstance().vendedorConMasFacturas();
 		String vendedorConMasFacturas = null;
 		if (vendedorAux != null) {
-			vendedorConMasFacturas = vendedorAux.getNombre();
+			vendedorConMasFacturas = new String(vendedorAux.getNombre() + " - " + vendedorAux.getCedula());
 		}else {
 			vendedorConMasFacturas = "";
 		}
@@ -477,7 +477,7 @@ public class ListarDatosGenerales extends JDialog {
 		Vendedor vendedorAux2 = Tienda.getInstance().vendedorConMenosFacturas();
 		String vendedorConMenosFacturas = null;
 		if (vendedorAux2 != null) {
-			vendedorConMenosFacturas = vendedorAux2.getNombre();
+			vendedorConMenosFacturas = new String(vendedorAux2.getNombre() + " - " + vendedorAux2.getCedula());
 		}else {
 			vendedorConMenosFacturas = "";
 		}
@@ -563,7 +563,7 @@ public class ListarDatosGenerales extends JDialog {
 		Cliente clienteMasCompra = Tienda.getInstance().getClienteMasCompras();
 		String nombreCliente = null;
 		if (clienteMasCompra != null) {
-			nombreCliente = clienteMasCompra.getNombre();
+			nombreCliente = new String(clienteMasCompra.getNombre() + " - " + clienteMasCompra.getCedula());
 		}else {
 			nombreCliente = "";
 		}
@@ -585,7 +585,7 @@ public class ListarDatosGenerales extends JDialog {
 		Cliente clienteMenosCompra = Tienda.getInstance().getClienteMenosCompras();
 		String nombreCliente2 = null;
 		if (clienteMenosCompra != null) {
-			nombreCliente2 = clienteMenosCompra.getNombre();
+			nombreCliente2 = new String(clienteMenosCompra.getNombre() + " - " + clienteMenosCompra.getCedula());
 		}else {
 			nombreCliente2 = "";
 		}
@@ -607,7 +607,7 @@ public class ListarDatosGenerales extends JDialog {
 		Cliente clienteMayorDeuda = Tienda.getInstance().getClienteMayorDeuda();
 		String clienteMasDeuda = null;
 		if (clienteMayorDeuda != null) {
-			clienteMasDeuda = clienteMayorDeuda.getNombre();
+			clienteMasDeuda = new String(clienteMayorDeuda.getNombre() + " - " + clienteMayorDeuda.getCedula());
 		}else {
 			clienteMasDeuda = "";
 		}
