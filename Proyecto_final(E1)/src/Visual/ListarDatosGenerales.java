@@ -286,7 +286,7 @@ public class ListarDatosGenerales extends JDialog {
 		panelCombos.setBounds(345, 43, 759, 647);
 		contentPanel.add(panelCombos);
 		
-		JLabel lblComboMasComprado = new JLabel("Combo m\u00E1s comprado:");
+		JLabel lblComboMasComprado = new JLabel("Combo m\u00E1s vendido:");
 		lblComboMasComprado.setFont(new Font("Tahoma", Font.PLAIN, 35));
 		lblComboMasComprado.setBounds(12, 13, 458, 69);
 		panelCombos.add(lblComboMasComprado);
@@ -301,7 +301,7 @@ public class ListarDatosGenerales extends JDialog {
 		panel1.setBounds(13, 137, 445, 4);
 		panelCombos.add(panel1);
 		
-		JLabel lblComboMenosComprado = new JLabel("Combo menos Comprado:");
+		JLabel lblComboMenosComprado = new JLabel("Combo menos vendido:");
 		lblComboMenosComprado.setFont(new Font("Tahoma", Font.PLAIN, 35));
 		lblComboMenosComprado.setBounds(7, 157, 637, 69);
 		panelCombos.add(lblComboMenosComprado);
@@ -352,9 +352,9 @@ public class ListarDatosGenerales extends JDialog {
 		panel4.setBounds(13, 281, 445, 4);
 		panelFacturas.add(panel4);
 		
-		JLabel lblFacturasSinPagar = new JLabel("Facturas sin pagar:");
+		JLabel lblFacturasSinPagar = new JLabel("Facturas adeudadas:");
 		lblFacturasSinPagar.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblFacturasSinPagar.setBounds(7, 298, 307, 69);
+		lblFacturasSinPagar.setBounds(7, 298, 320, 69);
 		panelFacturas.add(lblFacturasSinPagar);
 		
 		lblCantFactSinPagar = new JLabel("Cantidad");
@@ -382,7 +382,7 @@ public class ListarDatosGenerales extends JDialog {
 		panel6.setBounds(379, 422, 313, 4);
 		panelFacturas.add(panel6);
 		
-		JLabel lblTotalIngresos = new JLabel("Total de ingresos:");
+		JLabel lblTotalIngresos = new JLabel("Total vendido:");
 		lblTotalIngresos.setFont(new Font("Tahoma", Font.PLAIN, 35));
 		lblTotalIngresos.setBounds(12, 439, 637, 69);
 		panelFacturas.add(lblTotalIngresos);

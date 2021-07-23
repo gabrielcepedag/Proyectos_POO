@@ -1,5 +1,6 @@
 package logico;
 
+import java.awt.Container;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -351,19 +352,15 @@ public class Tienda implements Serializable{
 		for (Cliente cliente : misClientes) {
 			if(cliente.getCantCompras() > mayor) {
 				mayor = cliente.getCantCompras();
-			}
-		}
-		
-		for (Cliente cliente : misClientes) {
-			if(cliente.getCantCompras() == mayor) {
 				aux = cliente;
 			}
 		}
+		
 		return aux;
 	}
 	
 	public Cliente getClienteMenosCompras() {
-		int mayor = 0;
+		/*int mayor = 0;
 		int menor;
 		Cliente aux = null;
 		
@@ -383,6 +380,13 @@ public class Tienda implements Serializable{
 			if(cliente.getCantCompras() == menor) {
 				aux = cliente;
 			}
+		}*/
+		Cliente aux = misClientes.get(0);
+		
+		for (Cliente cliente : misClientes) {
+			if (cliente.getCantCompras() < aux.getCantCompras()) {
+				aux = cliente;
+			}
 		}
 		return aux;
 	}
@@ -395,16 +399,215 @@ public class Tienda implements Serializable{
 			if(factura.isACredito()) {
 				if(factura.getPrecioTotal() > mayor) {
 					mayor = factura.getPrecioTotal();
+					aux = factura.getMiCliente();
 				}
-			}
-		}
-		
-		for (Factura factura : misFacturas) {
-			if(factura.getPrecioTotal() == mayor) {
-				aux = factura.getMiCliente();
 			}
 		}
 		return aux;
 	}
+	
+	public String productoMasComprado() {
+		String aux = null;
+		int contMR = 0, contMP = 0, contMB = 0, contDD = 0;
+		
+		for (Factura factura : misFacturas) {
+			for (Producto producto : factura.getMisProductos()) {
+				if (producto instanceof DiscoDuro) {
+					contDD++;
+				}else if (producto instanceof MemoriaRam) {
+					contMR++;
+				}else if (producto instanceof MotherBoard) {
+					contMB++;
+				}else if (producto instanceof MicroProcesador) {
+					contMP++;
+				}
+			}
+		}
+		if (contDD > contMB && contDD > contMR && contDD > contMP) {
+			aux = "Disco Duro";
+		}else if (contMR > contMB && contMR > contDD && contMR > contMP) {
+			aux = "Memoria RAM";
+		}else if (contMB > contMR && contMB > contDD && contMB > contMP) {
+			aux = "Mother Board";
+		}else if (contMP > contMR && contMP > contDD && contMP > contMB) {
+			aux = "Microprocesador";
+		}
+		
+		return aux;
+	}
+	
+	public String productoMenosComprado() {
+		String aux = null;
+		int contMR = 0, contMP = 0, contMB = 0, contDD = 0;
+		
+		for (Factura factura : misFacturas) {
+			for (Producto producto : factura.getMisProductos()) {
+				if (producto instanceof DiscoDuro) {
+					contDD++;
+				}else if (producto instanceof MemoriaRam) {
+					contMR++;
+				}else if (producto instanceof MotherBoard) {
+					contMB++;
+				}else if (producto instanceof MicroProcesador) {
+					contMP++;
+				}
+			}
+		}
+		if (contDD < contMB && contDD < contMR && contDD < contMP) {
+			aux = "Disco Duro";
+		}else if (contMR < contMB && contMR < contDD && contMR < contMP) {
+			aux = "Memoria RAM";
+		}else if (contMB < contMR && contMB < contDD && contMB < contMP) {
+			aux = "Mother Board";
+		}else if (contMP < contMR && contMP < contDD && contMP < contMB) {
+			aux = "Microprocesador";
+		}
+		
+		return aux;
+	}
+	
+	public Vendedor vendedorConMasFacturas() {
+		int mayor = 0, cont = 0;
+		Vendedor aux = null;
+		
+		for (Factura factura : misFacturas) {
+			if (factura.getMiVendedor() instanceof Vendedor) {
+				cont = calcFacturasVendedor(factura.getMiVendedor());
+				if (cont > mayor) {
+					mayor = cont;
+					aux = factura.getMiVendedor();
+				}
+			}
+		}
+		
+		return aux;
+	}
+
+	private int calcFacturasVendedor(Vendedor v1) {
+		int cont = 0;
+		
+		for (Factura f1 : misFacturas) {
+			if (f1.getMiVendedor().equals(v1)) {
+				cont++;
+			}
+		}
+		return cont;
+	}
+	
+	public Vendedor vendedorConMenosFacturas() {
+		int menor = 10, cont = 0;
+		Vendedor aux = null;
+		
+		for (Factura factura : misFacturas) {
+			if (factura.getMiVendedor() instanceof Vendedor) {
+				cont = calcFacturasVendedor(factura.getMiVendedor());
+				if (cont < menor) {
+					menor = cont;
+					aux = factura.getMiVendedor();
+				}
+			}
+		}
+		
+		return aux;
+	}
+	
+	public Factura facturaMasCara() {
+		Factura aux = null;
+		float mayor = 0;
+		
+		for (Factura factura : misFacturas) {
+			if (factura.getPrecioTotal() > mayor) {
+				mayor = factura.getPrecioTotal();
+				aux = factura;
+			}
+		}
+		
+		return aux;
+	}
+	
+	public Factura facturaMenosCara() {
+		Factura aux = null;
+		float menor = misFacturas.get(0).getPrecioTotal();
+		
+		for (Factura factura : misFacturas) {
+			if (factura.getPrecioTotal() < menor) {
+				menor = factura.getPrecioTotal();
+				aux = factura;
+			}
+		}
+		
+		return aux;
+	}
+	
+	public int cantFacturasAdeudadas() {
+		int cont = 0;
+		
+		for (Factura factura : misFacturas) {
+			if (factura.isACredito()) {
+				cont++;
+			}
+		}
+		return cont;
+	}
+	
+	public int cantFacturasPagadas() {
+		int cont = 0;
+		
+		for (Factura factura : misFacturas) {
+			if (factura.isACredito() == false) {
+				cont++;
+			}
+		}
+		return cont;
+	}
+	
+	public float totalVendido() {
+		float total = 0;
+		
+		for (Factura f1 : misFacturas) {
+			total += f1.getPrecioTotal();
+		}
+		return total;
+	}
+	
+	public String comboMasVendido() {
+		int cont = 0, mayor = 0;
+		String aux = null;
+		
+		for (Combo combo : misCombos) {
+			cont = cantCombosComprados(combo);
+			if (cont > mayor) {
+				mayor = cont;
+				aux = combo.getNombre();
+			}
+		}
+		return aux;
+	}
+
+	private int cantCombosComprados(Combo combo) {
+		int cont = 0;
+		
+		for (Factura f1 : misFacturas) {
+			if (f1.getMisProductos().equals(combo.getMisProductos())){
+				cont++;
+			}
+		}
+		return cont;
+	}
+	
+	public String comboMenosVendido() {
+		int cont = 0, menor = 1000;
+		String aux = null;
+		
+		for (Combo combo : misCombos) {
+			cont = cantCombosComprados(combo);
+			if (cont < menor) {
+				menor = cont;
+				aux = combo.getNombre();
+			}
+		}
+		return aux;
+	}
+	
 	
 }

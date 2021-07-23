@@ -231,7 +231,7 @@ public class Login extends JFrame implements Serializable{
 					frame.setVisible(true);
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "Algún dato ingresado es incorrecto");
+					JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
 				}
 			}
 		});
