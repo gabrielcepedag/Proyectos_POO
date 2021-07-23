@@ -267,9 +267,9 @@ public class Tienda implements Serializable{
 	//--------------------------------------------------------------------------------//
 	
 	public void crearOrdenesCompra() {
-		Producto productoAOrdenar = null;
 		
 		for (Producto producto : misProductos) {
+			Producto productoAOrdenar = null;
 			if (producto.getCantidad() < producto.getDispMin()) {
 				if (ExisteOrdenDelProducto(producto) == false) {
 					productoAOrdenar = producto;
@@ -382,11 +382,13 @@ public class Tienda implements Serializable{
 				aux = cliente;
 			}
 		}*/
-		Cliente aux = misClientes.get(0);
+		Cliente aux = null;
+		int menor = -1;
 		
 		for (Cliente cliente : misClientes) {
-			if (cliente.getCantCompras() < aux.getCantCompras()) {
+			if (cliente.getCantCompras() < menor) {
 				aux = cliente;
+				menor = cliente.getCantCompras();
 			}
 		}
 		return aux;
@@ -408,7 +410,7 @@ public class Tienda implements Serializable{
 	}
 	
 	public String productoMasComprado() {
-		String aux = null;
+		String aux = "";
 		int contMR = 0, contMP = 0, contMB = 0, contDD = 0;
 		
 		for (Factura factura : misFacturas) {
@@ -438,7 +440,7 @@ public class Tienda implements Serializable{
 	}
 	
 	public String productoMenosComprado() {
-		String aux = null;
+		String aux = "";
 		int contMR = 0, contMP = 0, contMB = 0, contDD = 0;
 		
 		for (Factura factura : misFacturas) {
@@ -528,7 +530,7 @@ public class Tienda implements Serializable{
 	
 	public Factura facturaMenosCara() {
 		Factura aux = null;
-		float menor = misFacturas.get(0).getPrecioTotal();
+		float menor = 5;
 		
 		for (Factura factura : misFacturas) {
 			if (factura.getPrecioTotal() < menor) {

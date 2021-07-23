@@ -113,7 +113,7 @@ public class ListarPedido extends JDialog {
 		Tienda.getInstance().addOrdenCompra(ordenCompra2);
 		*/
 		
-		String header[] = {"Código", "Distribuidos", "Producto", "Cantidad", "Precio total", "Fecha de Solicitud", "Estado"};
+		String header[] = {"Código", "Distribuidor", "Producto", "Cantidad", "Precio total", "Fecha de Solicitud", "Procesado"};
 		modelPedido = new DefaultTableModel();
 		modelPedido.setColumnIdentifiers(header);
 				
@@ -286,6 +286,7 @@ public class ListarPedido extends JDialog {
 		
 		modelPedido.setRowCount(0);
 		rows = new Object[modelPedido.getColumnCount()];
+		Tienda.getInstance().crearOrdenesCompra();
 		
 		switch (selection) {
 		case 0:

@@ -7,13 +7,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import logico.Cliente;
 import logico.Combo;
 import logico.DiscoDuro;
+import logico.Factura;
 import logico.MemoriaRam;
 import logico.MicroProcesador;
 import logico.MotherBoard;
 import logico.Producto;
 import logico.Tienda;
+import logico.Vendedor;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -79,6 +82,7 @@ public class ListarDatosGenerales extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
+	@SuppressWarnings("unused")
 	public ListarDatosGenerales() {
 		setUndecorated(true);
 		setBounds(100, 100, 1117, 703);
@@ -291,7 +295,11 @@ public class ListarDatosGenerales extends JDialog {
 		lblComboMasComprado.setBounds(12, 13, 458, 69);
 		panelCombos.add(lblComboMasComprado);
 		
-		lblCmbMasComp = new JLabel("Combo");
+		String comboMasVendido = Tienda.getInstance().comboMasVendido();
+		if (comboMasVendido == null) {
+			comboMasVendido = "";
+		}
+		lblCmbMasComp = new JLabel(comboMasVendido);
 		lblCmbMasComp.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblCmbMasComp.setBounds(13, 80, 565, 57);
 		panelCombos.add(lblCmbMasComp);
@@ -306,7 +314,11 @@ public class ListarDatosGenerales extends JDialog {
 		lblComboMenosComprado.setBounds(7, 157, 637, 69);
 		panelCombos.add(lblComboMenosComprado);
 		
-		lblCmbMenosComp = new JLabel("Combo");
+		String comboMenosVendido = Tienda.getInstance().comboMenosVendido();
+		if (comboMenosVendido == null) {
+			comboMenosVendido = "--";
+		}
+		lblCmbMenosComp = new JLabel(comboMenosVendido);
 		lblCmbMenosComp.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblCmbMenosComp.setBounds(13, 225, 565, 57);
 		panelCombos.add(lblCmbMenosComp);
@@ -327,7 +339,14 @@ public class ListarDatosGenerales extends JDialog {
 		lblFacturaMasCara.setBounds(12, 13, 458, 69);
 		panelFacturas.add(lblFacturaMasCara);
 		
-		lblFactMasCara = new JLabel("Factura");
+		Factura facturaAux = Tienda.getInstance().facturaMasCara();
+		String facturaMasCara = null;
+		if (facturaAux != null) {
+			facturaMasCara = facturaAux.getCodigo();
+		}else {
+			facturaMasCara = "";
+		}
+		lblFactMasCara = new JLabel(facturaMasCara);
 		lblFactMasCara.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblFactMasCara.setBounds(13, 80, 565, 57);
 		panelFacturas.add(lblFactMasCara);
@@ -342,7 +361,14 @@ public class ListarDatosGenerales extends JDialog {
 		lblFacturaMenosCara.setBounds(7, 157, 637, 69);
 		panelFacturas.add(lblFacturaMenosCara);
 		
-		lblFactMenosCara = new JLabel("Factura");
+		Factura facturaAux2 = Tienda.getInstance().facturaMenosCara();
+		String facturaMenosCara = null;
+		if (facturaAux2 != null) {
+			facturaMenosCara = facturaAux2.getCodigo();
+		}else {
+			facturaMenosCara = "";
+		}
+		lblFactMenosCara = new JLabel(facturaMenosCara);
 		lblFactMenosCara.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblFactMenosCara.setBounds(8, 225, 565, 57);
 		panelFacturas.add(lblFactMenosCara);
@@ -357,7 +383,8 @@ public class ListarDatosGenerales extends JDialog {
 		lblFacturasSinPagar.setBounds(7, 298, 320, 69);
 		panelFacturas.add(lblFacturasSinPagar);
 		
-		lblCantFactSinPagar = new JLabel("Cantidad");
+		String facturasAdeudadas = Integer.toString(Tienda.getInstance().cantFacturasAdeudadas());
+		lblCantFactSinPagar = new JLabel(facturasAdeudadas);
 		lblCantFactSinPagar.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblCantFactSinPagar.setBounds(8, 360, 307, 57);
 		panelFacturas.add(lblCantFactSinPagar);
@@ -372,7 +399,8 @@ public class ListarDatosGenerales extends JDialog {
 		lblFacturasPagadas.setBounds(379, 298, 307, 69);
 		panelFacturas.add(lblFacturasPagadas);
 		
-		lblCantFactPagadas = new JLabel("Cantidad");
+		String facturasPagadas = Integer.toString(Tienda.getInstance().cantFacturasPagadas());
+		lblCantFactPagadas = new JLabel(facturasPagadas);
 		lblCantFactPagadas.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblCantFactPagadas.setBounds(379, 365, 245, 57);
 		panelFacturas.add(lblCantFactPagadas);
@@ -387,7 +415,8 @@ public class ListarDatosGenerales extends JDialog {
 		lblTotalIngresos.setBounds(12, 439, 637, 69);
 		panelFacturas.add(lblTotalIngresos);
 		
-		lblCantIngresos = new JLabel("Cantidad");
+		String totalVendido = new String("RD$ " + Float.toString(Tienda.getInstance().totalVendido()));
+		lblCantIngresos = new JLabel(totalVendido);
 		lblCantIngresos.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblCantIngresos.setBounds(13, 505, 565, 57);
 		panelFacturas.add(lblCantIngresos);
@@ -423,7 +452,14 @@ public class ListarDatosGenerales extends JDialog {
 		lblVendedorMasFacturas.setBounds(7, 157, 637, 69);
 		panelVendedores.add(lblVendedorMasFacturas);
 		
-		lblVendedorMasFact = new JLabel("Fulanito");
+		Vendedor vendedorAux = Tienda.getInstance().vendedorConMasFacturas();
+		String vendedorConMasFacturas = null;
+		if (vendedorAux != null) {
+			vendedorConMasFacturas = vendedorAux.getNombre();
+		}else {
+			vendedorConMasFacturas = "";
+		}
+		lblVendedorMasFact = new JLabel(vendedorConMasFacturas);
 		lblVendedorMasFact.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblVendedorMasFact.setBounds(8, 225, 565, 57);
 		panelVendedores.add(lblVendedorMasFact);
@@ -438,7 +474,14 @@ public class ListarDatosGenerales extends JDialog {
 		lblVendedorMenosFacturas.setBounds(7, 298, 657, 69);
 		panelVendedores.add(lblVendedorMenosFacturas);
 		
-		lblVendedorMenosFact = new JLabel("Fulanito");
+		Vendedor vendedorAux2 = Tienda.getInstance().vendedorConMenosFacturas();
+		String vendedorConMenosFacturas = null;
+		if (vendedorAux2 != null) {
+			vendedorConMenosFacturas = vendedorAux2.getNombre();
+		}else {
+			vendedorConMenosFacturas = "";
+		}
+		lblVendedorMenosFact = new JLabel(vendedorConMenosFacturas);
 		lblVendedorMenosFact.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblVendedorMenosFact.setBounds(8, 370, 565, 57);
 		panelVendedores.add(lblVendedorMenosFact);
@@ -459,7 +502,11 @@ public class ListarDatosGenerales extends JDialog {
 		lblProductoMasComprado.setBounds(12, 13, 458, 69);
 		panelProductos.add(lblProductoMasComprado);
 		
-		lblProdMasComprado = new JLabel("Fulanito");
+		String productoMasComprado = Tienda.getInstance().productoMasComprado();
+		if (productoMasComprado == null) {
+			productoMasComprado = "";
+		}
+		lblProdMasComprado = new JLabel(productoMasComprado);
 		lblProdMasComprado.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblProdMasComprado.setBounds(13, 80, 565, 57);
 		panelProductos.add(lblProdMasComprado);
@@ -474,7 +521,11 @@ public class ListarDatosGenerales extends JDialog {
 		lblProductoMenosComprado.setBounds(7, 157, 637, 69);
 		panelProductos.add(lblProductoMenosComprado);
 		
-		lblProdMenosComprado = new JLabel("Fulanito");
+		String productoMenosComprado = Tienda.getInstance().productoMenosComprado();
+		if (productoMenosComprado == null) {
+			productoMenosComprado = "";
+		}
+		lblProdMenosComprado = new JLabel(productoMenosComprado);
 		lblProdMenosComprado.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblProdMenosComprado.setBounds(8, 225, 565, 57);
 		panelProductos.add(lblProdMenosComprado);
@@ -509,7 +560,14 @@ public class ListarDatosGenerales extends JDialog {
 		lblClienteMasCompras.setBounds(7, 157, 637, 69);
 		panelClientes.add(lblClienteMasCompras);
 		
-		lblClienteMasComp = new JLabel("Fulanito");
+		Cliente clienteMasCompra = Tienda.getInstance().getClienteMasCompras();
+		String nombreCliente = null;
+		if (clienteMasCompra != null) {
+			nombreCliente = clienteMasCompra.getNombre();
+		}else {
+			nombreCliente = "";
+		}
+		lblClienteMasComp = new JLabel(nombreCliente);
 		lblClienteMasComp.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblClienteMasComp.setBounds(8, 225, 565, 57);
 		panelClientes.add(lblClienteMasComp);
@@ -524,7 +582,14 @@ public class ListarDatosGenerales extends JDialog {
 		lblClienteMenosCompras.setBounds(12, 298, 637, 69);
 		panelClientes.add(lblClienteMenosCompras);
 		
-		lblClienteMenosComp = new JLabel("Fulanito");
+		Cliente clienteMenosCompra = Tienda.getInstance().getClienteMenosCompras();
+		String nombreCliente2 = null;
+		if (clienteMenosCompra != null) {
+			nombreCliente2 = clienteMenosCompra.getNombre();
+		}else {
+			nombreCliente2 = "";
+		}
+		lblClienteMenosComp = new JLabel(nombreCliente2);
 		lblClienteMenosComp.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblClienteMenosComp.setBounds(13, 365, 588, 57);
 		panelClientes.add(lblClienteMenosComp);
@@ -539,7 +604,14 @@ public class ListarDatosGenerales extends JDialog {
 		lblClienteMayorDeuda.setBounds(12, 439, 637, 69);
 		panelClientes.add(lblClienteMayorDeuda);
 		
-		lblClientMayorDeuda = new JLabel("Fulanito");
+		Cliente clienteMayorDeuda = Tienda.getInstance().getClienteMayorDeuda();
+		String clienteMasDeuda = null;
+		if (clienteMayorDeuda != null) {
+			clienteMasDeuda = clienteMayorDeuda.getNombre();
+		}else {
+			clienteMasDeuda = "";
+		}
+		lblClientMayorDeuda = new JLabel(clienteMasDeuda);
 		lblClientMayorDeuda.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblClientMayorDeuda.setBounds(13, 505, 416, 57);
 		panelClientes.add(lblClientMayorDeuda);
