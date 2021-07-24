@@ -155,7 +155,7 @@ public class ListarProducto extends JDialog {
 		lblNewLabel_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				RegProducto regProducto  = new RegProducto();
+				RegProducto regProducto  = new RegProducto(null);
 				regProducto.setModal(true);
 				regProducto.setVisible(true);
 			}
@@ -183,10 +183,13 @@ public class ListarProducto extends JDialog {
 		Eliminar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				Tienda.getInstance().eliminarProducto(selectedProducto);
-				Modificar.setEnabled(false);
-				Eliminar.setEnabled(false);
-				loadTableProductos(cbxTipoProducto.getSelectedIndex());
+				int option = JOptionPane.showConfirmDialog(null, "Seguro que desea eliminar el producto: " + selectedProducto.getNumSerie(), "Eliminar producto",JOptionPane.YES_NO_OPTION);
+				if (option == JOptionPane.YES_OPTION) {
+					Tienda.getInstance().eliminarProducto(selectedProducto);
+					Modificar.setEnabled(false);
+					Eliminar.setEnabled(false);
+					loadTableProductos(cbxTipoProducto.getSelectedIndex());
+				}
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -212,6 +215,9 @@ public class ListarProducto extends JDialog {
 		Modificar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				RegProducto regProducto  = new RegProducto(selectedProducto);
+				regProducto.setModal(true);
+				regProducto.setVisible(true);
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -284,9 +290,9 @@ public class ListarProducto extends JDialog {
 		modelProductos.setRowCount(0);
 		rows = new Object[modelProductos.getColumnCount()];
 		
-		for (int i = modelProductos.getRowCount() - 1; i >= 0; i--) {
+		/*for (int i = modelProductos.getRowCount() - 1; i >= 0; i--) {
 			modelProductos.removeRow(i);
-		}
+		}*/
 
 		switch (selection) {
 		case 0:

@@ -77,6 +77,7 @@ public class RegProducto extends JDialog {
 	private JSpinner spnDispMax;
 	private JComboBox cbxSocketMicroP;
 	private JLabel lblRegistrar;
+	Producto productSelected = null;
 
 	/**
 	 * Launch the application.
@@ -85,7 +86,7 @@ public class RegProducto extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegProducto dialog = new RegProducto();
+					RegProducto dialog = new RegProducto(null);
 					dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -97,7 +98,9 @@ public class RegProducto extends JDialog {
 	/**
 	 * Create the frame.
 	 */
-	public RegProducto() {
+	public RegProducto(Producto producto) {
+		productSelected = producto;
+		
 		setUndecorated(true);
 		setBounds(100, 100, 700, 750);
 		setLocationRelativeTo(null);
@@ -513,55 +516,59 @@ public class RegProducto extends JDialog {
 		lblCancelar.setOpaque(true);
 		lblCancelar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCancelar.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		lblRegistrar = new JLabel("Registrar");
+		String boton = null;
+		if (productSelected == null) {
+			boton = "Registrar";
+		}else {
+			boton = "Modificar";
+		}
+		lblRegistrar = new JLabel(boton);
 		lblRegistrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Producto aux = null;
-				String numSerie = txtNumSerie.getText();
-				String marca = txtMarca.getText();
-				float precio = new Float(txtPrecio.getText().toString());
-				int dispReal = new Integer(spnDispReal.getValue().toString());
-				int dispMax = new Integer(spnDispMax.getValue().toString());
-				int dispMin = new Integer(spnDispMin.getValue().toString());
-				
-				if(btnDiscoDuro.isSelected()) {
-					String modelo = txtModeloDiscoDuro.getText();
-					String socket = cbxSocketDiscoDuro.getSelectedItem().toString();
-					int capacidad = new Integer(txtCapacidadDiscoDuro.getText());
-					aux = new DiscoDuro(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, capacidad, socket);
+				if (productSelected == null) {
+					String numSerie = txtNumSerie.getText();
+					String marca = txtMarca.getText();
+					float precio = new Float(txtPrecio.getText().toString());
+					int dispReal = new Integer(spnDispReal.getValue().toString());
+					int dispMax = new Integer(spnDispMax.getValue().toString());
+					int dispMin = new Integer(spnDispMin.getValue().toString());
+					
+					if(btnDiscoDuro.isSelected()) {
+						String modelo = txtModeloDiscoDuro.getText();
+						String socket = cbxSocketDiscoDuro.getSelectedItem().toString();
+						int capacidad = new Integer(txtCapacidadDiscoDuro.getText());
+						productSelected = new DiscoDuro(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, capacidad, socket);
+					}
+					if(btnMemoriaRam.isSelected()) {
+						String tipo = cbxTipoMemoriaRam.getSelectedItem().toString();
+						int capacidad = new Integer(txtCapacidadMRAM.getText());
+						productSelected = new MemoriaRam(numSerie, dispReal, precio, marca, dispMin, dispMax, capacidad, tipo);
+					}
+					if(btnMicroProcesador.isSelected()) {
+						String modelo = txtModeloMicroP.getText();
+						String socket = cbxSocketMicroP.getSelectedItem().toString();
+						float velocidad = new Float(txtVelProcesamiento.getText());
+						productSelected = new MicroProcesador(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, socket, velocidad);
+					}
+					if(btnTarjetaMadre.isSelected()) {
+						String modelo = txtModeloTM.getText();
+						String socket = cbxSocketTM.getSelectedItem().toString();
+						String tipoRam = cbxTipoRamTM.getSelectedItem().toString();
+						productSelected = new MotherBoard(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, socket, tipoRam);
+					}
+					Tienda.getInstance().addProducto(productSelected);
+					JOptionPane.showMessageDialog(null, "El producto ha sido registrado satisfactoriamente !", "Registro de Producto", JOptionPane.INFORMATION_MESSAGE);
+					clean();	
+					ListarProducto.loadTableProductos(0);;
+				}else {
+					productSelected.setPrecio(new Float(txtPrecio.getText().toString()));
+					JOptionPane.showMessageDialog(null, "El producto ha sido modificado satisfactoriamente !", "Modificar Producto", JOptionPane.CLOSED_OPTION);
+					ListarProducto.loadTableProductos(0);
+					Home.loadHome();
 				}
-				if(btnMemoriaRam.isSelected()) {
-					String tipo = cbxTipoMemoriaRam.getSelectedItem().toString();
-					int capacidad = new Integer(txtCapacidadMRAM.getText());
-					aux = new MemoriaRam(numSerie, dispReal, precio, marca, dispMin, dispMax, capacidad, tipo);
-				}
-				if(btnMicroProcesador.isSelected()) {
-					String modelo = txtModeloMicroP.getText();
-					String socket = cbxSocketMicroP.getSelectedItem().toString();
-					float velocidad = new Float(txtVelProcesamiento.getText());
-					aux = new MicroProcesador(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, socket, velocidad);
-				}
-				if(btnTarjetaMadre.isSelected()) {
-					String modelo = txtModeloTM.getText();
-					String socket = cbxSocketTM.getSelectedItem().toString();
-					String tipoRam = cbxTipoRamTM.getSelectedItem().toString();
-					aux= new MotherBoard(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, socket, tipoRam);
-				}
-				Tienda.getInstance().addProducto(aux);
-				JOptionPane.showMessageDialog(null, "El prodcuto ha sido registrado satisfactoriamente.", "Registro de Producto", JOptionPane.INFORMATION_MESSAGE);
-				clean();	
-				ListarProducto.loadTableProductos(0);;
-				
-				/* LOGICA DE MODIFICAR PRODUCTO
-				 * if(selected == null){
-				 * 
-				 * }else{
-				 * 
-				 * } 
-				 */
 			}
+
 		});
 		lblRegistrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblRegistrar.setBounds(385, 687, 225, 45);
@@ -573,8 +580,76 @@ public class RegProducto extends JDialog {
 		lblRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblRegistrar.setBackground(new Color(0, 155, 124));
 		
+		loadProducto(productSelected);
 	}
 	
+	private void loadProducto(Producto selected) {
+		
+		if (selected != null) {
+			txtNumSerie.setText(selected.getNumSerie());
+			txtNumSerie.setEnabled(false);
+			txtMarca.setText(selected.getMarca());
+			txtMarca.setEnabled(false);
+			txtPrecio.setText(String.valueOf(selected.getPrecio()));
+			spnDispReal.setValue(selected.getCantidad());
+			spnDispReal.setEnabled(false);
+			spnDispMax.setValue(selected.getDispMax());
+			spnDispMax.setEnabled(false);
+			spnDispMin.setValue(selected.getDispMin());
+			spnDispMin.setEnabled(false);
+			
+			if (selected instanceof DiscoDuro) {
+				btnMemoriaRam.setEnabled(false);
+				btnMicroProcesador.setEnabled(false);
+				btnTarjetaMadre.setEnabled(false);
+				txtModeloDiscoDuro.setText(((DiscoDuro)selected).getModelo());
+				txtModeloDiscoDuro.setEnabled(false);
+				txtCapacidadDiscoDuro.setText(Integer.toString(((DiscoDuro)selected).getCapacidad()));
+				txtCapacidadDiscoDuro.setEnabled(false);
+				cbxSocketDiscoDuro.setEnabled(false);
+			}else if (selected instanceof MemoriaRam) {
+				panelDiscoDuro.setVisible(false);
+				panelMemoriaRam.setVisible(true);
+				btnDiscoDuro.setSelected(false);
+				btnMemoriaRam.setSelected(true);
+				btnDiscoDuro.setEnabled(false);
+				btnMicroProcesador.setEnabled(false);
+				btnTarjetaMadre.setEnabled(false);
+				txtCapacidadMRAM.setText(Integer.toString(((MemoriaRam)selected).getCapacidad()));
+				txtCapacidadMRAM.setEnabled(false);
+				cbxTipoMemoriaRam.setEnabled(false);
+			}else if (selected instanceof MicroProcesador) {
+				panelDiscoDuro.setVisible(false);
+				panelMicroProcesador.setVisible(true);
+				btnDiscoDuro.setSelected(false);
+				btnMicroProcesador.setSelected(true);
+				btnMemoriaRam.setEnabled(false);
+				btnDiscoDuro.setEnabled(false);
+				btnTarjetaMadre.setEnabled(false);
+				txtModeloMicroP.setText(((MicroProcesador)selected).getModelo());
+				txtModeloMicroP.setEnabled(false);
+				cbxSocketMicroP.setEnabled(false);
+				txtVelProcesamiento.setText(Float.toString(((MicroProcesador)selected).getVelocidadProcesamiento()));
+				txtVelProcesamiento.setEnabled(false);
+			}else if (selected instanceof MotherBoard) {
+				rdbtnIde.setEnabled(false);
+				rdbtnSata.setEnabled(false);
+				rdbtnSata2.setEnabled(false);
+				rdbtnSata3.setEnabled(false);
+				panelDiscoDuro.setVisible(false);
+				panelTarjetaMadre.setVisible(true);
+				btnDiscoDuro.setSelected(false);
+				btnTarjetaMadre.setSelected(true);
+				btnMemoriaRam.setEnabled(false);
+				btnMicroProcesador.setEnabled(false);
+				btnDiscoDuro.setEnabled(false);
+				txtModeloTM.setText(((MotherBoard)selected).getModelo());
+				txtModeloTM.setEnabled(false);
+				cbxSocketTM.setEnabled(false);
+				cbxTipoRamTM.setEnabled(false);
+			}
+		}
+	}
 	private void clean() {
 		txtNumSerie.setText(" ");
 		txtMarca.setText(" ");
