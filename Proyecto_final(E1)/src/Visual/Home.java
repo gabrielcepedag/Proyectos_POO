@@ -81,6 +81,8 @@ public class Home extends JFrame {
 	private JLabel label_19;
 	private JLabel detalles;
 	 private Factura selectedFactura = null;
+	 private static JLabel lblNombre;
+	 private static JLabel lblClass;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -157,9 +159,9 @@ public class Home extends JFrame {
 		lblCuenta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Cuenta cuenta = new Cuenta();
-				cuenta.setVisible(true);
-				cuenta.setModal(true);
+				RegVendedor regVendedor = new RegVendedor(Tienda.getInstance().getLoginUserEmpleado());
+				regVendedor.setModal(true);
+				regVendedor.setVisible(true);
 			}
 		});
 		
@@ -803,19 +805,19 @@ public class Home extends JFrame {
 		lblProductos.setBounds(31, 367, 358, 78);
 		panel.add(lblProductos);
 		
-		JLabel lblAdministrador = new JLabel(Tienda.getInstance().getLoginUserEmpleado().getClass().getSimpleName());
-		lblAdministrador.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAdministrador.setForeground(Color.WHITE);
-		lblAdministrador.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblAdministrador.setBounds(112, 299, 193, 55);
-		panel.add(lblAdministrador);
+		lblClass = new JLabel(Tienda.getInstance().getLoginUserEmpleado().getClass().getSimpleName());
+		lblClass.setHorizontalAlignment(SwingConstants.CENTER);
+		lblClass.setForeground(Color.WHITE);
+		lblClass.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblClass.setBounds(112, 299, 193, 55);
+		panel.add(lblClass);
 		
-		JLabel lblDarvyBetances = new JLabel(Tienda.getInstance().getLoginUserEmpleado().getNombre());
-		lblDarvyBetances.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblDarvyBetances.setForeground(Color.WHITE);
-		lblDarvyBetances.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDarvyBetances.setBounds(99, 238, 219, 78);
-		panel.add(lblDarvyBetances);
+		lblNombre = new JLabel(Tienda.getInstance().getLoginUserEmpleado().getNombre());
+		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lblNombre.setForeground(Color.WHITE);
+		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNombre.setBounds(99, 238, 219, 78);
+		panel.add(lblNombre);
 		
 		JLabel label_1 = new JLabel("");
 		label_1.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/CirculoFotoUser.png")));
@@ -841,6 +843,11 @@ public class Home extends JFrame {
 		if (Tienda.getInstance().getLoginUserEmpleado().getClass().getSimpleName().equalsIgnoreCase("Administrador")) {
 			crearFactura.setEnabled(false);
 		}
+	}
+	
+	public static void loadHome() {
+		lblNombre.setText(Tienda.getInstance().getLoginUserEmpleado().getNombre());
+		lblClass.setText(Tienda.getInstance().getLoginUserEmpleado().getClass().getSimpleName());
 	}
 	
 	public static void loadTableCliente(String cedula) {

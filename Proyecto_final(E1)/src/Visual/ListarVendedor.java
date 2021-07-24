@@ -147,7 +147,7 @@ public class ListarVendedor extends JDialog {
 		nuevo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				RegVendedor regVendedor = new RegVendedor();
+				RegVendedor regVendedor = new RegVendedor(null);
 				regVendedor.setModal(true);
 				regVendedor.setVisible(true);
 			}

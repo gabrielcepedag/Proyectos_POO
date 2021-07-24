@@ -63,6 +63,10 @@ public abstract class Empleado implements Serializable{
 	}
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}	
 	
 }

@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import logico.Administrador;
 import logico.Cliente;
 import logico.Empleado;
 import logico.Tienda;
@@ -39,7 +40,7 @@ public class RegVendedor extends JDialog {
 	private JTextField txtUsername;
 	private JTextField txtDireccion;
 	private JPanel panelRegistro;
-	Cliente selected = null;
+	Empleado selected = null;
 	private JTextField txtcedula;
 
 	/**
@@ -49,7 +50,7 @@ public class RegVendedor extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegVendedor dialog = new RegVendedor();
+					RegVendedor dialog = new RegVendedor(null);
 					dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,7 +62,8 @@ public class RegVendedor extends JDialog {
 	/**
 	 * Create the frame.
 	 */
-	public RegVendedor() {
+	public RegVendedor(Empleado empleado) {
+		selected = empleado;
 		setUndecorated(true);
 		setBounds(100, 100, 586, 600);
 		setLocationRelativeTo(null);
@@ -141,10 +143,10 @@ public class RegVendedor extends JDialog {
 		lblNmero.setBounds(34, 227, 125, 55);
 		panelRegistro.add(lblNmero);
 		
-		JLabel lblRegistrar = new JLabel("Registrar Vendedor:");
-		lblRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblRegistrar.setBounds(33, 13, 322, 55);
-		panelRegistro.add(lblRegistrar);
+		JLabel lblTitle = new JLabel("Registrar Vendedor:");
+		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblTitle.setBounds(33, 13, 431, 55);
+		panelRegistro.add(lblTitle);
 		
 		JLabel label_14 = new JLabel("C\u00E9dula:");
 		label_14.setIcon(new ImageIcon(Login.class.getResource("/Imagenes/Cedula.png")));
@@ -175,6 +177,7 @@ public class RegVendedor extends JDialog {
 		panelRegistro.add(txtPassword);
 		
 		JLabel lblNewLabel = new JLabel("Cancelar");
+		lblNewLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -207,34 +210,70 @@ public class RegVendedor extends JDialog {
 		lblX.setHorizontalAlignment(SwingConstants.CENTER);
 		lblX.setForeground(Color.DARK_GRAY);
 		
-		JLabel lblRegistrar_1 = new JLabel("Registrar");
-		lblRegistrar_1.addMouseListener(new MouseAdapter() {
+		JLabel lblConfirmar = new JLabel("Registrar");
+		lblConfirmar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblConfirmar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (txtcedula.getText().equalsIgnoreCase("") || txtDireccion.getText().equalsIgnoreCase("") || txtNombre.getText().equalsIgnoreCase("") || txtPassword.getPassword().length == 0
-						|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("")) {
-					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos !", "Registro de Cliente", JOptionPane.WARNING_MESSAGE);
-				}else {
-					Vendedor vendedor = new Vendedor(txtUsername.getText(), txtPassword.getText(), txtNombre.getText(), txtcedula.getText(), txtTelefono.getText(), txtDireccion.getText());
-					Tienda.getInstance().addEmpleado(vendedor);
-					JOptionPane.showMessageDialog(null, "Vendedor registrado correctamente", "Registrar vendedor", JOptionPane.CLOSED_OPTION);
-					clean();
-					ListarVendedor.loadTableVendedor(null);
+				System.out.println("1");
+				if (selected == null) {
+					System.out.println("2");
+					if (txtcedula.getText().equalsIgnoreCase("") || txtDireccion.getText().equalsIgnoreCase("") || txtNombre.getText().equalsIgnoreCase("") || txtPassword.getPassword().length == 0
+							|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("")) {
+						JOptionPane.showMessageDialog(null, "Debes llenar todos los campos !", "Registro de Vendedor", JOptionPane.WARNING_MESSAGE);
+					}else {
+						System.out.println("3");
+						Vendedor vendedor = new Vendedor(txtUsername.getText(), txtPassword.getText(), txtNombre.getText(), txtcedula.getText(), txtTelefono.getText(), txtDireccion.getText());
+						Tienda.getInstance().addEmpleado(vendedor);
+						JOptionPane.showMessageDialog(null, "Vendedor registrado correctamente", "Registrar vendedor", JOptionPane.CLOSED_OPTION);
+						clean();
+						ListarVendedor.loadTableVendedor(null);
+					}
+				}
+				else {
+					if (selected instanceof Vendedor) {
+						System.out.println("4");
+						JOptionPane.showMessageDialog(null, "Modificar Vendedor");
+					}
+				}
+				if (selected instanceof Administrador){
+					System.out.println("5");
+					if (txtcedula.getText().equalsIgnoreCase("") || txtDireccion.getText().equalsIgnoreCase("") || txtNombre.getText().equalsIgnoreCase("") || txtPassword.getPassword().length == 0
+							|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("")) {
+						JOptionPane.showMessageDialog(null, "Debes llenar todos los campos!", "Modificar Administrador", JOptionPane.WARNING_MESSAGE);
+					}else {
+						System.out.println("6");
+						 selected.setCedula(txtcedula.getText());
+						 selected.setDireccion(txtDireccion.getText());
+						 selected.setNombre(txtNombre.getText());
+						 selected.setTelefono(txtTelefono.getText());
+						 selected.setUsername(txtUsername.getText());
+						 selected.setPassword(txtPassword.getText());
+						 JOptionPane.showMessageDialog(null, "Administrador modificado correctamente", "Modificar Administrador", JOptionPane.CLOSED_OPTION);
+						 loadAdministrador();
+						 Home.loadHome();
+					}
 				}
 			}
 		});
-		lblRegistrar_1.setOpaque(true);
-		lblRegistrar_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRegistrar_1.setForeground(Color.WHITE);
-		lblRegistrar_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblRegistrar_1.setBackground(new Color(0, 155, 124));
-		lblRegistrar_1.setBounds(293, 496, 225, 55);
-		panelRegistro.add(lblRegistrar_1);
+		lblConfirmar.setOpaque(true);
+		lblConfirmar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConfirmar.setForeground(Color.WHITE);
+		lblConfirmar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblConfirmar.setBackground(new Color(0, 155, 124));
+		lblConfirmar.setBounds(293, 496, 225, 55);
+		panelRegistro.add(lblConfirmar);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(0, 155, 124));
 		panel_1.setBounds(34, 64, 390, 4);
 		panelRegistro.add(panel_1);
+		
+		if (selected instanceof Administrador) {
+			loadAdministrador();
+			lblConfirmar.setText("Modificar");
+			lblTitle.setText("Modificar Administrador:");
+		}
 		
 	}
 	private void clean() {
@@ -244,5 +283,13 @@ public class RegVendedor extends JDialog {
 		txtPassword.setText("");
 		txtTelefono.setText("");
 		txtUsername.setText("");
+	}
+	private void loadAdministrador() {
+		txtcedula.setText(selected.getCedula());
+		txtDireccion.setText(selected.getDireccion());
+		txtNombre.setText(selected.getNombre());
+		txtPassword.setText(selected.getPassword());
+		txtTelefono.setText(selected.getTelefono());
+		txtUsername.setText(selected.getUsername());
 	}
 }
