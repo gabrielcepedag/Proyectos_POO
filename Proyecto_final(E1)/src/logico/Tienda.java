@@ -383,7 +383,7 @@ public class Tienda implements Serializable{
 			}
 		}*/
 		Cliente aux = null;
-		int menor = -1;
+		int menor = 1500;
 		
 		for (Cliente cliente : misClientes) {
 			if (cliente.getCantCompras() < menor) {
@@ -410,7 +410,7 @@ public class Tienda implements Serializable{
 	}
 	
 	public String productoMasComprado() {
-		String aux = "";
+		String aux = null;
 		int contMR = 0, contMP = 0, contMB = 0, contDD = 0;
 		
 		for (Factura factura : misFacturas) {
@@ -440,7 +440,7 @@ public class Tienda implements Serializable{
 	}
 	
 	public String productoMenosComprado() {
-		String aux = "";
+		String aux = null;
 		int contMR = 0, contMP = 0, contMB = 0, contDD = 0;
 		
 		for (Factura factura : misFacturas) {
@@ -530,7 +530,7 @@ public class Tienda implements Serializable{
 	
 	public Factura facturaMenosCara() {
 		Factura aux = null;
-		float menor = 5;
+		float menor = 5000000;
 		
 		for (Factura factura : misFacturas) {
 			if (factura.getPrecioTotal() < menor) {
@@ -599,7 +599,7 @@ public class Tienda implements Serializable{
 	}
 	
 	public String comboMenosVendido() {
-		int cont = 0, menor = 1000;
+		int cont = 0, menor = 10000;
 		String aux = null;
 		
 		for (Combo combo : misCombos) {

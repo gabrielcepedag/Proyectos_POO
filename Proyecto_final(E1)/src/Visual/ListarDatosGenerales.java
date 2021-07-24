@@ -563,7 +563,7 @@ public class ListarDatosGenerales extends JDialog {
 		Cliente clienteMasCompra = Tienda.getInstance().getClienteMasCompras();
 		String nombreCliente = null;
 		if (clienteMasCompra != null) {
-			nombreCliente = new String(clienteMasCompra.getNombre() + " - " + clienteMasCompra.getCedula());
+			nombreCliente = new String(clienteMasCompra.getNombre() + " - " + clienteMasCompra.getCedula() + " - " + clienteMasCompra.getCantCompras());
 		}else {
 			nombreCliente = "";
 		}
@@ -585,7 +585,7 @@ public class ListarDatosGenerales extends JDialog {
 		Cliente clienteMenosCompra = Tienda.getInstance().getClienteMenosCompras();
 		String nombreCliente2 = null;
 		if (clienteMenosCompra != null) {
-			nombreCliente2 = new String(clienteMenosCompra.getNombre() + " - " + clienteMenosCompra.getCedula());
+			nombreCliente2 = new String(clienteMenosCompra.getNombre() + " - " + clienteMenosCompra.getCedula() + " - " + clienteMenosCompra.getCantCompras());
 		}else {
 			nombreCliente2 = "";
 		}
