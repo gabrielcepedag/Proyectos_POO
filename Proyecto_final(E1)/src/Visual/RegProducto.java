@@ -78,6 +78,7 @@ public class RegProducto extends JDialog {
 	private JComboBox cbxSocketMicroP;
 	private JLabel lblRegistrar;
 	Producto productSelected = null;
+	private JLabel lblTitle;
 
 	/**
 	 * Launch the application.
@@ -355,10 +356,10 @@ public class RegProducto extends JDialog {
 		lblPrecio.setBounds(33, 205, 125, 55);
 		panelRegistro.add(lblPrecio);
 		
-		JLabel lblRegistrarProducto = new JLabel("Registrar Producto:");
-		lblRegistrarProducto.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblRegistrarProducto.setBounds(33, 13, 322, 55);
-		panelRegistro.add(lblRegistrarProducto);
+		lblTitle = new JLabel("Registrar Producto:");
+		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblTitle.setBounds(33, 13, 322, 55);
+		panelRegistro.add(lblTitle);
 		
 		JLabel lblNumSerie = new JLabel("Num. De serie:");
 		lblNumSerie.setForeground(Color.BLACK);
@@ -581,6 +582,9 @@ public class RegProducto extends JDialog {
 		lblRegistrar.setBackground(new Color(0, 155, 124));
 		
 		loadProducto(productSelected);
+		if (productSelected != null) {
+			lblTitle.setText("Modificar Producto:");
+		}
 	}
 	
 	private void loadProducto(Producto selected) {
