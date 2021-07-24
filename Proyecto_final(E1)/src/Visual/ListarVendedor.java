@@ -94,10 +94,10 @@ public class ListarVendedor extends JDialog {
 		contentPanel.add(scrollPaneVendedor);
 		
 		
-		Vendedor v1 = new Vendedor("sdas", "adsasd", "asdsad", "asdassad", "asadas", "asdsadads");
-		Vendedor v2 = new Vendedor("DarvyBM", "KLK", "Darvy Betances", "2434332", "809-247-2240", "Santiago de los caballeros");
-		Tienda.getInstance().addEmpleado(v1);
-		Tienda.getInstance().addEmpleado(v2);
+		//Vendedor v1 = new Vendedor("sdas", "adsasd", "asdsad", "asdassad", "asadas", "asdsadads");
+		//Vendedor v2 = new Vendedor("DarvyBM", "KLK", "Darvy Betances", "2434332", "809-247-2240", "Santiago de los caballeros");
+		//Tienda.getInstance().addEmpleado(v1);
+		//Tienda.getInstance().addEmpleado(v2);
 		
 		String header[] = {"Cédula", "Nombre", "Usename", "Contraseñá","Telefono", "Dirección", "Total vendido"};
 		modelVendedor = new DefaultTableModel();
