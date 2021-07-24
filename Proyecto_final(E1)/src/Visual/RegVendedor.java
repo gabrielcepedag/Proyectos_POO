@@ -232,8 +232,22 @@ public class RegVendedor extends JDialog {
 				}
 				else {
 					if (selected instanceof Vendedor) {
-						System.out.println("4");
-						JOptionPane.showMessageDialog(null, "Modificar Vendedor");
+						System.out.println("5");
+						if (txtcedula.getText().equalsIgnoreCase("") || txtDireccion.getText().equalsIgnoreCase("") || txtNombre.getText().equalsIgnoreCase("") || txtPassword.getPassword().length == 0
+								|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("")) {
+							JOptionPane.showMessageDialog(null, "Debes llenar todos los campos!", "Modificar Vendedor", JOptionPane.WARNING_MESSAGE);
+						}else {
+							System.out.println("6");
+							 selected.setCedula(txtcedula.getText());
+							 selected.setDireccion(txtDireccion.getText());
+							 selected.setNombre(txtNombre.getText());
+							 selected.setTelefono(txtTelefono.getText());
+							 selected.setUsername(txtUsername.getText());
+							 selected.setPassword(txtPassword.getText());
+							 JOptionPane.showMessageDialog(null, "Vendedor modificado correctamente", "Modificar Vendedor", JOptionPane.CLOSED_OPTION);
+							 loadEmpleado();
+							 ListarVendedor.loadTableVendedor(null);
+						}
 					}
 				}
 				if (selected instanceof Administrador){
@@ -250,7 +264,7 @@ public class RegVendedor extends JDialog {
 						 selected.setUsername(txtUsername.getText());
 						 selected.setPassword(txtPassword.getText());
 						 JOptionPane.showMessageDialog(null, "Administrador modificado correctamente", "Modificar Administrador", JOptionPane.CLOSED_OPTION);
-						 loadAdministrador();
+						 loadEmpleado();
 						 Home.loadHome();
 					}
 				}
@@ -269,10 +283,16 @@ public class RegVendedor extends JDialog {
 		panel_1.setBounds(34, 64, 390, 4);
 		panelRegistro.add(panel_1);
 		
-		if (selected instanceof Administrador) {
-			loadAdministrador();
+		if (selected != null) {
+			loadEmpleado();
 			lblConfirmar.setText("Modificar");
-			lblTitle.setText("Modificar Administrador:");
+			if (selected instanceof Administrador) {
+				lblTitle.setText("Modificar Administrador:");
+			}
+			else {
+				lblTitle.setText("Modificar Vendedor:");
+			}
+			
 		}
 		
 	}
@@ -284,7 +304,7 @@ public class RegVendedor extends JDialog {
 		txtTelefono.setText("");
 		txtUsername.setText("");
 	}
-	private void loadAdministrador() {
+	private void loadEmpleado() {
 		txtcedula.setText(selected.getCedula());
 		txtDireccion.setText(selected.getDireccion());
 		txtNombre.setText(selected.getNombre());

@@ -215,9 +215,11 @@ public class ListarProducto extends JDialog {
 		Modificar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				RegProducto regProducto  = new RegProducto(selectedProducto);
-				regProducto.setModal(true);
-				regProducto.setVisible(true);
+				if (Modificar.isEnabled()) {
+					RegProducto regProducto  = new RegProducto(selectedProducto);
+					regProducto.setModal(true);
+					regProducto.setVisible(true);
+				}
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
