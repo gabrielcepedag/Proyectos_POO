@@ -564,6 +564,9 @@ public class RegProducto extends JDialog {
 					ListarProducto.loadTableProductos(0);;
 				}else {
 					productSelected.setPrecio(new Float(txtPrecio.getText().toString()));
+					productSelected.setCantidad(new Integer(spnDispReal.getValue().toString()));
+					productSelected.setDispMax(new Integer(spnDispMax.getValue().toString()));
+					productSelected.setDispMin(new Integer(spnDispMin.getValue().toString()));
 					JOptionPane.showMessageDialog(null, "El producto ha sido modificado satisfactoriamente !", "Modificar Producto", JOptionPane.CLOSED_OPTION);
 					ListarProducto.loadTableProductos(0);
 					Home.loadHome();
@@ -596,11 +599,11 @@ public class RegProducto extends JDialog {
 			txtMarca.setEnabled(false);
 			txtPrecio.setText(String.valueOf(selected.getPrecio()));
 			spnDispReal.setValue(selected.getCantidad());
-			spnDispReal.setEnabled(false);
+			//spnDispReal.setEnabled(false);
 			spnDispMax.setValue(selected.getDispMax());
-			spnDispMax.setEnabled(false);
+			//spnDispMax.setEnabled(false);
 			spnDispMin.setValue(selected.getDispMin());
-			spnDispMin.setEnabled(false);
+			//spnDispMin.setEnabled(false);
 			
 			if (selected instanceof DiscoDuro) {
 				btnMemoriaRam.setEnabled(false);

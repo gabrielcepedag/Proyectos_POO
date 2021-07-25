@@ -99,7 +99,7 @@ public class ListarVendedor extends JDialog {
 		//Tienda.getInstance().addEmpleado(v1);
 		//Tienda.getInstance().addEmpleado(v2);
 		
-		String header[] = {"Cédula", "Nombre", "Usename", "Contraseñá","Telefono", "Dirección", "Total vendido"};
+		String header[] = {"Cédula", "Nombre", "Username", "Contraseña","Telefono", "Dirección", "Total vendido"};
 		modelVendedor = new DefaultTableModel();
 		modelVendedor.setColumnIdentifiers(header);
 				
