@@ -59,7 +59,6 @@ public class RegFactura extends JDialog {
 	private JTextField txtNombre;
 	private JTextField txtDireccion;
 	private JPanel panelDatosClientes;
-	Cliente selected = null;
 	private JTextField txtCedula;
 	private JRadioButton btnAddProducto;
 	private JRadioButton btnAddCombo;
@@ -86,7 +85,7 @@ public class RegFactura extends JDialog {
 	private JLabel lblArribaProductos;
 	private Cliente auxCliente = null;
 	private Vendedor auxVendedor = null;
-	//private Vendedor AuxVendedor;
+	private Vendedor AuxVendedor;
 	private Factura factura = null;
 	private JRadioButton rdbtnFacturaACredito;
 
@@ -135,12 +134,17 @@ public class RegFactura extends JDialog {
 		lblArribaCombo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String aux = listComboSel.getSelectedValue().toString();
-				listModelComboDisp.addElement(aux);
-				listModelComboSel.remove(listComboSel.getSelectedIndex());
-				combosSeleccionados.remove(Tienda.getInstance().buscarComboByCod(aux.substring(0, aux.indexOf('|')-1)));
-				lblArribaCombo.setBackground(new Color(0, 85, 70));
-				lblArribaCombo.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				if(listComboSel.getSelectedValue() != null) {
+					String aux = listComboSel.getSelectedValue().toString();
+					listModelComboDisp.addElement(aux);
+					listModelComboSel.remove(listComboSel.getSelectedIndex());
+					combosSeleccionados.remove(Tienda.getInstance().buscarComboByCod(aux.substring(0, aux.indexOf('|')-1)));
+					lblArribaCombo.setBackground(new Color(0, 85, 70));
+					lblArribaCombo.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				}else {
+					JOptionPane.showMessageDialog(null, "Debe seleccionar el Combo que desea quitar de la factura.", "Información", JOptionPane.WARNING_MESSAGE);
+				}
+				
 			}
 		});
 		lblArribaCombo.setOpaque(true);
@@ -157,12 +161,16 @@ public class RegFactura extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(!txtCedula.getText().isEmpty()) {
-					String aux = listComboDisp.getSelectedValue().toString();
-					listModelComboSel.addElement(aux);
-					listModelComboDisp.remove(listComboDisp.getSelectedIndex());
-					combosSeleccionados.add(Tienda.getInstance().buscarComboByCod(aux.substring(0, aux.indexOf('|')-1)));
-					lblAbajoCombo.setBackground(new Color(0, 85, 70));
-					lblAbajoCombo.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+					if(listComboDisp.getSelectedValue() != null) {
+						String aux = listComboDisp.getSelectedValue().toString();
+						listModelComboSel.addElement(aux);
+						listModelComboDisp.remove(listComboDisp.getSelectedIndex());
+						combosSeleccionados.add(Tienda.getInstance().buscarComboByCod(aux.substring(0, aux.indexOf('|')-1)));
+						lblAbajoCombo.setBackground(new Color(0, 85, 70));
+						lblAbajoCombo.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+					}else {
+						JOptionPane.showMessageDialog(null, "Debe seleccionar el Combo que desea agregar a la factura.", "Información", JOptionPane.WARNING_MESSAGE);
+					}
 				}else {
 					JOptionPane.showMessageDialog(null, "Debe especificar una cédula para seleccionar un Combo.", "Información", JOptionPane.WARNING_MESSAGE);
 				}
@@ -252,72 +260,43 @@ public class RegFactura extends JDialog {
 		lblRegistrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(btnAddProducto.isSelected()) {
-					if (!listModelProductosSel.isEmpty()) {
-						if(auxCliente == null) {
-							auxCliente = new Cliente(txtCedula.getText(), txtNombre.getText(), txtDireccion.getText(), txtTelefono.getText());
-							Tienda.getInstance().addCliente(auxCliente);
-						}
-						auxVendedor = (Vendedor) Tienda.getInstance().getLoginUserEmpleado();
-						factura = new Factura(new String("F-0" + Factura.cod), auxVendedor, auxCliente, productosSeleccionados);
-						if(rdbtnFacturaACredito.isSelected()) {
-							factura.setACredito(true); 
-						}
-						for (Producto producto : productosSeleccionados) {
-							producto.setCantidad(producto.getCantidad() - 1);							
-						}
-						auxVendedor.setTotalVendido(factura.getPrecioTotal());
-						auxVendedor.setComision((float) (factura.getPrecioTotal()*0.05)); 
-						if (Tienda.getInstance().CrearFactura(factura)) {
-							JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
+				if(auxCliente == null) {
+					auxCliente = new Cliente(txtCedula.getText(), txtNombre.getText(), txtDireccion.getText(), txtTelefono.getText());
+					Tienda.getInstance().addCliente(auxCliente);
+				}
+				auxVendedor = (Vendedor) Tienda.getInstance().getLoginUserEmpleado();
+				ArrayList<Producto> auxListCompra = new ArrayList<Producto>();
 
+				if (!listModelProductosSel.isEmpty()) {
+					for (Producto producto : productosSeleccionados) {
+						auxListCompra.add(producto);
+					}						
+				}
+				if (!listModelComboSel.isEmpty()) {
+					for (Combo combo : combosSeleccionados) {
+						for (Producto producto : combo.getMisProductos()) {
+							auxListCompra.add(producto);
 						}
-						else {
-							JOptionPane.showMessageDialog(null, "¡La factura NO ha sido registrada!", "Información", JOptionPane.INFORMATION_MESSAGE);
-
-						}
-						cleanCliente();
-						productosSeleccionados.clear();
-						Home.loadTableFactura(0, null);
-					}else {
-						JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un (1) producto.", "Información", JOptionPane.WARNING_MESSAGE);
-					}
-				}else {
-					if (!listModelComboSel.isEmpty()) {
-						if(auxCliente == null) {
-							Cliente auxCliente = new Cliente(txtCedula.getText(), txtNombre.getText(), txtDireccion.getText(), txtTelefono.getText());
-							Tienda.getInstance().addCliente(auxCliente);
-						}
-						ArrayList<Producto> auxListCompra = new ArrayList<Producto>();
-						for (Combo combo : combosSeleccionados) {
-							for (Producto producto : combo.getMisProductos()) {
-								auxListCompra.add(producto);
-							}
-						}
-						factura = new Factura(new String("F-0"+Factura.cod), auxVendedor, auxCliente, auxListCompra);
-						if(rdbtnFacturaACredito.isSelected()) {
-							factura.setACredito(true); 
-						}
-						for (Producto producto : auxListCompra) {
-							producto.setCantidad(producto.getCantidad() - 1);							
-						}
-						auxVendedor.setTotalVendido(factura.getPrecioTotal());
-						auxVendedor.setComision((float) (factura.getPrecioTotal()*0.05)); //(Para un 5% comisión)
-						if (Tienda.getInstance().CrearFactura(factura)) {
-							JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
-
-						}
-						else {
-							JOptionPane.showMessageDialog(null, "¡La factura NO ha sido registrada!", "Información", JOptionPane.INFORMATION_MESSAGE);
-
-						}
-						cleanCliente();
-						combosSeleccionados.clear();
-						Home.loadTableFactura(0, null);
-					}else {
-						JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un (1) producto.", "Información", JOptionPane.WARNING_MESSAGE);
 					}
 				}
+				factura = new Factura(new String("F-0"+Factura.cod), auxVendedor, auxCliente, auxListCompra);
+				if(rdbtnFacturaACredito.isSelected()) {
+					factura.setACredito(true); 
+				}
+				
+				auxVendedor.setTotalVendido(factura.getPrecioTotal());
+				auxVendedor.setComision((float) (factura.getPrecioTotal()*0.05)); //(Para un 5% comisión)
+				if (Tienda.getInstance().CrearFactura(factura)) {
+					JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "¡ERROR! La factura NO ha sido registrada.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+					
+				cleanCliente();
+				productosSeleccionados.clear();
+				combosSeleccionados.clear();
+				Home.loadTableFactura(0, null);
 			}
 		});
 		lblRegistrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -418,14 +397,18 @@ public class RegFactura extends JDialog {
 		lblBuscar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Cliente clienteBuscado = Tienda.getInstance().buscarClienteByCedula(txtCedula.getText());
-				if (clienteBuscado != null) {
-					cargarCliente(clienteBuscado);
-					auxCliente = clienteBuscado;					
-				}else {
-					txtNombre.setEnabled(true);
-					txtDireccion.setEnabled(true);
-					txtTelefono.setEnabled(true);				
+				if(txtCedula.isEnabled()) {
+					Cliente clienteBuscado = Tienda.getInstance().buscarClienteByCedula(txtCedula.getText());
+					if (clienteBuscado != null) {
+						cargarCliente(clienteBuscado);
+						auxCliente = clienteBuscado;					
+					}else {
+						txtNombre.setEnabled(true);
+						txtDireccion.setEnabled(true);
+						txtTelefono.setEnabled(true);				
+					}
+					txtCedula.setEnabled(false);
+					lblBuscar.setEnabled(false);
 				}
 			}
 		});
@@ -549,29 +532,19 @@ public class RegFactura extends JDialog {
 		lblCalcular.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(btnAddProducto.isSelected()) {
-					if (!productosSeleccionados.isEmpty()) {
-						float total = 0;
-						for (Producto producto : productosSeleccionados) {
-							total += producto.getPrecio();
-						}
-						total = (float) (Math.round(total * 100.0) / 100.0);
-						txtPrecioTotal.setText("RD$ "+new String(new Float(total).toString()));
-					}else {
-						JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un (1) producto.", "Información", JOptionPane.WARNING_MESSAGE);
+				float total = 0;
+				if (!productosSeleccionados.isEmpty()) {		
+					for (Producto producto : productosSeleccionados) {
+						total += producto.getPrecio();
 					}
-				}else {
-					if (!combosSeleccionados.isEmpty()) {
-						float total = 0;
-						for (Combo combo : combosSeleccionados) {
-							total += combo.getPrecioTotal();
-						}
-						total = (float) (Math.round(total * 100.0) / 100.0);
-						txtPrecioTotal.setText("RD$ "+new String(new Float(total).toString()));
-					}else {
-						JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un (1) combo.", "Información", JOptionPane.WARNING_MESSAGE);
-					}					
 				}
+				if (!combosSeleccionados.isEmpty()) {
+					for (Combo combo : combosSeleccionados) {
+						total += combo.getPrecioTotal();
+					}
+				}
+				total = (float) (Math.round(total * 100.0) / 100.0);
+				txtPrecioTotal.setText("RD$ "+new String(new Float(total).toString()));
 			}
 		});
 		lblCalcular.setOpaque(true);
@@ -593,12 +566,18 @@ public class RegFactura extends JDialog {
 		lblArribaProductos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String aux = listProductosSel.getSelectedValue().toString();
-				listModelProductosDisp.addElement(aux);
-				listModelProductosSel.remove(listProductosSel.getSelectedIndex());
-				productosSeleccionados.remove(Tienda.getInstance().buscarProductoByNumSerie(aux.substring(0, aux.indexOf('|')-1)));
-				lblArribaProductos.setBackground(new Color(0, 85, 70));
-				lblArribaProductos.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				if(listProductosSel.getSelectedValue() != null) {
+					String aux = listProductosSel.getSelectedValue().toString();
+					Producto auxProducto = Tienda.getInstance().buscarProductoByNumSerie(aux.substring(0, aux.indexOf('|')-1));
+					listModelProductosDisp.addElement(aux);
+					listModelProductosSel.remove(listProductosSel.getSelectedIndex());
+					productosSeleccionados.remove(auxProducto);
+					auxProducto.setCantidad(auxProducto.getCantidad()+1);
+					lblArribaProductos.setBackground(new Color(0, 85, 70));
+					lblArribaProductos.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				}else {
+					JOptionPane.showMessageDialog(null, "Debe seleccionar el Producto que desea quitar de la factura.", "Información", JOptionPane.WARNING_MESSAGE);
+				}	
 			}
 		});
 		lblArribaProductos.setHorizontalAlignment(SwingConstants.CENTER);
@@ -614,12 +593,18 @@ public class RegFactura extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(!txtCedula.getText().isEmpty()) {
-					String aux = listProductosDisp.getSelectedValue().toString();
-					listModelProductosSel.addElement(aux);
-					listModelProductosDisp.remove(listProductosDisp.getSelectedIndex());
-					productosSeleccionados.add(Tienda.getInstance().buscarProductoByNumSerie(aux.substring(0, aux.indexOf('|')-1)));
-					lblAbajoProductos.setBackground(new Color(0, 85, 70));
-					lblAbajoProductos.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+					if(listProductosDisp.getSelectedValue() != null) {
+						String aux = listProductosDisp.getSelectedValue().toString();
+						Producto auxProducto = Tienda.getInstance().buscarProductoByNumSerie(aux.substring(0, aux.indexOf('|')-1));
+						listModelProductosSel.addElement(aux);
+						listModelProductosDisp.remove(listProductosDisp.getSelectedIndex());
+						productosSeleccionados.add(auxProducto);
+						auxProducto.setCantidad(auxProducto.getCantidad()-1);
+						lblAbajoProductos.setBackground(new Color(0, 85, 70));
+						lblAbajoProductos.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+					}else {
+						JOptionPane.showMessageDialog(null, "Debe seleccionar el Producto que desea agregar a la factura.", "Información", JOptionPane.WARNING_MESSAGE);
+					}
 				}else {
 					JOptionPane.showMessageDialog(null, "Debe especificar una cédula para seleccionar un Producto.", "Información", JOptionPane.WARNING_MESSAGE);
 				}
@@ -688,26 +673,31 @@ public class RegFactura extends JDialog {
 		listProductosSel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneProductosSel.setViewportView(listProductosSel);
 		
-		/*------------------TEST TEST TEST--------------------------------//
 		
-		ArrayList<Producto> productos1 = new ArrayList<Producto>();
-		
-		DiscoDuro disco1 = new DiscoDuro("0001", 25, 550, "Sony", 5, 50, "QUESEYO", 500, "Sate");
-		MicroProcesador micro1 = new MicroProcesador("0002", 30, 2000, "MSI", 5, 25, "Guachupita", "GOODquestion", 200);
-		
-		productos1.add(disco1);
-		productos1.add(micro1);
-		Tienda.getInstance().addProducto(disco1);
-		Tienda.getInstance().addProducto(micro1);
-		
-		Combo combo = new Combo("0001", "RTX", productos1, 10);
-		Tienda.getInstance().addCombo(combo);
-		
-		Cliente cliente1 = new Cliente("047", "Gabriel", "La vega", "8295151017");
-		Tienda.getInstance().addCliente(cliente1);
-
-		
-		//------------------TEST TEST TEST--------------------------------*/
+			//------------------TEST TEST TEST--------------------------------//
+			
+			ArrayList<Producto> productos1 = new ArrayList<Producto>();
+			
+			DiscoDuro disco1 = new DiscoDuro("0001", 25, 550, "Sony", 5, 50, "QUESEYO", 500, "Sate");
+			MicroProcesador micro1 = new MicroProcesador("0002", 30, 2000, "MSI", 5, 25, "Guachupita", "GOODquestion", 200);
+			
+			productos1.add(disco1);
+			productos1.add(micro1);
+			Tienda.getInstance().addProducto(disco1);
+			Tienda.getInstance().addProducto(micro1);
+			
+			Combo combo = new Combo("0001", "RTX", productos1, 10);
+			Tienda.getInstance().addCombo(combo);
+			
+			Cliente cliente1 = new Cliente("047", "Gabriel", "La vega", "8295151017");
+			Tienda.getInstance().addCliente(cliente1);
+			
+			Vendedor vendedor1 = new Vendedor("eemr", "12345", "Eduardo", "047-2", "809-555-8587", "Los Mina");
+			Tienda.getInstance().addEmpleado(vendedor1);
+			Tienda.getInstance().setLoginUserEmpleado(vendedor1);
+			
+			//------------------TEST TEST TEST--------------------------------//
+		 
 		
 		loadProductosDisponibles();
 		loadCombosDisponibles();
