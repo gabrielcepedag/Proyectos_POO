@@ -130,6 +130,8 @@ public class RegFactura extends JDialog {
 		panelCombos.setBounds(630, 67, 465, 561);
 		panel.add(panelCombos);
 		
+		//System.out.println("Mi cantidad es: " + Tienda.getInstance().buscarProductoByNumSerie("0002").getCantidad());
+		
 		lblArribaCombo = new JLabel("\u2191\u2191");
 		//lblArribaCombo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblArribaCombo.addMouseListener(new MouseAdapter() {
@@ -282,6 +284,19 @@ public class RegFactura extends JDialog {
 		lblCancelar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if (combosSeleccionados.size() > 0) {
+					for (Combo combo : combosSeleccionados) {
+						for (Producto producto : combo.getMisProductos()) {
+							producto.setCantidad(producto.getCantidad() + 1);
+						}
+					}
+				}
+				if (productosSeleccionados.size() > 0) {
+					for (Producto producto : productosSeleccionados) {
+						producto.setCantidad(producto.getCantidad() + 1);
+					}
+				}
+				System.out.println("Mi cantidad antes de cerrarlo es: " + Tienda.getInstance().buscarProductoByNumSerie("0002").getCantidad());
 				dispose();
 			}
 		});
@@ -328,7 +343,10 @@ public class RegFactura extends JDialog {
 					auxVendedor.setComision((float) (factura.getPrecioTotal()*0.05)); //(Para un 5% comisión)
 					auxCliente.setCantCompras(auxCliente.getCantCompras() + 1);
 					
-					
+					for (Producto producto2 : auxListCompra) {
+						producto2.setCantidad(producto2.getCantidad());
+						System.out.println("Prueba - prueba - prueba: " + producto2.getCantidad());
+					}
 						
 					cleanCliente();
 					lblBuscar.setEnabled(true);
@@ -342,6 +360,10 @@ public class RegFactura extends JDialog {
 						JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
 					}else {
 						JOptionPane.showMessageDialog(null, "¡ERROR! La factura NO ha sido registrada.", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+					for (Producto producto2 : auxListCompra) {
+						producto2.setCantidad(producto2.getCantidad());
+						System.out.println("Prueba2 - prueba2 - prueba2: " + producto2.getCantidad());
 					}
 				}
 			}
@@ -424,6 +446,19 @@ public class RegFactura extends JDialog {
 		lblX.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				if (combosSeleccionados.size() > 0) {
+					for (Combo combo : combosSeleccionados) {
+						for (Producto producto : combo.getMisProductos()) {
+							producto.setCantidad(producto.getCantidad() + 1);
+						}
+					}
+				}
+				if (productosSeleccionados.size() > 0) {
+					for (Producto producto : productosSeleccionados) {
+						producto.setCantidad(producto.getCantidad() + 1);
+					}
+				}
+				System.out.println("Mi cantidad antes de cerrarlo es: " + Tienda.getInstance().buscarProductoByNumSerie("0002").getCantidad());
 				dispose();
 			}
 			@Override
@@ -591,15 +626,17 @@ public class RegFactura extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(listProductosSel.getSelectedValue() != null) {
+					//System.out.println("Mi cantidad antes de imprimirlo es: " + Tienda.getInstance().buscarProductoByNumSerie("0002").getCantidad());
 					String aux = listProductosSel.getSelectedValue().toString();
 					Producto auxProducto = Tienda.getInstance().buscarProductoByNumSerie(aux.substring(0, aux.indexOf('|')-1));
-					String auxString = new String(aux+" (Disp.: "+(auxProducto.getCantidad()+1)+" )");
+					auxProducto.setCantidad(auxProducto.getCantidad()+1);
+					String auxString = new String(aux+" (Disp.: "+(auxProducto.getCantidad())+" )");
 					String compareTo = new String(auxString.substring(0, auxString.indexOf(':')));
+					//System.out.println("Mi cantidad despues de añadirlo al String es de: " + auxProducto.getCantidad() + " o porsiacaso " + Tienda.getInstance().buscarProductoByNumSerie("0002").getCantidad());
 					boolean existe = false;
 					int index = 0;
 					listModelProductosSel.remove(listProductosSel.getSelectedIndex());
 					productosSeleccionados.remove(auxProducto);
-					auxProducto.setCantidad(auxProducto.getCantidad()+1);
 					
 					for(int i = 0; i < listModelProductosDisp.size(); i++) {
 						String productoDisp = new String(listModelProductosDisp.elementAt(i));
@@ -648,6 +685,7 @@ public class RegFactura extends JDialog {
 						//System.out.println(auxProducto.getNumSerie()+"-->"+auxProducto.getCantidad());
 						auxProducto.setCantidad(auxProducto.getCantidad()-1);
 						//System.out.println(auxProducto.getNumSerie()+"-->"+auxProducto.getCantidad());
+						//System.out.println("Cantidad = " + auxProducto.getCantidad());
 						if(auxProducto.getCantidad() == 0) {
 							listModelProductosDisp.remove(listProductosDisp.getSelectedIndex());
 						}
@@ -732,7 +770,7 @@ public class RegFactura extends JDialog {
 			
 			ArrayList<Producto> productos1 = new ArrayList<Producto>();
 			
-			DiscoDuro disco1 = new DiscoDuro("0001", 25, 550, "Sony", 5, 50, "QUESEYO", 500, "Sate");
+			/*DiscoDuro disco1 = new DiscoDuro("0001", 25, 550, "Sony", 5, 50, "QUESEYO", 500, "Sate");
 			MicroProcesador micro1 = new MicroProcesador("0002", 2, 2000, "MSI", 5, 25, "Guachupita", "GOODquestion", 200);
 			MotherBoard mother1 = new MotherBoard("0003", 2, 800, "Intel", 1, 100, "I-9", "socket", "tipoRam");
 			MemoriaRam ram1 = new MemoriaRam("0004", 10, (float)99.99, "Apple", 1, 10, 1024, "TipoMemoria");
@@ -756,7 +794,7 @@ public class RegFactura extends JDialog {
 			
 			Vendedor vendedor1 = new Vendedor("eemr", "12345", "Eduardo", "047-2", "809-555-8587", "Los Mina");
 			Tienda.getInstance().addEmpleado(vendedor1);
-			//Tienda.getInstance().setLoginUserEmpleado(vendedor1);
+			//Tienda.getInstance().setLoginUserEmpleado(vendedor1);*/
 			
 			//------------------TEST TEST TEST--------------------------------//
 		
