@@ -295,50 +295,55 @@ public class RegFactura extends JDialog {
 		lblRegistrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(auxCliente == null) {
-					auxCliente = new Cliente(txtCedula.getText(), txtNombre.getText(), txtDireccion.getText(), txtTelefono.getText());
-					Tienda.getInstance().addCliente(auxCliente);
-				}
-				auxVendedor = (Vendedor) Tienda.getInstance().getLoginUserEmpleado();
-				ArrayList<Producto> auxListCompra = new ArrayList<Producto>();
+				if(listModelComboSel.isEmpty() && listModelProductosSel.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un (1) producto o combo.", "Información", JOptionPane.WARNING_MESSAGE);
+				}else {
+					if(auxCliente == null) {
+						auxCliente = new Cliente(txtCedula.getText(), txtNombre.getText(), txtDireccion.getText(), txtTelefono.getText());
+						Tienda.getInstance().addCliente(auxCliente);
+					}
+					auxVendedor = (Vendedor) Tienda.getInstance().getLoginUserEmpleado();
+					ArrayList<Producto> auxListCompra = new ArrayList<Producto>();
 
-				if (!listModelProductosSel.isEmpty()) {
-					for (Producto producto : productosSeleccionados) {
-						auxListCompra.add(producto);
-					}						
-				}
-				if (!listModelComboSel.isEmpty()) {
-					for (Combo combo : combosSeleccionados) {
-						for (Producto producto : combo.getMisProductos()) {
+					if (!listModelProductosSel.isEmpty()) {
+						for (Producto producto : productosSeleccionados) {
 							auxListCompra.add(producto);
+						}						
+					}
+					if (!listModelComboSel.isEmpty()) {
+						for (Combo combo : combosSeleccionados) {
+							for (Producto producto : combo.getMisProductos()) {
+								auxListCompra.add(producto);
+							}
 						}
 					}
-				}
-				factura = new Factura(new String("F-0"+Factura.cod), auxVendedor, auxCliente, auxListCompra);
-				if(rdbtnFacturaACredito.isSelected()) {
-					factura.setACredito(true);
-					auxCliente.setCredito(auxCliente.getCredito() - factura.getPrecioTotal());
-				}
-				
-				auxVendedor.setTotalVendido(factura.getPrecioTotal());
-				auxVendedor.setComision((float) (factura.getPrecioTotal()*0.05)); //(Para un 5% comisión)
-				auxCliente.setCantCompras(auxCliente.getCantCompras() + 1);
-				
-				if (Tienda.getInstance().CrearFactura(factura)) {
-					JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "¡ERROR! La factura NO ha sido registrada.", "Error", JOptionPane.ERROR_MESSAGE);
-				}
+					factura = new Factura(new String("F-0"+Factura.cod), auxVendedor, auxCliente, auxListCompra);
+					if(rdbtnFacturaACredito.isSelected()) {
+						factura.setACredito(true);
+						auxCliente.setCredito(auxCliente.getCredito() - factura.getPrecioTotal());
+						rdbtnFacturaACredito.setSelected(false);
+					}
 					
-				cleanCliente();
-				lblBuscar.setEnabled(true);
-				txtCedula.setEnabled(true);
-				listModelProductosSel.removeAllElements();
-				listModelComboSel.removeAllElements();
-				productosSeleccionados.clear();
-				combosSeleccionados.clear();
-				//Home.loadTableFactura(0, null);
+					auxVendedor.setTotalVendido(factura.getPrecioTotal());
+					auxVendedor.setComision((float) (factura.getPrecioTotal()*0.05)); //(Para un 5% comisión)
+					auxCliente.setCantCompras(auxCliente.getCantCompras() + 1);
+					
+					
+						
+					cleanCliente();
+					lblBuscar.setEnabled(true);
+					txtCedula.setEnabled(true);
+					listModelProductosSel.removeAllElements();
+					listModelComboSel.removeAllElements();
+					productosSeleccionados.clear();
+					combosSeleccionados.clear();
+					//Home.loadTableFactura(0, null);
+					if (Tienda.getInstance().CrearFactura(factura)) {
+						JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
+					}else {
+						JOptionPane.showMessageDialog(null, "¡ERROR! La factura NO ha sido registrada.", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}
 			}
 		});
 		lblRegistrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -443,7 +448,10 @@ public class RegFactura extends JDialog {
 					Cliente clienteBuscado = Tienda.getInstance().buscarClienteByCedula(txtCedula.getText());
 					if (clienteBuscado != null) {
 						cargarCliente(clienteBuscado);
-						auxCliente = clienteBuscado;					
+						auxCliente = clienteBuscado;
+						if(Tienda.getInstance().clienteYaTieneCredito(auxCliente)) {
+							rdbtnFacturaACredito.setEnabled(false);
+						}
 					}else {
 						txtNombre.setEnabled(true);
 						txtDireccion.setEnabled(true);
@@ -637,7 +645,9 @@ public class RegFactura extends JDialog {
 						Producto auxProducto = Tienda.getInstance().buscarProductoByNumSerie(aux.substring(0, aux.indexOf('|')-1));
 						listModelProductosSel.addElement(auxString);
 						productosSeleccionados.add(auxProducto);
+						//System.out.println(auxProducto.getNumSerie()+"-->"+auxProducto.getCantidad());
 						auxProducto.setCantidad(auxProducto.getCantidad()-1);
+						//System.out.println(auxProducto.getNumSerie()+"-->"+auxProducto.getCantidad());
 						if(auxProducto.getCantidad() == 0) {
 							listModelProductosDisp.remove(listProductosDisp.getSelectedIndex());
 						}
@@ -756,7 +766,6 @@ public class RegFactura extends JDialog {
 	
 	private void loadCombosDisponibles() {
 		listModelComboDisp.removeAllElements();
-		//listModelComboSel.removeAllElements();
 		boolean disponible = true;
 		
 		for (Combo combo : Tienda.getInstance().getMisCombos()) {
@@ -775,7 +784,6 @@ public class RegFactura extends JDialog {
 	
 	private void loadProductosDisponibles() {
 		listModelProductosDisp.removeAllElements();
-		//listModelProductosSel.removeAllElements();
 		
 		for (Producto producto : Tienda.getInstance().getMisProductos()) {
 			String aux = null;
@@ -793,7 +801,8 @@ public class RegFactura extends JDialog {
 			
 			if(producto.getCantidad() > 0) {
 				listModelProductosDisp.addElement(aux);
-			}			
+			}	
+			System.out.println(producto.getNumSerie()+"----->"+producto.getCantidad());
 		}
 	}
 	
@@ -826,7 +835,7 @@ public class RegFactura extends JDialog {
 		}
 		total = (float) (Math.round(total * 100.0) / 100.0);
 		
-		if(total > auxCliente.getCredito()) {
+		if(total > auxCliente.getCredito() || Tienda.getInstance().clienteYaTieneCredito(auxCliente)) {
 			rdbtnFacturaACredito.setEnabled(false);
 		}else {
 			rdbtnFacturaACredito.setEnabled(true);

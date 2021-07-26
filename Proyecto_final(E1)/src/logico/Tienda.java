@@ -314,7 +314,7 @@ public class Tienda implements Serializable{
 		return esPosible;
 	}
 
-	private boolean clienteYaTieneCredito(Cliente miCliente) {
+	public boolean clienteYaTieneCredito(Cliente miCliente) {
 		boolean yaTiene = true;
 		
 		for (Factura factura : misFacturas) {
