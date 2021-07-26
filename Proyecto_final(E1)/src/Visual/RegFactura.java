@@ -682,7 +682,7 @@ public class RegFactura extends JDialog {
 			
 			Vendedor vendedor1 = new Vendedor("eemr", "12345", "Eduardo", "047-2", "809-555-8587", "Los Mina");
 			Tienda.getInstance().addEmpleado(vendedor1);
-			Tienda.getInstance().setLoginUserEmpleado(vendedor1);
+			//Tienda.getInstance().setLoginUserEmpleado(vendedor1);
 			
 			//------------------TEST TEST TEST--------------------------------//
 		
