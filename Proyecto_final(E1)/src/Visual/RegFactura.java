@@ -137,13 +137,29 @@ public class RegFactura extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				if(listComboSel.getSelectedValue() != null) {
 					String aux = listComboSel.getSelectedValue().toString();
-					listModelComboDisp.addElement(aux);
+					Combo auxCombo = Tienda.getInstance().buscarComboByCod(aux.substring(0, aux.indexOf('|')-1));
+					boolean existe = false;
 					listModelComboSel.remove(listComboSel.getSelectedIndex());
-					combosSeleccionados.remove(Tienda.getInstance().buscarComboByCod(aux.substring(0, aux.indexOf('|')-1)));
+					combosSeleccionados.remove(auxCombo);
+					
+					for(int i = 0; i < listModelComboDisp.size(); i++) {
+						String comboDisp = new String(listModelComboDisp.elementAt(i));
+						if(aux.equalsIgnoreCase(comboDisp)){
+							existe = true;
+						}
+					}													
+					if(!existe) {
+						listModelComboDisp.addElement(aux);
+					}
+					
+					for (Producto producto : auxCombo.getMisProductos()) {
+						producto.setCantidad(producto.getCantidad()+1);
+					}
+					
+					loadProductosDisponibles();
+					txtPrecioTotal.setText("RD$ "+calcTotal());
 					lblArribaCombo.setBackground(new Color(0, 85, 70));
 					lblArribaCombo.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					
-					txtPrecioTotal.setText("RD$ "+calcTotal());
 				}else {
 					JOptionPane.showMessageDialog(null, "Debe seleccionar el Combo que desea quitar de la factura.", "Información", JOptionPane.WARNING_MESSAGE);
 				}
@@ -167,13 +183,26 @@ public class RegFactura extends JDialog {
 				if(!txtCedula.getText().isEmpty()) {
 					if(listComboDisp.getSelectedValue() != null) {
 						String aux = listComboDisp.getSelectedValue().toString();
+						Combo auxCombo = Tienda.getInstance().buscarComboByCod(aux.substring(0, aux.indexOf('|')-1));
+						boolean disponible = true;
 						listModelComboSel.addElement(aux);
-						listModelComboDisp.remove(listComboDisp.getSelectedIndex());
-						combosSeleccionados.add(Tienda.getInstance().buscarComboByCod(aux.substring(0, aux.indexOf('|')-1)));
-						lblAbajoCombo.setBackground(new Color(0, 85, 70));
-						lblAbajoCombo.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 						
+						for (Producto producto : auxCombo.getMisProductos()) {
+							producto.setCantidad(producto.getCantidad()-1);
+							if((producto.getCantidad()) == 0) {
+								disponible = false;
+							}
+							//System.out.println(producto.getNumSerie()+"-->"+(producto.getCantidad() -1));
+						}
+						if(disponible == false) {
+							listModelComboDisp.remove(listComboDisp.getSelectedIndex());
+						}
+						combosSeleccionados.add(auxCombo);
 						txtPrecioTotal.setText("RD$ "+calcTotal());
+						
+						loadProductosDisponibles();
+						lblAbajoCombo.setBackground(new Color(0, 85, 70));
+						lblAbajoCombo.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));						
 					}else {
 						JOptionPane.showMessageDialog(null, "Debe seleccionar el Combo que desea agregar a la factura.", "Información", JOptionPane.WARNING_MESSAGE);
 					}
@@ -287,7 +316,8 @@ public class RegFactura extends JDialog {
 				}
 				factura = new Factura(new String("F-0"+Factura.cod), auxVendedor, auxCliente, auxListCompra);
 				if(rdbtnFacturaACredito.isSelected()) {
-					factura.setACredito(true); 
+					factura.setACredito(true);
+					auxCliente.setCredito(auxCliente.getCredito() - factura.getPrecioTotal());
 				}
 				
 				auxVendedor.setTotalVendido(factura.getPrecioTotal());
@@ -302,9 +332,13 @@ public class RegFactura extends JDialog {
 				}
 					
 				cleanCliente();
+				lblBuscar.setEnabled(true);
+				txtCedula.setEnabled(true);
+				listModelProductosSel.removeAllElements();
+				listModelComboSel.removeAllElements();
 				productosSeleccionados.clear();
 				combosSeleccionados.clear();
-				Home.loadTableFactura(0, null);
+				//Home.loadTableFactura(0, null);
 			}
 		});
 		lblRegistrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -551,14 +585,33 @@ public class RegFactura extends JDialog {
 				if(listProductosSel.getSelectedValue() != null) {
 					String aux = listProductosSel.getSelectedValue().toString();
 					Producto auxProducto = Tienda.getInstance().buscarProductoByNumSerie(aux.substring(0, aux.indexOf('|')-1));
-					listModelProductosDisp.addElement(aux);
+					String auxString = new String(aux+" (Disp.: "+(auxProducto.getCantidad()+1)+" )");
+					String compareTo = new String(auxString.substring(0, auxString.indexOf(':')));
+					boolean existe = false;
+					int index = 0;
 					listModelProductosSel.remove(listProductosSel.getSelectedIndex());
 					productosSeleccionados.remove(auxProducto);
 					auxProducto.setCantidad(auxProducto.getCantidad()+1);
+					
+					for(int i = 0; i < listModelProductosDisp.size(); i++) {
+						String productoDisp = new String(listModelProductosDisp.elementAt(i));
+						if(compareTo.equalsIgnoreCase(productoDisp.substring(0, productoDisp.indexOf(':')))){
+							existe = true;
+							index = i;
+						}
+					}													
+					if(!existe) {
+						listModelProductosDisp.addElement(auxString);
+					}else {
+						listModelProductosDisp.remove(index);
+						listModelProductosDisp.addElement(compareTo+auxProducto.getCantidad()+" )");
+					}
+					
 					lblArribaProductos.setBackground(new Color(0, 85, 70));
 					lblArribaProductos.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 					
 					txtPrecioTotal.setText("RD$ "+calcTotal());
+					loadProductosDisponibles();
 					loadCombosDisponibles();
 				}else {
 					JOptionPane.showMessageDialog(null, "Debe seleccionar el Producto que desea quitar de la factura.", "Información", JOptionPane.WARNING_MESSAGE);
@@ -580,16 +633,20 @@ public class RegFactura extends JDialog {
 				if(!txtCedula.getText().isEmpty()) {
 					if(listProductosDisp.getSelectedValue() != null) {
 						String aux = listProductosDisp.getSelectedValue().toString();
+						String auxString = aux.substring(0, aux.indexOf('('));
 						Producto auxProducto = Tienda.getInstance().buscarProductoByNumSerie(aux.substring(0, aux.indexOf('|')-1));
-						listModelProductosSel.addElement(aux);
-						listModelProductosDisp.remove(listProductosDisp.getSelectedIndex());
+						listModelProductosSel.addElement(auxString);
 						productosSeleccionados.add(auxProducto);
 						auxProducto.setCantidad(auxProducto.getCantidad()-1);
+						if(auxProducto.getCantidad() == 0) {
+							listModelProductosDisp.remove(listProductosDisp.getSelectedIndex());
+						}
 						lblAbajoProductos.setBackground(new Color(0, 85, 70));
 						lblAbajoProductos.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 						
 						txtPrecioTotal.setText("RD$ "+calcTotal());
 						loadCombosDisponibles();
+						loadProductosDisponibles();
 					}else {
 						JOptionPane.showMessageDialog(null, "Debe seleccionar el Producto que desea agregar a la factura.", "Información", JOptionPane.WARNING_MESSAGE);
 					}
@@ -666,15 +723,22 @@ public class RegFactura extends JDialog {
 			ArrayList<Producto> productos1 = new ArrayList<Producto>();
 			
 			DiscoDuro disco1 = new DiscoDuro("0001", 25, 550, "Sony", 5, 50, "QUESEYO", 500, "Sate");
-			MicroProcesador micro1 = new MicroProcesador("0002", 1, 2000, "MSI", 5, 25, "Guachupita", "GOODquestion", 200);
+			MicroProcesador micro1 = new MicroProcesador("0002", 2, 2000, "MSI", 5, 25, "Guachupita", "GOODquestion", 200);
+			MotherBoard mother1 = new MotherBoard("0003", 2, 800, "Intel", 1, 100, "I-9", "socket", "tipoRam");
+			MemoriaRam ram1 = new MemoriaRam("0004", 10, (float)99.99, "Apple", 1, 10, 1024, "TipoMemoria");
 			
 			productos1.add(disco1);
 			productos1.add(micro1);
 			Tienda.getInstance().addProducto(disco1);
 			Tienda.getInstance().addProducto(micro1);
+			Tienda.getInstance().addProducto(mother1);
+			Tienda.getInstance().addProducto(ram1);
 			
 			Combo combo = new Combo("0001", "RTX", productos1, 10);
 			Tienda.getInstance().addCombo(combo);
+			
+			productos1.add(mother1);
+			productos1.add(ram1);
 			
 			Cliente cliente1 = new Cliente("047", "Gabriel", "La vega", "8295151017");
 			cliente1.setCredito(2000);
@@ -692,7 +756,7 @@ public class RegFactura extends JDialog {
 	
 	private void loadCombosDisponibles() {
 		listModelComboDisp.removeAllElements();
-		listModelComboSel.removeAllElements();
+		//listModelComboSel.removeAllElements();
 		boolean disponible = true;
 		
 		for (Combo combo : Tienda.getInstance().getMisCombos()) {
@@ -711,10 +775,21 @@ public class RegFactura extends JDialog {
 	
 	private void loadProductosDisponibles() {
 		listModelProductosDisp.removeAllElements();
-		listModelProductosSel.removeAllElements();
+		//listModelProductosSel.removeAllElements();
 		
 		for (Producto producto : Tienda.getInstance().getMisProductos()) {
-			String aux = new String(producto.getNumSerie()+" | "+producto.getMarca());
+			String aux = null;
+			if(producto instanceof DiscoDuro) {
+				aux = new String(producto.getNumSerie()+" | Disco Duro         | "+producto.getMarca()+"  (Disp.: "+producto.getCantidad()+" )");
+			}else if(producto instanceof MotherBoard) {
+				aux = new String(producto.getNumSerie()+" | Tarjeta Madre    | "+producto.getMarca()+"  (Disp.: "+producto.getCantidad()+" )");
+			}else if(producto instanceof MemoriaRam) {
+				aux = new String(producto.getNumSerie()+" | Memoria Ram     | "+producto.getMarca()+"  (Disp.: "+producto.getCantidad()+" )");
+			}else if(producto instanceof MicroProcesador) {
+				aux = new String(producto.getNumSerie()+" | MicroProcesador | "+producto.getMarca()+"  (Disp.: "+producto.getCantidad()+" )");
+			}else {
+				aux = new String(producto.getNumSerie()+" | default_Option  | "+producto.getMarca()+"  (Disp.: "+producto.getCantidad()+" )");
+			}
 			
 			if(producto.getCantidad() > 0) {
 				listModelProductosDisp.addElement(aux);
