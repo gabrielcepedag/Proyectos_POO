@@ -193,6 +193,7 @@ public class RegFactura extends JDialog {
 							if((producto.getCantidad()) == 0) {
 								disponible = false;
 							}
+							//System.out.println(producto.getNumSerie()+"-->"+(producto.getCantidad() -1));
 						}
 						if(disponible == false) {
 							listModelComboDisp.remove(listComboDisp.getSelectedIndex());
@@ -294,8 +295,8 @@ public class RegFactura extends JDialog {
 				}
 				if(nuevoCliente) {
 					int opcion = JOptionPane.showConfirmDialog(null,"¿También desea eliminar la información del nuevo cliente registrado?", "Facturación Cancelada", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-				    if(opcion == JOptionPane.NO_OPTION){
-				    	Tienda.getInstance().addCliente(auxCliente);
+				    if(opcion == JOptionPane.YES_OPTION){
+				    	Tienda.getInstance().eliminarCliente(auxCliente);
 				    }
 				}
 				dispose();
@@ -539,7 +540,7 @@ public class RegFactura extends JDialog {
 					if(auxCliente == null) {
 						auxCliente = new Cliente(txtCedula.getText(), txtNombre.getText(), txtDireccion.getText(), txtTelefono.getText());
 						JOptionPane.showMessageDialog(null, "El cliente ha sido registrado satisfactoriamente.", "Información" , JOptionPane.INFORMATION_MESSAGE);
-						lblRegistrar.setEnabled(true);
+						lblRegistrar.setEnabled(false);
 						txtNombre.setEnabled(false);
 						txtDireccion.setEnabled(false);
 						txtTelefono.setEnabled(false);
@@ -872,6 +873,7 @@ public class RegFactura extends JDialog {
 			if(producto.getCantidad() > 0) {
 				listModelProductosDisp.addElement(aux);
 			}	
+			System.out.println(producto.getNumSerie()+"----->"+producto.getCantidad());
 		}
 	}
 	

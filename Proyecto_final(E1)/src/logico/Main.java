@@ -32,7 +32,7 @@ public class Main implements Serializable{
 		Cliente cliente1 = new Cliente("047", "Gabriel", "La vega", "8295151017");
 		Tienda.getInstance().addCliente(cliente1);
 		
-		Factura factura1 = new Factura(new String("F-" + Factura.cod), vendedor1, cliente1, productos1, new Date());
+		Factura factura1 = new Factura(new String("Fact - " + Tienda.getInstance().getMisFacturas().size()), vendedor1, cliente1, productos1, new Date());
 		factura1.calcPrecioFactura();
 		Tienda.getInstance().addFactura(factura1);
 		

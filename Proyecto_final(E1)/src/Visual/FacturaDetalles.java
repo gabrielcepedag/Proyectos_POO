@@ -399,7 +399,7 @@ public class FacturaDetalles extends JDialog {
 		productosSinRepetir.addAll(selectedFactura.getMisProductos());
 		
 		if (productosSinRepetir.size() > 1) {
-			for (int i = 0; i < selectedFactura.getMisProductos().size(); i++) {
+			for (int i = 0; i < selectedFactura.getMisProductos().size()-1; i++) {
 				for (int j = i + 1; j < selectedFactura.getMisProductos().size(); j++) {
 					if (selectedFactura.getMisProductos().get(i).getNumSerie().equalsIgnoreCase(selectedFactura.getMisProductos().get(j).getNumSerie())) {
 						productosSinRepetir.remove(j);
