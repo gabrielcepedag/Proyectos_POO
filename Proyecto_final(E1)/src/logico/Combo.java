@@ -20,8 +20,8 @@ public class Combo implements Serializable{
 		this.nombre = nombre;
 		this.misProductos = misProductos;
 		this.descuento = descuento;
-		this.precioNeto = calcPrecioNeto();
-		this.precioTotal = calcPrecioTotal();
+		this.precioNeto = 0;
+		this.precioTotal = 0;
 		Combo.cod++;
 	}
 
