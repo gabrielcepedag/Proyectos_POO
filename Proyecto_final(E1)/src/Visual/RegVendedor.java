@@ -215,14 +215,11 @@ public class RegVendedor extends JDialog {
 		lblConfirmar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("1");
 				if (selected == null) {
-					System.out.println("2");
 					if (txtcedula.getText().equalsIgnoreCase("") || txtDireccion.getText().equalsIgnoreCase("") || txtNombre.getText().equalsIgnoreCase("") || txtPassword.getPassword().length == 0
 							|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("")) {
 						JOptionPane.showMessageDialog(null, "Debes llenar todos los campos !", "Registro de Vendedor", JOptionPane.WARNING_MESSAGE);
 					}else {
-						System.out.println("3");
 						Vendedor vendedor = new Vendedor(txtUsername.getText(), txtPassword.getText(), txtNombre.getText(), txtcedula.getText(), txtTelefono.getText(), txtDireccion.getText());
 						Tienda.getInstance().addEmpleado(vendedor);
 						JOptionPane.showMessageDialog(null, "Vendedor registrado correctamente", "Registrar vendedor", JOptionPane.CLOSED_OPTION);
@@ -232,12 +229,10 @@ public class RegVendedor extends JDialog {
 				}
 				else {
 					if (selected instanceof Vendedor) {
-						System.out.println("5");
 						if (txtcedula.getText().equalsIgnoreCase("") || txtDireccion.getText().equalsIgnoreCase("") || txtNombre.getText().equalsIgnoreCase("") || txtPassword.getPassword().length == 0
 								|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("")) {
 							JOptionPane.showMessageDialog(null, "Debes llenar todos los campos!", "Modificar Vendedor", JOptionPane.WARNING_MESSAGE);
 						}else {
-							System.out.println("6");
 							 selected.setCedula(txtcedula.getText());
 							 selected.setDireccion(txtDireccion.getText());
 							 selected.setNombre(txtNombre.getText());
@@ -251,12 +246,10 @@ public class RegVendedor extends JDialog {
 					}
 				}
 				if (selected instanceof Administrador){
-					System.out.println("5");
 					if (txtcedula.getText().equalsIgnoreCase("") || txtDireccion.getText().equalsIgnoreCase("") || txtNombre.getText().equalsIgnoreCase("") || txtPassword.getPassword().length == 0
 							|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("")) {
 						JOptionPane.showMessageDialog(null, "Debes llenar todos los campos!", "Modificar Administrador", JOptionPane.WARNING_MESSAGE);
 					}else {
-						System.out.println("6");
 						 selected.setCedula(txtcedula.getText());
 						 selected.setDireccion(txtDireccion.getText());
 						 selected.setNombre(txtNombre.getText());

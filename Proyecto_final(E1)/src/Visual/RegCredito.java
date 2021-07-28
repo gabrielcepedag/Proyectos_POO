@@ -137,7 +137,7 @@ public class RegCredito extends JDialog {
 				}
 				else {
 					clienteSelected.setCredito(Float.valueOf(txtCredito.getText()));
-					JOptionPane.showMessageDialog(null, "Credito Asignado correctamente");
+					JOptionPane.showMessageDialog(null, "Crédito Asignado correctamente");
 					ListarCliente.loadTableCliente(null);
 					dispose();
 				}

@@ -130,7 +130,7 @@ public class ListarPedido extends JDialog {
 		lblNewLabel.setBounds(48, 26, 209, 83);
 		panel_1.add(lblNewLabel);
 		lblNewLabel.setIcon(new ImageIcon(ListarPedido.class.getResource("/Imagenes/PedidosLabelBlanco.png")));
-		
+
 		Confirmar = new JLabel("Confirmar");
 		Confirmar.setHorizontalAlignment(SwingConstants.CENTER);
 		Confirmar.setBounds(0, 158, 288, 44);
@@ -217,6 +217,7 @@ public class ListarPedido extends JDialog {
 		lblNewLabel_2.setBounds(312, 8, 793, 682);
 		contentPanel.add(lblNewLabel_2);
 		
+		Tienda.getInstance().crearOrdenesCompra();
 		loadTablePedido(0);
 	}
 	
@@ -224,7 +225,6 @@ public class ListarPedido extends JDialog {
 		
 		modelPedido.setRowCount(0);
 		rows = new Object[modelPedido.getColumnCount()];
-		Tienda.getInstance().crearOrdenesCompra();
 		
 		switch (selection) {
 		case 0:

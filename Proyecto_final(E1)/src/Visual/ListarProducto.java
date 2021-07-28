@@ -121,7 +121,7 @@ public class ListarProducto extends JDialog {
 				}
 			}
 		});
-		cbxTipoProducto.setModel(new DefaultComboBoxModel(new String[] {"Todos", "Disco Duros", "Memorias Ram", "Micro Procesadores", "Placas Madres"}));
+		cbxTipoProducto.setModel(new DefaultComboBoxModel<String>(new String[] {"Todos", "Disco Duros", "Memorias Ram", "Micro Procesadores", "Placas Madres"}));
 		cbxTipoProducto.setSelectedIndex(0);
 		cbxTipoProducto.setOpaque(false);
 		cbxTipoProducto.setIgnoreRepaint(true);

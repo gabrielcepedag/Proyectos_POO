@@ -110,14 +110,14 @@ public class ListarCliente extends JDialog {
 		scrollPaneCliente.setBounds(352, 81, 730, 565);
 		contentPanel.add(scrollPaneCliente);
 		
-		Cliente c1 = new Cliente("4023343", "Darvy", "Bella vista, Satiago de los caballeros", "829-699-4610");
+		/*Cliente c1 = new Cliente("4023343", "Darvy", "Bella vista, Satiago de los caballeros", "829-699-4610");
 		c1.setCredito(10000);
 		Cliente c2 = new Cliente("4024550", "Eduardo", "Puerto Planta", "843-433-5552");
 		c2.setCredito(25000);
 		Cliente c3 = new Cliente("4021460", "Gabriel", "La Vega", "829-444-1340");
 		Tienda.getInstance().addCliente(c1);
 		Tienda.getInstance().addCliente(c2);
-		Tienda.getInstance().addCliente(c3);
+		Tienda.getInstance().addCliente(c3);*/
 		
 		String header[] = {"Cédula", "Nombre", "Telefono", "Dirección","Crédito"};
 		modelCliente = new DefaultTableModel();

@@ -64,18 +64,18 @@ public class RegProducto extends JDialog {
 	private JRadioButton btnMemoriaRam;
 	private JRadioButton btnTarjetaMadre;
 	private JRadioButton btnMicroProcesador;
-	private JComboBox cbxTipoRamTM;
-	private JComboBox cbxSocketTM;
+	private JComboBox<String> cbxTipoRamTM;
+	private JComboBox<String> cbxSocketTM;
 	private JRadioButton rdbtnIde;
 	private JRadioButton rdbtnSata;
 	private JRadioButton rdbtnSata2;
 	private JRadioButton rdbtnSata3;
-	private JComboBox cbxTipoMemoriaRam;
-	private JComboBox cbxSocketDiscoDuro;
+	private JComboBox<String> cbxTipoMemoriaRam;
+	private JComboBox<String> cbxSocketDiscoDuro;
 	private JSpinner spnDispMin;
 	private JSpinner spnDispReal;
 	private JSpinner spnDispMax;
-	private JComboBox cbxSocketMicroP;
+	private JComboBox<String> cbxSocketMicroP;
 	private JLabel lblRegistrar;
 	Producto productSelected = null;
 	private JLabel lblTitle;
@@ -145,9 +145,9 @@ public class RegProducto extends JDialog {
 		lblSocketTM.setBounds(33, 60, 112, 55);
 		panelTarjetaMadre.add(lblSocketTM);
 		
-		cbxSocketTM = new JComboBox();
+		cbxSocketTM = new JComboBox<String>();
 		cbxSocketTM.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		cbxSocketTM.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "LGA", "hexLGA", "PGA", "mPGA"}));
+		cbxSocketTM.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>", "LGA", "hexLGA", "PGA", "mPGA"}));
 		cbxSocketTM.setBounds(179, 65, 480, 45);
 		panelTarjetaMadre.add(cbxSocketTM);
 		
@@ -157,8 +157,8 @@ public class RegProducto extends JDialog {
 		lblTipoRamTM.setBounds(33, 115, 138, 55);
 		panelTarjetaMadre.add(lblTipoRamTM);
 		
-		cbxTipoRamTM = new JComboBox();
-		cbxTipoRamTM.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "DDR", "DDR-2", "DDR-3", "DDR-4", "SDRAM", "RDRAM"}));
+		cbxTipoRamTM = new JComboBox<String>();
+		cbxTipoRamTM.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>", "DDR", "DDR-2", "DDR-3", "DDR-4", "SDRAM", "RDRAM"}));
 		cbxTipoRamTM.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		cbxTipoRamTM.setBounds(179, 120, 480, 45);
 		panelTarjetaMadre.add(cbxTipoRamTM);
@@ -203,8 +203,8 @@ public class RegProducto extends JDialog {
 		lblSocketMicroP.setBounds(33, 79, 112, 55);
 		panelMicroProcesador.add(lblSocketMicroP);
 		
-		cbxSocketMicroP = new JComboBox();
-		cbxSocketMicroP.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "LGA", "hexLGA", "PGA", "mPGA"}));
+		cbxSocketMicroP = new JComboBox<String>();
+		cbxSocketMicroP.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>", "LGA", "hexLGA", "PGA", "mPGA"}));
 		cbxSocketMicroP.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		cbxSocketMicroP.setBounds(179, 84, 480, 45);
 		panelMicroProcesador.add(cbxSocketMicroP);
@@ -250,8 +250,8 @@ public class RegProducto extends JDialog {
 		lblTipoMemoriaRam.setBounds(33, 125, 165, 55);
 		panelMemoriaRam.add(lblTipoMemoriaRam);
 		
-		cbxTipoMemoriaRam = new JComboBox();
-		cbxTipoMemoriaRam.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "DDR", "DDR-2", "DDR-3", "DDR-4", "SDRAM", "RDRAM"}));
+		cbxTipoMemoriaRam = new JComboBox<String>();
+		cbxTipoMemoriaRam.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>", "DDR", "DDR-2", "DDR-3", "DDR-4", "SDRAM", "RDRAM"}));
 		cbxTipoMemoriaRam.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		cbxTipoMemoriaRam.setBounds(215, 127, 444, 50);
 		panelMemoriaRam.add(cbxTipoMemoriaRam);
@@ -296,9 +296,9 @@ public class RegProducto extends JDialog {
 		lblTipoSocketDiscoDuro.setBounds(33, 146, 154, 55);
 		panelDiscoDuro.add(lblTipoSocketDiscoDuro);
 		
-		cbxSocketDiscoDuro = new JComboBox();
+		cbxSocketDiscoDuro = new JComboBox<String>();
 		cbxSocketDiscoDuro.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		cbxSocketDiscoDuro.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "LGA", "hexLGA", "PGA", "mPGA"}));
+		cbxSocketDiscoDuro.setModel(new DefaultComboBoxModel<String>(new String[] {"<Seleccione>", "LGA", "hexLGA", "PGA", "mPGA"}));
 		cbxSocketDiscoDuro.setBounds(190, 148, 469, 50);
 		panelDiscoDuro.add(cbxSocketDiscoDuro);
 		
@@ -598,12 +598,9 @@ public class RegProducto extends JDialog {
 			txtMarca.setText(selected.getMarca());
 			txtMarca.setEnabled(false);
 			txtPrecio.setText(String.valueOf(selected.getPrecio()));
-			spnDispReal.setValue(selected.getCantidad());
-			//spnDispReal.setEnabled(false);
+			spnDispReal.setValue(selected.getCantidad()); //Esto debe de tomarse en cuenta para la modificacion final
 			spnDispMax.setValue(selected.getDispMax());
-			//spnDispMax.setEnabled(false);
 			spnDispMin.setValue(selected.getDispMin());
-			//spnDispMin.setEnabled(false);
 			
 			if (selected instanceof DiscoDuro) {
 				btnMemoriaRam.setEnabled(false);

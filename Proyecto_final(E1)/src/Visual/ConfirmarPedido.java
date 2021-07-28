@@ -40,7 +40,7 @@ public class ConfirmarPedido extends JDialog {
 	private JTextField txtAdmin;
 	private JTextField txtFecha;
 	private JSpinner spnCantidad;
-	private JComboBox cbxDistribuidor;
+	private JComboBox<String> cbxDistribuidor;
 
 	/**
 	 * Launch the application.
@@ -62,7 +62,8 @@ public class ConfirmarPedido extends JDialog {
 	 * Create the frame.
 	 */
 	public ConfirmarPedido(OrdenCompra pedido) {
-		selected = pedido;;
+		selected = pedido;
+		
 		setUndecorated(true);
 		setBounds(100, 100, 587, 453);
 		setLocationRelativeTo(null);
@@ -136,7 +137,6 @@ public class ConfirmarPedido extends JDialog {
 					JOptionPane.showMessageDialog(null, "Algún campo está vacío", "Error", JOptionPane.WARNING_MESSAGE);
 				}
 				else {
-					System.out.println(selected.getCodigo() + " " + selected.getProducto().getClass().getSimpleName());
 					selected.setCantidad(Integer.parseInt(spnCantidad.getValue().toString()));
 					selected.setDistribuidor(cbxDistribuidor.getSelectedItem().toString());
 					selected.setFechaSolicitud(new Date());
@@ -187,9 +187,13 @@ public class ConfirmarPedido extends JDialog {
 		lblDistribuidor.setBounds(33, 149, 120, 55);
 		panelRegistro.add(lblDistribuidor);
 		
-		cbxDistribuidor = new JComboBox();
+		cbxDistribuidor = new JComboBox<String>();
 		cbxDistribuidor.setFont(new Font("Dialog", Font.PLAIN, 20));
-		cbxDistribuidor.setModel(new DefaultComboBoxModel(new String[] {"<Selecciona>", "1", "2", "3", "4", "5", "6", "7", "8", "9"}));
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
+		for (String distribuidor : Tienda.getInstance().getMisDistribuidores()) {
+			model.addElement(distribuidor);
+		}
+		cbxDistribuidor.setModel(model);
 		cbxDistribuidor.setBounds(179, 151, 348, 50);
 		panelRegistro.add(cbxDistribuidor);
 		

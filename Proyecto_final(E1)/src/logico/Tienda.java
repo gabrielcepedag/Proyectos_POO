@@ -16,6 +16,7 @@ public class Tienda implements Serializable{
 	private ArrayList<Empleado> misEmpleados;
 	private ArrayList<Combo> misCombos;
 	private ArrayList<OrdenCompra> misOrdenesCompra;
+	private ArrayList<String> misDistribuidores = new ArrayList<String>();
 	private static Tienda tienda = null;
 	private static Empleado loginUserEmpleado = null;
 
@@ -83,6 +84,14 @@ public class Tienda implements Serializable{
 		this.misOrdenesCompra = misOrdenesCompra;
 	}
 	
+	public ArrayList<String> getMisDistribuidores() {
+		return misDistribuidores;
+	}
+
+	public void setMisDistribuidores(ArrayList<String> misDistribuidores) {
+		this.misDistribuidores = misDistribuidores;
+	}
+
 	public static void setTienda(Tienda tienda) {
 		Tienda.tienda = tienda;
 	}
@@ -94,7 +103,11 @@ public class Tienda implements Serializable{
 	public void setLoginUserEmpleado(Empleado loginUserEmpleado) {
 		Tienda.loginUserEmpleado = loginUserEmpleado;
 	}
-
+	
+	public void addDistribuidor(String distribuidor) {
+		misDistribuidores.add(distribuidor);
+	}
+	
 	public void addCliente(Cliente cliente) {
 		misClientes.add(cliente);
 	}
@@ -125,6 +138,10 @@ public class Tienda implements Serializable{
 	
 	public void eliminarCombo(Combo combo) {
 		misCombos.remove(combo);
+	}
+	
+	public void eliminarDistribuidor(String distribuidor) {
+		misDistribuidores.remove(distribuidor);
 	}
 	
 	public void eliminarVendededor(Vendedor vendedor) {

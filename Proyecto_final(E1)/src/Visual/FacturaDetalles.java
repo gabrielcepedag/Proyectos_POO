@@ -82,7 +82,7 @@ public class FacturaDetalles extends JDialog {
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
 		
-		String headerFactura[] = {"Num", "Marca", "Categoría", "cant", "Precio"};
+		String headerFactura[] = {"Num", "Marca", "Categoría", "cant", "Precio", "Total"};
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(headerFactura);
 		
@@ -216,7 +216,13 @@ public class FacturaDetalles extends JDialog {
 		label_3.setBounds(289, 162, 455, 28);
 		panel.add(label_3);
 		
-		JLabel lblCreditoONo = new JLabel("" + selectedFactura.isACredito());
+		String auxString = "";
+		if (selectedFactura.isACredito()) {
+			auxString = "A crédito";
+		}else {
+			auxString = "Sin crédito";
+		}
+		JLabel lblCreditoONo = new JLabel(auxString);
 		lblCreditoONo.setForeground(Color.BLACK);
 		lblCreditoONo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblCreditoONo.setBounds(557, 209, 187, 28);
@@ -384,23 +390,44 @@ public class FacturaDetalles extends JDialog {
 	}
 	
 	public static void loadTableFactura(Factura selectedFactura) {
-		int cant = 0;
-		ArrayList<String> seleccionados = new ArrayList<String>();
+		
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
+		
+		ArrayList<Producto> productosSinRepetir = new ArrayList<Producto>();
+		
+		productosSinRepetir.addAll(selectedFactura.getMisProductos());
+		
 		for (int i = 0; i < selectedFactura.getMisProductos().size(); i++) {
-			cant = 0;
-			for (int j = 0; j < selectedFactura.getMisProductos().size(); j++) {
-				if (selectedFactura.getMisProductos().get(j).getNumSerie().equalsIgnoreCase(selectedFactura.getMisProductos().get(i).getNumSerie())) {
-					cant++;
+			for (int j = i + 1; j < selectedFactura.getMisProductos().size(); j++) {
+				if (selectedFactura.getMisProductos().get(i).getNumSerie().equalsIgnoreCase(selectedFactura.getMisProductos().get(j).getNumSerie())) {
+					productosSinRepetir.remove(j);
 				}
 			}
-			rows[0] = selectedFactura.getMisProductos().get(i).getNumSerie();
-			rows[1] = selectedFactura.getMisProductos().get(i).getMarca();
-			rows[2] = selectedFactura.getMisProductos().get(i).getClass().getSimpleName();
-			rows[3] = cant;
-			rows[4] = selectedFactura.getMisProductos().get(i).getPrecio();
-			
 		}
+			
+		for (Producto producto : productosSinRepetir) {
+			int cont = contProductosEnUnaFactura(producto,selectedFactura);
+			rows[0] = producto.getNumSerie();
+			rows[1] = producto.getMarca();
+			rows[2] = producto.getClass().getSimpleName();
+			rows[3] = cont;
+			rows[4] = producto.getPrecio();
+			rows[5] = producto.getPrecio() * cont;
+			
+			model.addRow(rows);
+		}
+	}
+
+	private static int contProductosEnUnaFactura(Producto producto, Factura selected) {
+		int cont = 0;
+		
+		for (Producto p1 : selected.getMisProductos()) {
+			if (p1.equals(producto)) {
+				cont++;
+			}
+		}
+		
+		return cont;
 	}
 }

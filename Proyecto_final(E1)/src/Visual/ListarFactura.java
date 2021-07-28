@@ -135,7 +135,7 @@ public class ListarFactura extends JDialog {
 			}
 		});
 		
-		cbxTipoFactura.setModel(new DefaultComboBoxModel(new String[] {"<Todas>", "Facturas sin cr\u00E9dito", "Facturas a cr\u00E9dito"}));
+		cbxTipoFactura.setModel(new DefaultComboBoxModel<String>(new String[] {"<Todas>", "Facturas sin cr\u00E9dito", "Facturas a cr\u00E9dito"}));
 		cbxTipoFactura.setSelectedIndex(0);
 		cbxTipoFactura.setOpaque(false);
 		cbxTipoFactura.setIgnoreRepaint(true);
@@ -168,7 +168,7 @@ public class ListarFactura extends JDialog {
 		contentPanel.add(label_1);
 		
 		
-		Vendedor v1 = new Vendedor("DarvyBM", "KLK", "Darvy Betances", "2434-332", "809-247-2240", "Santiago de los caballeros");
+		/*Vendedor v1 = new Vendedor("DarvyBM", "KLK", "Darvy Betances", "2434-332", "809-247-2240", "Santiago de los caballeros");
 		Tienda.getInstance().addEmpleado(v1);
 		Cliente c1 = new Cliente("24234", "Fulanito", "Cerca de ti bb", "334-233-4244");
 		Tienda.getInstance().addCliente(c1);
@@ -184,7 +184,7 @@ public class ListarFactura extends JDialog {
 		productos.add(p2);
 		productos.add(p1);
 		Factura f3 = new Factura("Fact-3", v1,c1, productos, new Date());
-		Tienda.getInstance().addFactura(f3);
+		Tienda.getInstance().addFactura(f3);*/
 		
 				
 		JPanel panel = new JPanel();
