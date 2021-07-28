@@ -384,17 +384,23 @@ public class FacturaDetalles extends JDialog {
 	}
 	
 	public static void loadTableFactura(Factura selectedFactura) {
-		
+		int cant = 0;
+		ArrayList<String> seleccionados = new ArrayList<String>();
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
-		for (Producto producto : selectedFactura.getMisProductos()) {
-			rows[0] = producto.getNumSerie();
-			rows[1] = producto.getMarca();
-			rows[2] = producto.getClass().getSimpleName();
-			rows[3] = producto.getCantidad();
-			rows[4] = producto.getPrecio();
-			model.addRow(rows);
+		for (int i = 0; i < selectedFactura.getMisProductos().size(); i++) {
+			cant = 0;
+			for (int j = 0; j < selectedFactura.getMisProductos().size(); j++) {
+				if (selectedFactura.getMisProductos().get(j).getNumSerie().equalsIgnoreCase(selectedFactura.getMisProductos().get(i).getNumSerie())) {
+					cant++;
+				}
+			}
+			rows[0] = selectedFactura.getMisProductos().get(i).getNumSerie();
+			rows[1] = selectedFactura.getMisProductos().get(i).getMarca();
+			rows[2] = selectedFactura.getMisProductos().get(i).getClass().getSimpleName();
+			rows[3] = cant;
+			rows[4] = selectedFactura.getMisProductos().get(i).getPrecio();
+			
 		}
-		
 	}
 }
