@@ -462,7 +462,9 @@ public class Home extends JFrame {
 		detalles.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Coming Soon","Aviso",JOptionPane.INFORMATION_MESSAGE);
+				FacturaDetalles facturaDetalles = new FacturaDetalles(selectedFactura);
+				facturaDetalles.setModal(true);
+				facturaDetalles.setVisible(true);
 			}
 		});
 		
