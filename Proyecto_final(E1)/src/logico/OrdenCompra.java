@@ -66,7 +66,7 @@ public class OrdenCompra implements Serializable{
 	public Date getFechaSolicitud() {
 		return fechaSolicitud;
 	}
-	public void setFechaSolicitud(Date fechaSolicitud) {
+	public void setFechaSolicitud( Date fechaSolicitud) {
 		this.fechaSolicitud = fechaSolicitud;
 	}
 

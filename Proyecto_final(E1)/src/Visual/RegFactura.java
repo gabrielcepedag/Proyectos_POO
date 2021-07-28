@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
@@ -332,7 +333,8 @@ public class RegFactura extends JDialog {
 							}
 						}
 					}
-					factura = new Factura(new String("F-0"+Factura.cod), auxVendedor, auxCliente, auxListCompra);
+					Date fechaDate = new Date();
+					factura = new Factura(new String("F-0"+Factura.cod), auxVendedor, auxCliente, auxListCompra, fechaDate);
 					if(rdbtnFacturaACredito.isSelected()) {
 						factura.setACredito(true);
 						auxCliente.setCredito(auxCliente.getCredito() - factura.getPrecioTotal());

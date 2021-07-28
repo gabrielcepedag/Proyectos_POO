@@ -2,6 +2,7 @@ package logico;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Factura implements Serializable{
 	
@@ -12,10 +13,11 @@ public class Factura implements Serializable{
 	private ArrayList<Producto> misProductos = new ArrayList<Producto>();
 	private float precioTotal;
 	private boolean aCredito;
+	private Date fecha;
 	public static int cod = 1;
 	public float lineaCredito;
 	
-	public Factura(String codigo, Vendedor miVendedor, Cliente miCliente, ArrayList<Producto> misProductos) {
+	public Factura(String codigo, Vendedor miVendedor, Cliente miCliente, ArrayList<Producto> misProductos, Date fecha) {
 		super();
 		this.codigo = codigo;
 		this.miVendedor = miVendedor;
@@ -24,7 +26,16 @@ public class Factura implements Serializable{
 		this.precioTotal = 0;
 		this.aCredito = false;
 		this.lineaCredito = 0;
+		this.fecha = fecha;
 		Factura.cod++;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 
 	public String getCodigo() {

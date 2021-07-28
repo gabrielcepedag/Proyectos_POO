@@ -205,7 +205,9 @@ public class ListarFactura extends JDialog {
 		detalles.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Aqui no hay nada, lo mismo que sentía ella por ti");
+				FacturaDetalles facturaDetalles = new FacturaDetalles(selectedFactura);
+				facturaDetalles.setModal(true);
+				facturaDetalles.setVisible(true);
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {

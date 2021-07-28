@@ -7,11 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import logico.Combo;
-import logico.DiscoDuro;
 import logico.MemoriaRam;
 import logico.MicroProcesador;
-import logico.MotherBoard;
 import logico.OrdenCompra;
 import logico.Producto;
 import logico.Tienda;
@@ -27,7 +24,7 @@ import java.awt.Font;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
@@ -35,6 +32,7 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class ListarPedido extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -43,8 +41,6 @@ public class ListarPedido extends JDialog {
 	private JLabel Confirmar;
 	private JTable tablePedido;
 	private OrdenCompra selectedOrdenCompra = null;
-	private JLabel lblNewLabel_1;
-	private JLabel detalles;
 	int indexCbx = 0;
 	private JComboBox<String> cbxTipoPedido;
 	
@@ -92,26 +88,13 @@ public class ListarPedido extends JDialog {
 		scrollPanePedido.setBounds(352, 104, 720, 546);
 		contentPanel.add(scrollPanePedido);
 		
-		/*Combos de Prueba:
-		Producto p1 = new MotherBoard("402", 10, 25000, "RTX", 1, 20, "QSY", "QSY", "QSY");
 		Producto p2 = new MemoriaRam("403", 100, 10000, "TridentZ", 1, 500, 32, "DDR4");
-		Producto p3 = new MicroProcesador("404", 55, 5500, "MSI", 10, 60, "QSY", "buena", 100);
-		Producto p4 = new DiscoDuro("405", 20, 4500, "Esto", 5, 90, "Funciona", 500, "Maravilla");
-		
+		Producto p3 = new MicroProcesador("404", 55, 5500, "MSI", 10, 60, "QSY", "buena", 100);		
 		OrdenCompra ordenCompra = new OrdenCompra("Ord - 1", p2);
-		ordenCompra.setCantidad(3);
-		ordenCompra.setDistribuidor("Tu madrina");
-		ordenCompra.setPrecioTotal(ordenCompra.getProducto().getPrecio());
-		ordenCompra.setProcesada(false);
 		Tienda.getInstance().addOrdenCompra(ordenCompra);
-		
 		OrdenCompra ordenCompra2 = new OrdenCompra("Ord -2", p3);
-		ordenCompra.setCantidad(5);
-		ordenCompra.setDistribuidor("Tu padrastro");
-		ordenCompra.setPrecioTotal(ordenCompra.getProducto().getPrecio());
-		ordenCompra.setProcesada(true);
 		Tienda.getInstance().addOrdenCompra(ordenCompra2);
-		*/
+		
 		
 		String header[] = {"Código", "Distribuidor", "Producto", "Cantidad", "Precio total", "Fecha de Solicitud", "Procesado"};
 		modelPedido = new DefaultTableModel();
@@ -125,7 +108,6 @@ public class ListarPedido extends JDialog {
 				index = tablePedido.getSelectedRow();
 				if(index != -1) {
 					Confirmar.setEnabled(true);
-					detalles.setEnabled(true);
 					String codigo = (String)(modelPedido.getValueAt(index, 0));
 					selectedOrdenCompra = Tienda.getInstance().buscarOrdenDeCompraByCod(codigo);
 				}
@@ -149,44 +131,26 @@ public class ListarPedido extends JDialog {
 		panel_1.add(lblNewLabel);
 		lblNewLabel.setIcon(new ImageIcon(ListarPedido.class.getResource("/Imagenes/PedidosLabelBlanco.png")));
 		
-		lblNewLabel_1 = new JLabel(" Crear");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(0, 160, 288, 44);
-		panel_1.add(lblNewLabel_1);
-		lblNewLabel_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Usted no puede entrar aquí por que notamos una falta de amor propio, subase el autoestima y vuelva");
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblNewLabel_1.setBackground(new Color(0, 155, 124));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblNewLabel_1.setBackground(new Color(36, 37, 38));
-			}
-		});
-		lblNewLabel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblNewLabel_1.setOpaque(true);
-		lblNewLabel_1.setBackground(new Color(36, 37, 38));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 34));
-		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setIcon(new ImageIcon(ListarCliente.class.getResource("/Imagenes/A\u00F1adirIcon.png")));
-		
 		Confirmar = new JLabel("Confirmar");
 		Confirmar.setHorizontalAlignment(SwingConstants.CENTER);
-		Confirmar.setBounds(0, 217, 288, 44);
+		Confirmar.setBounds(0, 158, 288, 44);
 		panel_1.add(Confirmar);
 		Confirmar.setEnabled(false);
 		Confirmar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if (selectedOrdenCompra != null) {
-					selectedOrdenCompra.setProcesada(true);
-					Confirmar.setEnabled(false);
-					detalles.setEnabled(false);
-					loadTablePedido(indexCbx);
+				if (selectedOrdenCompra != null && Confirmar.isEnabled()) {
+					if (selectedOrdenCompra.isProcesada() == false) {
+						ConfirmarPedido confirmarPedido = new ConfirmarPedido(selectedOrdenCompra);
+						confirmarPedido.setModal(true);
+						confirmarPedido.setVisible(true);
+						Confirmar.setEnabled(false);
+						loadTablePedido(indexCbx);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Esta factura ya está procesada", "Confirmar Factura", JOptionPane.WARNING_MESSAGE);
+					}
+					
 				}
 			}
 			@Override
@@ -227,32 +191,6 @@ public class ListarPedido extends JDialog {
 		lblAdministracin.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblAdministracin.setBounds(75, 81, 144, 64);
 		panel_1.add(lblAdministracin);
-		
-		detalles = new JLabel("Detalles");
-		detalles.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Patrocinado por la unica tienda que nada... La sirena");
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				detalles.setBackground(new Color(0, 155, 124));
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				detalles.setBackground(new Color(36, 37, 38));
-			}
-		});
-		detalles.setIcon(new ImageIcon(ListarPedido.class.getResource("/Imagenes/OjoIcon.png")));
-		detalles.setOpaque(true);
-		detalles.setHorizontalAlignment(SwingConstants.CENTER);
-		detalles.setForeground(Color.WHITE);
-		detalles.setFont(new Font("Tahoma", Font.PLAIN, 34));
-		detalles.setEnabled(false);
-		detalles.setBackground(new Color(36, 37, 38));
-		detalles.setBounds(0, 270, 288, 44);
-		panel_1.add(detalles);
 		
 		final JLabel label = new JLabel("X");
 		label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -296,7 +234,7 @@ public class ListarPedido extends JDialog {
 				rows[2] = ordenCompra.getProducto().getClass().getSimpleName();
 				rows[3] = ordenCompra.getCantidad();
 				rows[4] = ordenCompra.getPrecioTotal();
-				rows[5] = ordenCompra.getFechaSolicitud();
+				rows[5] = new SimpleDateFormat("dd-MM-yyyy").format(ordenCompra.getFechaSolicitud());
 				rows[6] = ordenCompra.isProcesada();
 				modelPedido.addRow(rows);
 			}
@@ -310,12 +248,13 @@ public class ListarPedido extends JDialog {
 					rows[2] = ordenCompra.getProducto().getClass().getSimpleName();
 					rows[3] = ordenCompra.getCantidad();
 					rows[4] = ordenCompra.getPrecioTotal();
-					rows[5] = ordenCompra.getFechaSolicitud();
+					rows[5] = new SimpleDateFormat("dd-MM-yyyy").format(ordenCompra.getFechaSolicitud());
 					rows[6] = ordenCompra.isProcesada();
 					modelPedido.addRow(rows);
 				}
 			}
 			break;
+			
 		case 2:
 			for (OrdenCompra ordenCompra : Tienda.getInstance().getMisOrdenesCompra()) {
 				if (!ordenCompra.isProcesada()) {
@@ -324,7 +263,7 @@ public class ListarPedido extends JDialog {
 					rows[2] = ordenCompra.getProducto().getClass().getSimpleName();
 					rows[3] = ordenCompra.getCantidad();
 					rows[4] = ordenCompra.getPrecioTotal();
-					rows[5] = ordenCompra.getFechaSolicitud();
+					rows[5] = new SimpleDateFormat("dd-MM-yyyy").format(ordenCompra.getFechaSolicitud());
 					rows[6] = ordenCompra.isProcesada();
 					modelPedido.addRow(rows);
 				}

@@ -226,22 +226,6 @@ public class Tienda implements Serializable{
 		return precioTotal;
 	}
 	
-	/*
-	public float calcTotalVendidoByVendedor(String cedula) {
-		Vendedor vendedor = (Vendedor) buscarEmpleadoByCedula(cedula);
-		float suma = 0;
-		
-		for (Factura factura : misFacturas) {
-			if(factura.getMiVendedor().equals(vendedor)) {
-				suma += factura.getPrecioTotal();
-			}
-		}
-		vendedor.setTotalVendido(suma);
-		return suma;
-	} 
-	//Ya esto no es necesario, lo hago en la clase visual desde que el metodo hacerCompra retorna true.
-	*/
-	
 	public Vendedor vendedorDelMes() {
 		float mayor = 0;
 		Vendedor vendedorDelMes = null;
@@ -305,9 +289,7 @@ public class Tienda implements Serializable{
 			}
 		}
 		esPosible = true;
-		//factura.getMiVendedor().setTotalVendido(factura.getPrecioTotal());
 		for (Producto producto : factura.getMisProductos()) {
-			//En la parte visual hay que mostrar solamente los productos que tengan cantidad > 0.
 			producto.setCantidad(producto.getCantidad() - 1);
 		}
 		addFactura(factura);

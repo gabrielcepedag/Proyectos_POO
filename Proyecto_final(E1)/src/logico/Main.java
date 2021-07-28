@@ -2,6 +2,7 @@ package logico;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Main implements Serializable{
 	/**
@@ -31,7 +32,7 @@ public class Main implements Serializable{
 		Cliente cliente1 = new Cliente("047", "Gabriel", "La vega", "8295151017");
 		Tienda.getInstance().addCliente(cliente1);
 		
-		Factura factura1 = new Factura(new String("F-" + Factura.cod), vendedor1, cliente1, productos1);
+		Factura factura1 = new Factura(new String("F-" + Factura.cod), vendedor1, cliente1, productos1, new Date());
 		factura1.calcPrecioFactura();
 		Tienda.getInstance().addFactura(factura1);
 		
