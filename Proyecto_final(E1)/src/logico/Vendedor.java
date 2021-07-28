@@ -26,7 +26,7 @@ public class Vendedor extends Empleado implements Serializable{
 	}
 
 	public void setComision(float comision) {
-		this.comision = comision;
+		this.comision = (getComision() + comision);
 	}
 	
 }

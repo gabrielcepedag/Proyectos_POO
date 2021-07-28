@@ -58,38 +58,40 @@ import javax.swing.ListSelectionModel;
 public class RegFactura extends JDialog {
 
 	private JPanel contentPane;
-	private JTextField txtNombre;
-	private JTextField txtDireccion;
 	private JPanel panelDatosClientes;
-	private JTextField txtCedula;
-	private JRadioButton btnAddProducto;
-	private JRadioButton btnAddCombo;
-	private JLabel lblRegistrar;
-	private JLabel lblBuscar;
-	private JTextField txtPrecioTotal;
-	private JTextField txtCodigo;
 	private JPanel panelCombos;
 	private JPanel panelProductos;
+	private JTextField txtNombre;
+	private JTextField txtDireccion;
+	private JTextField txtCedula;
+	private JTextField txtPrecioTotal;
+	private JTextField txtCodigo;
 	private JTextField txtTelefono;
-	private JList<String> listComboDisp;
-	private JList<String> listComboSel;
-	private DefaultListModel<String> listModelComboDisp;
-	private DefaultListModel<String> listModelComboSel;
-	private ArrayList<Combo> combosSeleccionados= new ArrayList<Combo>();
-	private JList<String> listProductosDisp;
-	private JList<String> listProductosSel;
-	private DefaultListModel<String> listModelProductosDisp;
-	private DefaultListModel<String> listModelProductosSel;
-	private ArrayList<Producto> productosSeleccionados= new ArrayList<Producto>();
+	private JRadioButton btnAddProducto;
+	private JRadioButton btnAddCombo;
+	private JRadioButton rdbtnFacturaACredito;
+	private JLabel lblRegCliente;
+	private JLabel lblRegistrar;
+	private JLabel lblBuscar;
 	private JLabel lblArribaCombo;
 	private JLabel lblAbajoCombo;
 	private JLabel lblAbajoProductos;
 	private JLabel lblArribaProductos;
+	private JList<String> listComboDisp;
+	private JList<String> listComboSel;
+	private JList<String> listProductosDisp;
+	private JList<String> listProductosSel;
+	private DefaultListModel<String> listModelComboDisp;
+	private DefaultListModel<String> listModelComboSel;
+	private DefaultListModel<String> listModelProductosDisp;
+	private DefaultListModel<String> listModelProductosSel;
+	private ArrayList<Combo> combosSeleccionados= new ArrayList<Combo>();
+	private ArrayList<Producto> productosSeleccionados= new ArrayList<Producto>();
 	private Cliente auxCliente = null;
 	private Vendedor auxVendedor = null;
-	private Vendedor AuxVendedor;
 	private Factura factura = null;
-	private JRadioButton rdbtnFacturaACredito;
+	private boolean nuevoCliente = false;
+	
 
 	/**
 	 * Launch the application.
@@ -130,11 +132,8 @@ public class RegFactura extends JDialog {
 		panelCombos.setBackground(Color.WHITE);
 		panelCombos.setBounds(630, 67, 465, 561);
 		panel.add(panelCombos);
-		
-		//System.out.println("Mi cantidad es: " + Tienda.getInstance().buscarProductoByNumSerie("0002").getCantidad());
-		
+				
 		lblArribaCombo = new JLabel("\u2191\u2191");
-		//lblArribaCombo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblArribaCombo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -175,7 +174,6 @@ public class RegFactura extends JDialog {
 		lblArribaCombo.setForeground(Color.WHITE);
 		lblArribaCombo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblArribaCombo.setBackground(new Color(0, 85, 70));
-		//lblArribaCombo.setBackground(new Color(0, 155, 124));
 		lblArribaCombo.setBounds(157, 275, 74, 45);
 		panelCombos.add(lblArribaCombo);
 		
@@ -214,13 +212,11 @@ public class RegFactura extends JDialog {
 				}
 			}
 		});
-		//lblAbajoCombo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblAbajoCombo.setOpaque(true);
 		lblAbajoCombo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAbajoCombo.setForeground(Color.WHITE);
 		lblAbajoCombo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblAbajoCombo.setBackground(new Color(0, 85, 70));
-		//lblAbajoCombo.setBackground(new Color(0, 155, 124));
 		lblAbajoCombo.setBounds(243, 275, 74, 45);
 		panelCombos.add(lblAbajoCombo);
 		
@@ -297,7 +293,12 @@ public class RegFactura extends JDialog {
 						producto.setCantidad(producto.getCantidad() + 1);
 					}
 				}
-				System.out.println("Mi cantidad antes de cerrarlo es: " + Tienda.getInstance().buscarProductoByNumSerie("0002").getCantidad());
+				if(nuevoCliente) {
+					int opcion = JOptionPane.showConfirmDialog(null,"¿También desea eliminar la información del nuevo cliente registrado?", "Facturación Cancelada", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				    if(opcion == JOptionPane.YES_OPTION){
+				    	Tienda.getInstance().eliminarCliente(auxCliente);
+				    }
+				}
 				dispose();
 			}
 		});
@@ -337,17 +338,16 @@ public class RegFactura extends JDialog {
 					factura = new Factura(new String("F-0"+Factura.cod), auxVendedor, auxCliente, auxListCompra, fechaDate);
 					if(rdbtnFacturaACredito.isSelected()) {
 						factura.setACredito(true);
-						auxCliente.setCredito(auxCliente.getCredito() - factura.getPrecioTotal());
+						factura.setLineaCredito(factura.getPrecioTotal());
 						rdbtnFacturaACredito.setSelected(false);
 					}
 					
 					auxVendedor.setTotalVendido(factura.getPrecioTotal());
-					auxVendedor.setComision((float) (factura.getPrecioTotal()*0.05)); //(Para un 5% comisión)
+					auxVendedor.setComision((float) (factura.getPrecioTotal()*0.05)); //(EJEMPLO: Para una tasa fija de 5% comisión)
 					auxCliente.setCantCompras(auxCliente.getCantCompras() + 1);
 					
 					for (Producto producto2 : auxListCompra) {
 						producto2.setCantidad(producto2.getCantidad());
-						System.out.println("Prueba - prueba - prueba: " + producto2.getCantidad());
 					}
 						
 					cleanCliente();
@@ -365,7 +365,6 @@ public class RegFactura extends JDialog {
 					}
 					for (Producto producto2 : auxListCompra) {
 						producto2.setCantidad(producto2.getCantidad());
-						System.out.println("Prueba2 - prueba2 - prueba2: " + producto2.getCantidad());
 					}
 				}
 			}
@@ -460,7 +459,12 @@ public class RegFactura extends JDialog {
 						producto.setCantidad(producto.getCantidad() + 1);
 					}
 				}
-				System.out.println("Mi cantidad antes de cerrarlo es: " + Tienda.getInstance().buscarProductoByNumSerie("0002").getCantidad());
+				if(nuevoCliente) {
+					int opcion = JOptionPane.showConfirmDialog(null,"¿También desea eliminar la información del nuevo cliente registrado?", "Facturación Cancelada", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				    if(opcion == JOptionPane.YES_OPTION){
+				    	Tienda.getInstance().eliminarCliente(auxCliente);
+				    }
+				}
 				dispose();
 			}
 			@Override
@@ -486,13 +490,16 @@ public class RegFactura extends JDialog {
 					if (clienteBuscado != null) {
 						cargarCliente(clienteBuscado);
 						auxCliente = clienteBuscado;
+						nuevoCliente = false;
 						if(Tienda.getInstance().clienteYaTieneCredito(auxCliente)) {
 							rdbtnFacturaACredito.setEnabled(false);
 						}
 					}else {
 						txtNombre.setEnabled(true);
 						txtDireccion.setEnabled(true);
-						txtTelefono.setEnabled(true);				
+						txtTelefono.setEnabled(true);
+						lblRegCliente.setEnabled(true);
+						lblRegCliente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					}
 					txtCedula.setEnabled(false);
 					lblBuscar.setEnabled(false);
@@ -521,8 +528,39 @@ public class RegFactura extends JDialog {
 		txtTelefono.setEnabled(false);
 		txtTelefono.setColumns(10);
 		txtTelefono.setBackground(Color.WHITE);
-		txtTelefono.setBounds(143, 311, 453, 45);
+		txtTelefono.setBounds(143, 311, 311, 45);
 		panelDatosClientes.add(txtTelefono);
+		
+		lblRegCliente = new JLabel("Registrar");
+		lblRegCliente.setEnabled(false);
+		lblRegCliente.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(!txtNombre.getText().isEmpty() && !txtDireccion.getText().isEmpty() && !txtTelefono.getText().isEmpty()) {
+					if(auxCliente == null) {
+						auxCliente = new Cliente(txtCedula.getText(), txtNombre.getText(), txtDireccion.getText(), txtTelefono.getText());
+						JOptionPane.showMessageDialog(null, "El cliente ha sido registrado satisfactoriamente.", "Información" , JOptionPane.INFORMATION_MESSAGE);
+						lblRegistrar.setEnabled(false);
+						txtNombre.setEnabled(false);
+						txtDireccion.setEnabled(false);
+						txtTelefono.setEnabled(false);
+						lblRegCliente.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+						nuevoCliente = true;
+					}else {
+						JOptionPane.showMessageDialog(null, "Ya se ha registrado este cliente.", "Información", JOptionPane.WARNING_MESSAGE);
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Debe completar los campos para registrar un nuevo cliente.", "Información", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		lblRegCliente.setOpaque(true);
+		lblRegCliente.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRegCliente.setForeground(Color.BLACK);
+		lblRegCliente.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblRegCliente.setBackground(new Color(0, 155, 124));
+		lblRegCliente.setBounds(460, 311, 136, 45);
+		panelDatosClientes.add(lblRegCliente);
 		
 		JPanel panelRadioButtons = new JPanel();
 		panelRadioButtons.setLayout(null);
@@ -628,13 +666,11 @@ public class RegFactura extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(listProductosSel.getSelectedValue() != null) {
-					//System.out.println("Mi cantidad antes de imprimirlo es: " + Tienda.getInstance().buscarProductoByNumSerie("0002").getCantidad());
 					String aux = listProductosSel.getSelectedValue().toString();
 					Producto auxProducto = Tienda.getInstance().buscarProductoByNumSerie(aux.substring(0, aux.indexOf('|')-1));
 					auxProducto.setCantidad(auxProducto.getCantidad()+1);
 					String auxString = new String(aux+" (Disp.: "+(auxProducto.getCantidad())+" )");
 					String compareTo = new String(auxString.substring(0, auxString.indexOf(':')));
-					//System.out.println("Mi cantidad despues de añadirlo al String es de: " + auxProducto.getCantidad() + " o porsiacaso " + Tienda.getInstance().buscarProductoByNumSerie("0002").getCantidad());
 					boolean existe = false;
 					int index = 0;
 					listModelProductosSel.remove(listProductosSel.getSelectedIndex());
@@ -669,7 +705,6 @@ public class RegFactura extends JDialog {
 		lblArribaProductos.setForeground(Color.WHITE);
 		lblArribaProductos.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblArribaProductos.setBackground(new Color(0, 85, 70));
-		//lblArribaProductos.setBackground(new Color(0, 155, 124));
 		lblArribaProductos.setBounds(157, 275, 74, 45);
 		panelProductos.add(lblArribaProductos);
 		
@@ -684,10 +719,7 @@ public class RegFactura extends JDialog {
 						Producto auxProducto = Tienda.getInstance().buscarProductoByNumSerie(aux.substring(0, aux.indexOf('|')-1));
 						listModelProductosSel.addElement(auxString);
 						productosSeleccionados.add(auxProducto);
-						//System.out.println(auxProducto.getNumSerie()+"-->"+auxProducto.getCantidad());
 						auxProducto.setCantidad(auxProducto.getCantidad()-1);
-						//System.out.println(auxProducto.getNumSerie()+"-->"+auxProducto.getCantidad());
-						//System.out.println("Cantidad = " + auxProducto.getCantidad());
 						if(auxProducto.getCantidad() == 0) {
 							listModelProductosDisp.remove(listProductosDisp.getSelectedIndex());
 						}
@@ -710,7 +742,6 @@ public class RegFactura extends JDialog {
 		lblAbajoProductos.setForeground(Color.WHITE);
 		lblAbajoProductos.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblAbajoProductos.setBackground(new Color(0, 85, 70));
-		//lblAbajoProductos.setBackground(new Color(0, 155, 124));
 		lblAbajoProductos.setBounds(243, 275, 74, 45);
 		panelProductos.add(lblAbajoProductos);
 		
@@ -767,12 +798,12 @@ public class RegFactura extends JDialog {
 		listProductosSel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		listProductosSel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneProductosSel.setViewportView(listProductosSel);
-		
+		/*
 			//------------------TEST TEST TEST--------------------------------//
 			
 			ArrayList<Producto> productos1 = new ArrayList<Producto>();
 			
-			/*DiscoDuro disco1 = new DiscoDuro("0001", 25, 550, "Sony", 5, 50, "QUESEYO", 500, "Sate");
+			DiscoDuro disco1 = new DiscoDuro("0001", 25, 550, "Sony", 5, 50, "QUESEYO", 500, "Sate");
 			MicroProcesador micro1 = new MicroProcesador("0002", 2, 2000, "MSI", 5, 25, "Guachupita", "GOODquestion", 200);
 			MotherBoard mother1 = new MotherBoard("0003", 2, 800, "Intel", 1, 100, "I-9", "socket", "tipoRam");
 			MemoriaRam ram1 = new MemoriaRam("0004", 10, (float)99.99, "Apple", 1, 10, 1024, "TipoMemoria");
@@ -796,10 +827,10 @@ public class RegFactura extends JDialog {
 			
 			Vendedor vendedor1 = new Vendedor("eemr", "12345", "Eduardo", "047-2", "809-555-8587", "Los Mina");
 			Tienda.getInstance().addEmpleado(vendedor1);
-			//Tienda.getInstance().setLoginUserEmpleado(vendedor1);*/
+			//Tienda.getInstance().setLoginUserEmpleado(vendedor1);
 			
-			//------------------TEST TEST TEST--------------------------------//
-		
+			//------------------TEST TEST TEST--------------------------------//	
+		 */
 		loadProductosDisponibles();
 		loadCombosDisponibles();
 	}
@@ -875,10 +906,14 @@ public class RegFactura extends JDialog {
 		}
 		total = (float) (Math.round(total * 100.0) / 100.0);
 		
-		if(total > auxCliente.getCredito() || Tienda.getInstance().clienteYaTieneCredito(auxCliente)) {
-			rdbtnFacturaACredito.setEnabled(false);
+		if(auxCliente != null) {
+			if(total > auxCliente.getCredito() || Tienda.getInstance().clienteYaTieneCredito(auxCliente)) {
+				rdbtnFacturaACredito.setEnabled(false);
+			}else {
+				rdbtnFacturaACredito.setEnabled(true);
+			}
 		}else {
-			rdbtnFacturaACredito.setEnabled(true);
+			JOptionPane.showMessageDialog(null, "No se ha identificado el Cliente de esta factura.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		
 		return total;
