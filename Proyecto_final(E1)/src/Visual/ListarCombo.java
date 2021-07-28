@@ -274,9 +274,7 @@ public class ListarCombo extends JDialog {
 			rows[3] = combo.getDescuento() + "%";
 			rows[4] = combo.getPrecioTotal();
 			rows[5] = combo.getMisProductos().size();
-			System.out.println(Tienda.getInstance().buscarComboByCod("Combo-1").getMisProductos().size());
-			System.out.println(combo.getMisProductos().size());
-		//	Tienda.getInstance().getMisProductos().clear();
+			
 			modelCombo.addRow(rows);
 		}
 	}

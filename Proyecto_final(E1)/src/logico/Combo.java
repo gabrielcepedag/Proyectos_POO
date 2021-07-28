@@ -18,7 +18,7 @@ public class Combo implements Serializable{
 		super();
 		this.codigo = codigo;
 		this.nombre = nombre;
-		this.misProductos = misProductos;
+		this.misProductos.addAll(misProductos);
 		this.descuento = descuento;
 		this.precioNeto = 0;
 		this.precioTotal = 0;
@@ -43,7 +43,7 @@ public class Combo implements Serializable{
 		return misProductos;
 	}
 	public void setMisProductos(ArrayList<Producto> misProductos) {
-		this.misProductos = misProductos;
+		this.misProductos.addAll(misProductos);
 	}
 
 	public float getDescuento() {

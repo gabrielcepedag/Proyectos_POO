@@ -96,6 +96,7 @@ public class RegCombo extends JDialog {
 	 */
 	public RegCombo(Combo combo) {
 		selectedCombo = combo;
+		
 		setUndecorated(true);
 		setBounds(100, 100, 647, 741);
 		setLocationRelativeTo(null);
@@ -386,8 +387,6 @@ public class RegCombo extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				if (selectedCombo == null) {
 					if (!txtNombre.getText().isEmpty() && modelElegidos.getRowCount() > 0) {
-						Tienda.getInstance().getMisCombos().clear();
-						
 						Combo comboAux = new Combo(txtCodigo.getText(), txtNombre.getText(), productosSelected, Float.parseFloat(spnDescuento.getValue().toString()));
 						comboAux.setPrecioNeto(Float.parseFloat(spnPrecioNeto.getValue().toString()));
 						comboAux.setPrecioTotal(Float.parseFloat(spnPrecio.getValue().toString()));
@@ -396,12 +395,13 @@ public class RegCombo extends JDialog {
 						JOptionPane.showMessageDialog(null, "Combo registrado satisfactoriamente !", "Registro de combo", JOptionPane.INFORMATION_MESSAGE);
 						clean();
 						ListarCombo.loadTableCombo();
+						Home.loadHome();
 					}else {
 						JOptionPane.showMessageDialog(null, "Debes llenar todos los campos requeridos.", "Registro de combo", JOptionPane.WARNING_MESSAGE);
 					}
 				}else {
 					selectedCombo.setNombre(txtNombre.getText());
-					selectedCombo.setDescuento(Integer.parseInt(spnDescuento.getValue().toString()));
+					selectedCombo.setDescuento(Float.parseFloat((spnDescuento.getValue().toString())));
 					selectedCombo.setMisProductos(productosSelected);
 					selectedCombo.setPrecioNeto(Float.parseFloat(spnPrecioNeto.getValue().toString()));
 					selectedCombo.setPrecioTotal(Float.parseFloat(spnPrecio.getValue().toString()));
@@ -429,6 +429,8 @@ public class RegCombo extends JDialog {
 			spnDescuento.setValue(selectedCombo.getDescuento());
 			spnPrecio.setValue(selectedCombo.getPrecioTotal());
 			spnPrecioNeto.setValue(selectedCombo.getPrecioNeto());
+			productosSelected.addAll(selectedCombo.getMisProductos());
+			selectedCombo.getMisProductos().clear();
 			loadProductosElegidos();
 		}
 	}
@@ -438,22 +440,12 @@ public class RegCombo extends JDialog {
 		modelElegidos.setRowCount(0);
 		rows = new Object[modelElegidos.getColumnCount()];
 		
-		if (selectedCombo == null) {
-			for (Producto producto : productosSelected) {
-				rows[0] = producto.getNumSerie();
-				rows[1] = producto.getClass().getSimpleName();
-				rows[2] = producto.getMarca();
-				
-				modelElegidos.addRow(rows);
-			}
-		}else {
-			for (Producto producto : selectedCombo.getMisProductos()) {
-				rows[0] = producto.getNumSerie();
-				rows[1] = producto.getClass().getSimpleName();
-				rows[2] = producto.getMarca();
-				
-				modelElegidos.addRow(rows);
-			}
+		for (Producto producto : productosSelected) {
+			rows[0] = producto.getNumSerie();
+			rows[1] = producto.getClass().getSimpleName();
+			rows[2] = producto.getMarca();
+			
+			modelElegidos.addRow(rows);
 		}
 		
 	}
