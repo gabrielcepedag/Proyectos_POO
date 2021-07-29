@@ -1,4 +1,4 @@
-package Visual;
+package visual;
 
 import java.awt.BorderLayout;
 
@@ -96,14 +96,14 @@ public class FacturaDetalles extends JDialog {
 		lblAbonar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				float monto = Float.parseFloat(JOptionPane.showInputDialog(null, "Ingrese el monto a Abonar", "Abonar linea de crédito", JOptionPane.DEFAULT_OPTION));
+				float monto = Float.parseFloat(JOptionPane.showInputDialog(null, "Ingrese el monto a abonar", "Abonar Linea de Crédito", JOptionPane.DEFAULT_OPTION));
 				boolean esPosible = Tienda.getInstance().abonarFacturaCredito(selectedFactura.getCodigo(), monto);
 				if (esPosible) {
 					lblMontoAbonar.setText(""+selectedFactura.getLineaCredito());
-					JOptionPane.showMessageDialog(null, "Monto abonado Correctamente");
+					JOptionPane.showMessageDialog(null, "El monto ingresado ha sido abonado correctamente.");
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "El monto no pudo ser abonado", "Abonar", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "El monto ingresado no pudo ser abonado. Revise el monto introducido", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}

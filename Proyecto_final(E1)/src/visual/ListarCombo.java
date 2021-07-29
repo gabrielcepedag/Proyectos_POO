@@ -1,4 +1,4 @@
-package Visual;
+package visual;
 
 import java.awt.BorderLayout;
 
@@ -163,10 +163,16 @@ public class ListarCombo extends JDialog {
 		Eliminar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				Tienda.getInstance().eliminarCombo(selectedCombo);;
-				Modificar.setEnabled(false);
-				Eliminar.setEnabled(false);
-				loadTableCombo();
+				int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el combo seleccionado?", "Eliminar Combo", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(opcion == JOptionPane.YES_OPTION){
+					Tienda.getInstance().eliminarCombo(selectedCombo);
+					Modificar.setEnabled(false);
+					Eliminar.setEnabled(false);
+					loadTableCombo();
+			    }else {
+			    	Modificar.setEnabled(true);
+			    	Eliminar.setEnabled(true);
+			    }			
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {

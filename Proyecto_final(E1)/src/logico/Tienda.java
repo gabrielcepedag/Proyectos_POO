@@ -1,15 +1,16 @@
 package logico;
 
-import java.awt.Container;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Tienda implements Serializable{
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
+	private static Tienda tienda = null;
+	private static Empleado loginUserEmpleado = null;
+	private int staticPedidos = 1;
+	private int staticCombo = 1;
+	private int staticFactura = 1;
 	private ArrayList<Producto> misProductos;
 	private ArrayList<Cliente> misClientes;
 	private ArrayList<Factura> misFacturas;
@@ -17,11 +18,6 @@ public class Tienda implements Serializable{
 	private ArrayList<Combo> misCombos;
 	private ArrayList<OrdenCompra> misOrdenesCompra;
 	private ArrayList<String> misDistribuidores = new ArrayList<String>();
-	private static Tienda tienda = null;
-	private static Empleado loginUserEmpleado = null;
-	private int staticPedidos = 1;
-	private int staticCombo = 1;
-	private int staticFactura = 1;
 
 	private Tienda() {
 		super();
@@ -50,11 +46,52 @@ public class Tienda implements Serializable{
 	public ArrayList<Cliente> getMisClientes() {
 		return misClientes;
 	}
-	
 	public void setMisClientes(ArrayList<Cliente> misClientes) {
 		this.misClientes = misClientes;
 	}
+		
+	public ArrayList<Factura> getMisFacturas() {
+		return misFacturas;
+	}
+	public void setMisFacturas(ArrayList<Factura> misFacturas) {
+		this.misFacturas = misFacturas;
+	}
+
+	public ArrayList<Empleado> getMisEmpleados() {
+		return misEmpleados;
+	}
+	public void setMisEmpleados(ArrayList<Empleado> misEmpleados) {
+		this.misEmpleados = misEmpleados;
+	}
+
+	public ArrayList<Combo> getMisCombos() {
+		return misCombos;
+	}
+	public void setMisCombos(ArrayList<Combo> misCombos) {
+		this.misCombos = misCombos;
+	}
+
+	public ArrayList<OrdenCompra> getMisOrdenesCompra() {
+		return misOrdenesCompra;
+	}
+	public void setMisOrdenesCompra(ArrayList<OrdenCompra> misOrdenesCompra) {
+		this.misOrdenesCompra = misOrdenesCompra;
+	}
 	
+	public ArrayList<String> getMisDistribuidores() {
+		return misDistribuidores;
+	}
+	public void setMisDistribuidores(ArrayList<String> misDistribuidores) {
+		this.misDistribuidores = misDistribuidores;
+	}
+	
+	public Empleado getLoginUserEmpleado() {
+		return loginUserEmpleado;
+	}
+	public void setLoginUserEmpleado(Empleado loginUserEmpleado) {
+		Tienda.loginUserEmpleado = loginUserEmpleado;
+	}
+
 	public void actualizarVariablesStatic() {
 		staticCombo = Combo.cod;
 		staticPedidos = OrdenCompra.numOrdenCompra;
@@ -72,56 +109,9 @@ public class Tienda implements Serializable{
 	public  int getStaticPedido() {
 		return staticPedidos;
 	}
-
-	public ArrayList<Factura> getMisFacturas() {
-		return misFacturas;
-	}
-	public void setMisFacturas(ArrayList<Factura> misFacturas) {
-		this.misFacturas = misFacturas;
-	}
-
-	public ArrayList<Empleado> getMisEmpleados() {
-		return misEmpleados;
-	}
-
-	public void setMisEmpleados(ArrayList<Empleado> misEmpleados) {
-		this.misEmpleados = misEmpleados;
-	}
-
-	public ArrayList<Combo> getMisCombos() {
-		return misCombos;
-	}
-
-	public void setMisCombos(ArrayList<Combo> misCombos) {
-		this.misCombos = misCombos;
-	}
-
-	public ArrayList<OrdenCompra> getMisOrdenesCompra() {
-		return misOrdenesCompra;
-	}
-
-	public void setMisOrdenesCompra(ArrayList<OrdenCompra> misOrdenesCompra) {
-		this.misOrdenesCompra = misOrdenesCompra;
-	}
 	
-	public ArrayList<String> getMisDistribuidores() {
-		return misDistribuidores;
-	}
-
-	public void setMisDistribuidores(ArrayList<String> misDistribuidores) {
-		this.misDistribuidores = misDistribuidores;
-	}
-
 	public static void setTienda(Tienda tienda) {
 		Tienda.tienda = tienda;
-	}
-
-	public Empleado getLoginUserEmpleado() {
-		return loginUserEmpleado;
-	}
-
-	public void setLoginUserEmpleado(Empleado loginUserEmpleado) {
-		Tienda.loginUserEmpleado = loginUserEmpleado;
 	}
 	
 	public void addDistribuidor(String distribuidor) {
@@ -170,6 +160,10 @@ public class Tienda implements Serializable{
 	
 	public void eliminarCliente(Cliente cliente) {
 		misClientes.remove(cliente);
+	}
+	
+	public void eliminarFactura(Factura factura) {
+		misFacturas.remove(factura);
 	}
 	
 	public boolean confirmLogin(String user, String password) {
@@ -262,6 +256,15 @@ public class Tienda implements Serializable{
 		}
 		return precioTotal;
 	}
+		
+	//--------------------------------PENDIENTE---------------------------------------//
+	public Cliente clienteDelMes(){
+		Cliente clienteDelMes = null;
+		
+		
+		
+		return clienteDelMes;
+	}
 	
 	public Vendedor vendedorDelMes() {
 		float mayor = 0;
@@ -276,14 +279,6 @@ public class Tienda implements Serializable{
 			}
 		}
 		return vendedorDelMes;
-	}
-	//--------------------------------PENDIENTE---------------------------------------//
-	public Cliente clienteDelMes(){
-		Cliente clienteDelMes = null;
-		
-		
-		
-		return clienteDelMes;
 	}
 	//--------------------------------------------------------------------------------//
 	
@@ -355,6 +350,9 @@ public class Tienda implements Serializable{
 			if (f1.getPrecioTotal() < abono) {
 				return esPosible;
 			}
+			if (f1.getLineaCredito() < abono) {
+				return esPosible;
+			}
 			f1.setLineaCredito(f1.getLineaCredito() - abono);
 			if (f1.getLineaCredito() == 0) {
 				f1.setACredito(false);
@@ -364,7 +362,6 @@ public class Tienda implements Serializable{
 		return esPosible;
 	}
 	
-	//--------------------------------PENDIENTE---------------------------------------//
 	public Cliente getClienteMasCompras() {
 		int mayor = 0;
 		Cliente aux = null;
@@ -380,29 +377,8 @@ public class Tienda implements Serializable{
 	}
 	
 	public Cliente getClienteMenosCompras() {
-		/*int mayor = 0;
-		int menor;
 		Cliente aux = null;
-		
-		for (Cliente cliente : misClientes) {
-			if(cliente.getCantCompras() > mayor) {
-				mayor = cliente.getCantCompras();
-			}
-		}
-		menor = mayor;
-		for (Cliente cliente : misClientes) {
-			if(cliente.getCantCompras() < menor) {
-				menor = cliente.getCantCompras();
-			}
-		}
-		
-		for (Cliente cliente : misClientes) {
-			if(cliente.getCantCompras() == menor) {
-				aux = cliente;
-			}
-		}*/
-		Cliente aux = null;
-		int menor = 1500;
+		int menor = 10000;
 		
 		for (Cliente cliente : misClientes) {
 			if (cliente.getCantCompras() < menor) {
@@ -517,7 +493,7 @@ public class Tienda implements Serializable{
 	}
 	
 	public Vendedor vendedorConMenosFacturas() {
-		int menor = 1000, cont = 0;
+		int menor = 10000, cont = 0;
 		Vendedor aux = null;
 		
 		for (Factura factura : misFacturas) {
@@ -630,6 +606,4 @@ public class Tienda implements Serializable{
 		}
 		return aux;
 	}
-	
-	
 }

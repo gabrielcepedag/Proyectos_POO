@@ -1,4 +1,4 @@
-package Visual;
+package visual;
 
 import java.awt.BorderLayout;
 

@@ -1,4 +1,4 @@
-package Visual;
+package visual;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -33,13 +33,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSpinner;
 
-public class RegCredito extends JDialog {
+public class RegDistribuidor extends JDialog {
 
 	private JPanel contentPane;
 	private JPanel panelRegistro;
-	Cliente selected = null;
-	private Cliente clienteSelected = null;
-	private JTextField txtCredito;
+	private JTextField txtNombre;
 
 	/**
 	 * Launch the application.
@@ -48,7 +46,7 @@ public class RegCredito extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegCredito dialog = new RegCredito(null);
+					RegDistribuidor dialog = new RegDistribuidor();
 					dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,8 +58,7 @@ public class RegCredito extends JDialog {
 	/**
 	 * Create the frame.
 	 */
-	public RegCredito(Cliente cliente) {
-		clienteSelected = cliente;
+	public RegDistribuidor() {
 		setUndecorated(true);
 		setBounds(100, 100, 587, 271);
 		setLocationRelativeTo(null);
@@ -81,12 +78,12 @@ public class RegCredito extends JDialog {
 		panelRegistro.setBounds(11, 12, 553, 239);
 		panel.add(panelRegistro);
 		
-		JLabel lblRegistrar = new JLabel("A\u00F1adir Cr\u00E9dito:");
+		JLabel lblRegistrar = new JLabel("A\u00F1adir Distribuidor:");
 		lblRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 35));
 		lblRegistrar.setBounds(33, 13, 322, 55);
 		panelRegistro.add(lblRegistrar);
 		
-		JLabel lblCantidad = new JLabel("Cantidad:");
+		JLabel lblCantidad = new JLabel("Nombre:");
 		lblCantidad.setForeground(Color.BLACK);
 		lblCantidad.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblCantidad.setBounds(32, 101, 103, 55);
@@ -131,15 +128,13 @@ public class RegCredito extends JDialog {
 		lblRegistrar_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (txtCredito.getText().isEmpty()) {
+				if (txtNombre.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "El campo está vacío", "Error", JOptionPane.WARNING_MESSAGE);
-					System.exit(1);
 				}
 				else {
-					clienteSelected.setCredito(Float.valueOf(txtCredito.getText()));
-					JOptionPane.showMessageDialog(null, "Crédito Asignado correctamente");
-					ListarCliente.loadTableCliente(null);
-					dispose();
+					Tienda.getInstance().addDistribuidor(txtNombre.getText());
+					JOptionPane.showMessageDialog(null, "Distribuidor registrado correctamente");
+					clean();
 				}
 			}
 		});
@@ -156,18 +151,14 @@ public class RegCredito extends JDialog {
 		panel_1.setBounds(34, 64, 390, 4);
 		panelRegistro.add(panel_1);
 		
-		txtCredito = new JTextField();
-		txtCredito.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtCredito.setBounds(122, 103, 404, 50);
-		panelRegistro.add(txtCredito);
-		txtCredito.setColumns(10);
-		
-		loadSpn();
-		
+		txtNombre = new JTextField();
+		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtNombre.setBounds(122, 103, 404, 50);
+		panelRegistro.add(txtNombre);
+		txtNombre.setColumns(10);
+				
 	}
-	private void loadSpn() {
-		if(clienteSelected != null) {
-			txtCredito.setText(""+clienteSelected.getCredito());
-		}
+	private void clean() {
+		txtNombre.setText("");
 	}
 }

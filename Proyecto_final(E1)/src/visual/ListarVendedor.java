@@ -1,4 +1,4 @@
-package Visual;
+package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -174,10 +174,16 @@ public class ListarVendedor extends JDialog {
 		Eliminar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				Tienda.getInstance().eliminarVendededor(selectedVendedor);
-				Eliminar.setEnabled(false);
-				Modificar.setEnabled(false);
-				loadTableVendedor(null);
+				int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el vendedor seleccionado?", "Eliminar Vendedor", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(opcion == JOptionPane.YES_OPTION){
+					Tienda.getInstance().eliminarVendededor(selectedVendedor);
+					Modificar.setEnabled(false);
+					Eliminar.setEnabled(false);
+					loadTableVendedor(null);
+				}else {
+			    	Modificar.setEnabled(true);
+			    	Eliminar.setEnabled(true);
+			    }					
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {

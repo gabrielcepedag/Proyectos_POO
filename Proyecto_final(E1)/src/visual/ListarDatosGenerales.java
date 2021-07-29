@@ -1,4 +1,4 @@
-package Visual;
+package visual;
 
 import java.awt.BorderLayout;
 
@@ -297,12 +297,14 @@ public class ListarDatosGenerales extends JDialog {
 		
 		String comboMasVendido = Tienda.getInstance().comboMasVendido();
 		if (comboMasVendido == null) {
-			comboMasVendido = "";
+			comboMasVendido = "Ninguno";
 		}
+		
 		lblCmbMasComp = new JLabel(comboMasVendido);
 		lblCmbMasComp.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblCmbMasComp.setBounds(13, 80, 565, 57);
 		panelCombos.add(lblCmbMasComp);
+	
 		
 		JPanel panel1 = new JPanel();
 		panel1.setBackground(new Color(0, 155, 124));
@@ -316,7 +318,7 @@ public class ListarDatosGenerales extends JDialog {
 		
 		String comboMenosVendido = Tienda.getInstance().comboMenosVendido();
 		if (comboMenosVendido == null) {
-			comboMenosVendido = "";
+			comboMenosVendido = "Ninguno";
 		}
 		lblCmbMenosComp = new JLabel(comboMenosVendido);
 		lblCmbMenosComp.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -504,7 +506,7 @@ public class ListarDatosGenerales extends JDialog {
 		
 		String productoMasComprado = Tienda.getInstance().productoMasComprado();
 		if (productoMasComprado == null) {
-			productoMasComprado = "";
+			productoMasComprado = "Ninguno";
 		}
 		lblProdMasComprado = new JLabel(productoMasComprado);
 		lblProdMasComprado.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -523,7 +525,7 @@ public class ListarDatosGenerales extends JDialog {
 		
 		String productoMenosComprado = Tienda.getInstance().productoMenosComprado();
 		if (productoMenosComprado == null) {
-			productoMenosComprado = "";
+			productoMenosComprado = "Ninguno";
 		}
 		lblProdMenosComprado = new JLabel(productoMenosComprado);
 		lblProdMenosComprado.setFont(new Font("Tahoma", Font.PLAIN, 24));

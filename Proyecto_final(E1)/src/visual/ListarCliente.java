@@ -1,4 +1,4 @@
-package Visual;
+package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -198,11 +198,18 @@ public class ListarCliente extends JDialog {
 		Eliminar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				Tienda.getInstance().eliminarCliente(selectedCliente);;
-				Modificar.setEnabled(false);
-				Eliminar.setEnabled(false);
-				credito.setEnabled(false);
-				loadTableCliente(null);
+				int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el cliente seleccionado?", "Eliminar Cliente", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(opcion == JOptionPane.YES_OPTION){
+					Tienda.getInstance().eliminarCliente(selectedCliente);
+					Modificar.setEnabled(false);
+					Eliminar.setEnabled(false);
+					credito.setEnabled(false);
+					loadTableCliente(null);
+			    }else {
+			    	Modificar.setEnabled(true);
+					Eliminar.setEnabled(true);
+					credito.setEnabled(true);
+			    }
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -221,6 +228,7 @@ public class ListarCliente extends JDialog {
 		Eliminar.setBackground(new Color(36, 37, 38));
 		
 		Modificar = new JLabel(" Modificar");
+		Modificar.setVisible(false);
 		Modificar.setHorizontalAlignment(SwingConstants.CENTER);
 		Modificar.setBounds(0, 274, 288, 44);
 		panel_1.add(Modificar);
@@ -240,7 +248,6 @@ public class ListarCliente extends JDialog {
 		});
 		Modificar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		Modificar.setIcon(new ImageIcon(ListarCliente.class.getResource("/Imagenes/ModificarIcon.png")));
-		Modificar.setOpaque(true);
 		Modificar.setForeground(Color.WHITE);
 		Modificar.setFont(new Font("Tahoma", Font.PLAIN, 34));
 		Modificar.setBackground(new Color(36, 37, 38));

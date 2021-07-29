@@ -1,21 +1,14 @@
-package Visual;
+package visual;
 
 import java.awt.BorderLayout;
-
-
-
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
 
-import logico.Administrador;
 import logico.Cliente;
 import logico.Combo;
 import logico.DiscoDuro;
-import logico.Empleado;
 import logico.Factura;
 import logico.MemoriaRam;
 import logico.MicroProcesador;
@@ -24,8 +17,6 @@ import logico.Producto;
 import logico.Tienda;
 import logico.Vendedor;
 
-import java.awt.Rectangle;
-import java.awt.datatransfer.ClipboardOwner;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -40,21 +31,16 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Cursor;
 import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
-import javax.swing.JSpinner;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
+@SuppressWarnings("serial")
 public class RegFactura extends JDialog {
 
 	private JPanel contentPane;
@@ -334,21 +320,16 @@ public class RegFactura extends JDialog {
 							}
 						}
 					}
-					Date fechaDate = new Date();
-					factura = new Factura(new String("F-0"+Factura.cod), auxVendedor, auxCliente, auxListCompra, fechaDate);
+					Date fecha = new Date();
+					factura = new Factura(new String("F-0"+Factura.cod), auxVendedor, auxCliente, auxListCompra, fecha);
 					if(rdbtnFacturaACredito.isSelected()) {
 						factura.setACredito(true);
 						factura.setLineaCredito(factura.getPrecioTotal());
 						rdbtnFacturaACredito.setSelected(false);
-					}
-					
+					}		
 					auxVendedor.setTotalVendido(factura.getPrecioTotal());
 					auxVendedor.setComision((float) (factura.getPrecioTotal()*0.05)); //(EJEMPLO: Para una tasa fija de 5% comisión)
 					auxCliente.setCantCompras(auxCliente.getCantCompras() + 1);
-					
-					for (Producto producto2 : auxListCompra) {
-						producto2.setCantidad(producto2.getCantidad());
-					}
 						
 					cleanCliente();
 					nuevoCliente = false;
@@ -356,6 +337,7 @@ public class RegFactura extends JDialog {
 					txtPrecioTotal.setText("RD$ 0.0");
 					lblBuscar.setEnabled(true);
 					txtCedula.setEnabled(true);
+					rdbtnFacturaACredito.setEnabled(false);
 					listModelProductosSel.removeAllElements();
 					listModelComboSel.removeAllElements();
 					productosSeleccionados.clear();
@@ -365,9 +347,14 @@ public class RegFactura extends JDialog {
 						JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
 					}else {
 						JOptionPane.showMessageDialog(null, "¡ERROR! La factura NO ha sido registrada.", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-					for (Producto producto2 : auxListCompra) {
-						producto2.setCantidad(producto2.getCantidad());
+						auxVendedor.setTotalVendido(auxVendedor.getTotalVendido() - factura.getPrecioTotal());
+						auxVendedor.setComision(auxVendedor.getComision() - ((float) (factura.getPrecioTotal()*0.05))); 
+						auxCliente.setCantCompras(auxCliente.getCantCompras() - 1);
+						for(Producto producto : auxListCompra) {
+							producto.setCantidad(producto.getCantidad() + 1);
+							
+						}
+						Tienda.getInstance().eliminarFactura(factura);
 					}
 				}
 			}
@@ -497,6 +484,10 @@ public class RegFactura extends JDialog {
 						lblRegistrar.setEnabled(true);
 						if(Tienda.getInstance().clienteYaTieneCredito(auxCliente)) {
 							rdbtnFacturaACredito.setEnabled(false);
+						}else {
+							if(auxCliente.getCredito() != 0) {
+								rdbtnFacturaACredito.setEnabled(true);
+							}
 						}
 					}else {
 						txtNombre.setEnabled(true);
@@ -629,7 +620,7 @@ public class RegFactura extends JDialog {
 		
 		txtCodigo = new JTextField();
 		txtCodigo.setEnabled(false);
-		txtCodigo.setText("F-0"+Factura.cod);
+		txtCodigo.setText("F-"+Factura.cod);
 		txtCodigo.setForeground(new Color(0, 153, 153));
 		txtCodigo.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		txtCodigo.setColumns(10);
@@ -644,6 +635,7 @@ public class RegFactura extends JDialog {
 		panelDatosFactura.add(lblPrecioTotal);
 		
 		rdbtnFacturaACredito = new JRadioButton("Factura a Credito");
+		rdbtnFacturaACredito.setEnabled(false);
 		rdbtnFacturaACredito.setForeground(Color.BLACK);
 		rdbtnFacturaACredito.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		rdbtnFacturaACredito.setBounds(211, 190, 199, 25);
@@ -893,7 +885,7 @@ public class RegFactura extends JDialog {
 		txtNombre.setText("");
 		txtDireccion.setText("");
 		txtTelefono.setText("");
-		txtCodigo.setText("F-0"+Factura.cod);
+		txtCodigo.setText("F-"+Factura.cod);
 		txtPrecioTotal.setText("");
 	}
 	

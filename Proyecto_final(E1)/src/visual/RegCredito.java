@@ -1,4 +1,4 @@
-package Visual;
+package visual;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -33,11 +33,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSpinner;
 
-public class RegDistribuidor extends JDialog {
+public class RegCredito extends JDialog {
 
 	private JPanel contentPane;
 	private JPanel panelRegistro;
-	private JTextField txtNombre;
+	Cliente selected = null;
+	private Cliente clienteSelected = null;
+	private JTextField txtCredito;
 
 	/**
 	 * Launch the application.
@@ -46,7 +48,7 @@ public class RegDistribuidor extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegDistribuidor dialog = new RegDistribuidor();
+					RegCredito dialog = new RegCredito(null);
 					dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,7 +60,8 @@ public class RegDistribuidor extends JDialog {
 	/**
 	 * Create the frame.
 	 */
-	public RegDistribuidor() {
+	public RegCredito(Cliente cliente) {
+		clienteSelected = cliente;
 		setUndecorated(true);
 		setBounds(100, 100, 587, 271);
 		setLocationRelativeTo(null);
@@ -78,12 +81,12 @@ public class RegDistribuidor extends JDialog {
 		panelRegistro.setBounds(11, 12, 553, 239);
 		panel.add(panelRegistro);
 		
-		JLabel lblRegistrar = new JLabel("A\u00F1adir Distribuidor:");
+		JLabel lblRegistrar = new JLabel("A\u00F1adir Cr\u00E9dito:");
 		lblRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 35));
 		lblRegistrar.setBounds(33, 13, 322, 55);
 		panelRegistro.add(lblRegistrar);
 		
-		JLabel lblCantidad = new JLabel("Nombre:");
+		JLabel lblCantidad = new JLabel("Cantidad:");
 		lblCantidad.setForeground(Color.BLACK);
 		lblCantidad.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblCantidad.setBounds(32, 101, 103, 55);
@@ -128,13 +131,25 @@ public class RegDistribuidor extends JDialog {
 		lblRegistrar_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (txtNombre.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "El campo está vacío", "Error", JOptionPane.WARNING_MESSAGE);
+				if (!txtCredito.getText().isEmpty()) {
+					if(esValido(txtCredito.getText())) {
+						float value = Float.valueOf(txtCredito.getText());
+						if(value > 0) {
+							clienteSelected.setCredito(value);
+							JOptionPane.showMessageDialog(null, "Crédito Asignado correctamente");
+							ListarCliente.loadTableCliente(null);
+							dispose();
+						}else {
+							JOptionPane.showMessageDialog(null, "El monto debe ser mayor que cero.", "Información", JOptionPane.WARNING_MESSAGE);
+							txtCredito.setText("");
+						}
+					}else {
+						JOptionPane.showMessageDialog(null, "El monto no puede contener letras.", "Información", JOptionPane.WARNING_MESSAGE);
+						txtCredito.setText("");
+					}
 				}
 				else {
-					Tienda.getInstance().addDistribuidor(txtNombre.getText());
-					JOptionPane.showMessageDialog(null, "Distribuidor registrado correctamente");
-					clean();
+					JOptionPane.showMessageDialog(null, "Debe ingresar un monto.", "Información", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -151,14 +166,31 @@ public class RegDistribuidor extends JDialog {
 		panel_1.setBounds(34, 64, 390, 4);
 		panelRegistro.add(panel_1);
 		
-		txtNombre = new JTextField();
-		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtNombre.setBounds(122, 103, 404, 50);
-		panelRegistro.add(txtNombre);
-		txtNombre.setColumns(10);
-				
+		txtCredito = new JTextField();
+		txtCredito.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtCredito.setBounds(145, 104, 381, 50);
+		panelRegistro.add(txtCredito);
+		txtCredito.setColumns(10);
+		
+		loadSpn();
+		
 	}
-	private void clean() {
-		txtNombre.setText("");
+	private void loadSpn() {
+		if(clienteSelected != null) {
+			txtCredito.setText(""+clienteSelected.getCredito());
+		}
 	}
+	
+	private boolean esValido(String monto)
+    {
+		boolean esValido = true;
+        for (int i = 0; i < monto.length(); i++) {
+            if (!Character.isDigit(monto.charAt(i))) {
+            	if(monto.charAt(i) != '.') {
+            		esValido = false;
+            	}
+            }
+        }
+        return esValido;
+    }
 }
