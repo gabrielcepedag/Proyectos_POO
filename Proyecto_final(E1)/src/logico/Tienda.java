@@ -21,6 +21,7 @@ public class Tienda implements Serializable{
 	private static Empleado loginUserEmpleado = null;
 	private int staticPedidos = 1;
 	private int staticCombo = 1;
+	private int staticFactura = 1;
 
 	private Tienda() {
 		super();
@@ -57,10 +58,15 @@ public class Tienda implements Serializable{
 	public void actualizarVariablesStatic() {
 		staticCombo = Combo.cod;
 		staticPedidos = OrdenCompra.numOrdenCompra;
+		staticFactura = Factura.cod;
 	}
 	
 	public int getStaticCombo() {
 		return staticCombo;
+	}
+	
+	public int getStaticFactura() {
+		return staticFactura;
 	}
 	
 	public  int getStaticPedido() {
