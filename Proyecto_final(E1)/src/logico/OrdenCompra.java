@@ -26,6 +26,7 @@ public class OrdenCompra implements Serializable{
 		this.producto = producto;
 		this.fechaSolicitud = new Date();
 		this.procesada = false;
+		OrdenCompra.numOrdenCompra++;
 	}
 
 	public String getCodigo() {
