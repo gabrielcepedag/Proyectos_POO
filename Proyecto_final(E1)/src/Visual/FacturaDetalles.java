@@ -393,21 +393,21 @@ public class FacturaDetalles extends JDialog {
 		
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
+		int cant;
 		
 		ArrayList<Producto> productosSinRepetir = new ArrayList<Producto>();
 		
 		productosSinRepetir.addAll(selectedFactura.getMisProductos());
 		
-		if (productosSinRepetir.size() > 1) {
-			for (int i = 0; i < selectedFactura.getMisProductos().size()-1; i++) {
-				for (int j = i + 1; j < selectedFactura.getMisProductos().size(); j++) {
-					if (selectedFactura.getMisProductos().get(i).getNumSerie().equalsIgnoreCase(selectedFactura.getMisProductos().get(j).getNumSerie())) {
-						productosSinRepetir.remove(j);
-					}
+		for (Producto producto : productosSinRepetir) {
+			cant = contProductosEnUnaFactura(producto, selectedFactura);
+			if (cant > 1) {
+				for (int i = 0; i < cant - 1; i++) {
+					productosSinRepetir.remove(producto);
 				}
 			}
 		}
-			
+		
 		for (Producto producto : productosSinRepetir) {
 			int cont = contProductosEnUnaFactura(producto,selectedFactura);
 			rows[0] = producto.getNumSerie();
