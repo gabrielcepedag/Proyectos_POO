@@ -313,7 +313,7 @@ public class ListarProducto extends JDialog {
 			break;
 
 		case 1:
-			String headersHD[] = {"Número de serie", "Marca", "Precio", "Cantidad","Modelo","Capacidad"};
+			String headersHD[] = {"# de serie", "Marca", "Precio", "Cantidad","Modelo","Capacidad (GB)"};
 			modelProductos.setColumnIdentifiers(headersHD);
 			
 			for (Producto producto : Tienda.getInstance().getMisProductos()) {
@@ -323,13 +323,13 @@ public class ListarProducto extends JDialog {
 					rows[2] = producto.getPrecio();
 					rows[3] = producto.getCantidad();
 					rows[4] = ((DiscoDuro)producto).getModelo();
-					rows[5] = ((DiscoDuro)producto).getCapacidad();
+					rows[5] = ((DiscoDuro)producto).getCapacidad()+"GB";
 					modelProductos.addRow(rows);
 				}
 			}
 			break;
 		case 2:
-			String headersRam[] = {"Número de serie", "Marca", "Precio", "Cantidad","Capacidad","Tipo memoria"};
+			String headersRam[] = {"# de serie", "Marca", "Precio", "Cantidad","Capacidad (GB)","Tipo memoria"};
 			modelProductos.setColumnIdentifiers(headersRam);
 			
 			for (Producto producto : Tienda.getInstance().getMisProductos()) {
@@ -338,7 +338,7 @@ public class ListarProducto extends JDialog {
 					rows[1] = producto.getMarca();
 					rows[2] = producto.getPrecio();
 					rows[3] = producto.getCantidad();
-					rows[4] = ((MemoriaRam)producto).getCapacidad();
+					rows[4] = ((MemoriaRam)producto).getCapacidad() + "GB";
 					rows[5] = ((MemoriaRam)producto).getTipoMemoria();
 					modelProductos.addRow(rows);
 				}
@@ -346,7 +346,7 @@ public class ListarProducto extends JDialog {
 			break;
 		
 		case 3:
-			String headersMicro[] = {"Número de serie", "Marca", "Precio", "Cantidad","Modelo","procesamiento"};
+			String headersMicro[] = {"# de serie", "Marca", "Precio", "Cantidad","Modelo","procesamiento (GHz)"};
 			modelProductos.setColumnIdentifiers(headersMicro);
 			
 			for (Producto producto : Tienda.getInstance().getMisProductos()) {
@@ -356,7 +356,7 @@ public class ListarProducto extends JDialog {
 					rows[2] = producto.getPrecio();
 					rows[3] = producto.getCantidad();
 					rows[4] = ((MicroProcesador)producto).getModelo();
-					rows[5] = ((MicroProcesador)producto).getVelocidadProcesamiento();
+					rows[5] = ((MicroProcesador)producto).getVelocidadProcesamiento() + "GHz";
 					modelProductos.addRow(rows);
 				}
 			}

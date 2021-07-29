@@ -79,6 +79,7 @@ public class RegProducto extends JDialog {
 	private JLabel lblRegistrar;
 	Producto productSelected = null;
 	private JLabel lblTitle;
+	private JLabel lblNewLabel_1;
 
 	/**
 	 * Launch the application.
@@ -191,6 +192,12 @@ public class RegProducto extends JDialog {
 		panelMicroProcesador.setBounds(11, 465, 669, 215);
 		panel.add(panelMicroProcesador);
 		
+		lblNewLabel_1 = new JLabel("GHz");
+		lblNewLabel_1.setForeground(Color.BLACK);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel_1.setBounds(605, 151, 50, 45);
+		panelMicroProcesador.add(lblNewLabel_1);
+		
 		JLabel lblModeloMicroP = new JLabel("Modelo:");
 		lblModeloMicroP.setForeground(Color.BLACK);
 		lblModeloMicroP.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -228,7 +235,7 @@ public class RegProducto extends JDialog {
 		txtVelProcesamiento.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		txtVelProcesamiento.setColumns(10);
 		txtVelProcesamiento.setBackground(Color.WHITE);
-		txtVelProcesamiento.setBounds(300, 151, 359, 45);
+		txtVelProcesamiento.setBounds(300, 151, 300, 45);
 		panelMicroProcesador.add(txtVelProcesamiento);
 		
 		panelMemoriaRam = new JPanel();
@@ -237,6 +244,12 @@ public class RegProducto extends JDialog {
 		panelMemoriaRam.setBackground(Color.WHITE);
 		panelMemoriaRam.setBounds(11, 465, 669, 215);
 		panel.add(panelMemoriaRam);
+		
+		JLabel lblNewLabel = new JLabel("GB");
+		lblNewLabel.setForeground(Color.BLACK);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel.setBounds(600, 37, 50, 50);
+		panelMemoriaRam.add(lblNewLabel);
 		
 		JLabel lblCapacidadMRam = new JLabel("Capacidad:");
 		lblCapacidadMRam.setForeground(Color.BLACK);
@@ -261,7 +274,7 @@ public class RegProducto extends JDialog {
 		txtCapacidadMRAM.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		txtCapacidadMRAM.setColumns(10);
 		txtCapacidadMRAM.setBackground(Color.WHITE);
-		txtCapacidadMRAM.setBounds(215, 37, 444, 50);
+		txtCapacidadMRAM.setBounds(215, 37, 380, 50);
 		panelMemoriaRam.add(txtCapacidadMRAM);
 		
 		panelDiscoDuro = new JPanel();
@@ -527,30 +540,60 @@ public class RegProducto extends JDialog {
 		lblRegistrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				boolean continuar = true;
+				String numSerie = txtNumSerie.getText();
+				String marca = txtMarca.getText();
+				float precio = new Float(txtPrecio.getText().toString());
+				int dispReal = new Integer(spnDispReal.getValue().toString());
+				int dispMax = new Integer(spnDispMax.getValue().toString());
+				int dispMin = new Integer(spnDispMin.getValue().toString());
+				
 				if (productSelected == null) {
-					String numSerie = txtNumSerie.getText();
-					String marca = txtMarca.getText();
-					float precio = new Float(txtPrecio.getText().toString());
-					int dispReal = new Integer(spnDispReal.getValue().toString());
-					int dispMax = new Integer(spnDispMax.getValue().toString());
-					int dispMin = new Integer(spnDispMin.getValue().toString());
+					if (precio < 0 || txtPrecio.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "El precio del producto no está correcto.", "Registro de Producto", JOptionPane.WARNING_MESSAGE);
+						txtPrecio.setText("");
+						continuar = false;
+					}
+					else if (dispMax < dispMin) {
+						JOptionPane.showMessageDialog(null, "Disponibilidad máxima no puede ser menor que la mínima.", "Registro de Producto", JOptionPane.WARNING_MESSAGE);
+						continuar = false;
+					}
+					else if(dispReal > dispMax) {
+						JOptionPane.showMessageDialog(null, "Disponibilidad real no puede ser mayor que la máxima.", "Registro de Producto", JOptionPane.WARNING_MESSAGE);
+						continuar = false;
+					}
 					
 					if(btnDiscoDuro.isSelected()) {
 						String modelo = txtModeloDiscoDuro.getText();
 						String socket = cbxSocketDiscoDuro.getSelectedItem().toString();
 						int capacidad = new Integer(txtCapacidadDiscoDuro.getText());
-						productSelected = new DiscoDuro(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, capacidad, socket);
+						if (capacidad <= 0) {
+							JOptionPane.showMessageDialog(null, "Capacidad no puede ser menor o igual a cero.", "Registro de Producto", JOptionPane.WARNING_MESSAGE);
+							continuar = false;
+						}
+						if (continuar)
+							productSelected = new DiscoDuro(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, capacidad, socket);
 					}
 					else if(btnMemoriaRam.isSelected()) {
 						String tipo = cbxTipoMemoriaRam.getSelectedItem().toString();
 						int capacidad = new Integer(txtCapacidadMRAM.getText());
-						productSelected = new MemoriaRam(numSerie, dispReal, precio, marca, dispMin, dispMax, capacidad, tipo);
+						if (capacidad <= 0) {
+							JOptionPane.showMessageDialog(null, "Capacidad no puede ser menor o igual a cero.", "Registro de Producto", JOptionPane.WARNING_MESSAGE);
+							continuar = false;
+						}
+						if (continuar)
+							productSelected = new MemoriaRam(numSerie, dispReal, precio, marca, dispMin, dispMax, capacidad, tipo);
 					}
 					else if(btnMicroProcesador.isSelected()) {
 						String modelo = txtModeloMicroP.getText();
 						String socket = cbxSocketMicroP.getSelectedItem().toString();
 						float velocidad = new Float(txtVelProcesamiento.getText());
-						productSelected = new MicroProcesador(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, socket, velocidad);
+						if (velocidad <= 0) {
+							JOptionPane.showMessageDialog(null, "Velocidad no puede ser menor o igual a cero.", "Registro de Producto", JOptionPane.WARNING_MESSAGE);
+							continuar = false;
+						}
+						if (continuar)
+							productSelected = new MicroProcesador(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, socket, velocidad);
 					}
 					else if(btnTarjetaMadre.isSelected()) {
 						String modelo = txtModeloTM.getText();
@@ -558,20 +601,37 @@ public class RegProducto extends JDialog {
 						String tipoRam = cbxTipoRamTM.getSelectedItem().toString();
 						productSelected = new MotherBoard(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, socket, tipoRam);
 					}
-					Tienda.getInstance().addProducto(productSelected);
-					JOptionPane.showMessageDialog(null, "El producto ha sido registrado satisfactoriamente !", "Registro de Producto", JOptionPane.INFORMATION_MESSAGE);
-					productSelected = null;
-					clean();	
-					ListarProducto.loadTableProductos(0);
+					if (continuar) {
+						Tienda.getInstance().addProducto(productSelected);
+						JOptionPane.showMessageDialog(null, "El producto ha sido registrado satisfactoriamente !", "Registro de Producto", JOptionPane.INFORMATION_MESSAGE);
+						productSelected = null;
+						clean();	
+						ListarProducto.loadTableProductos(0);
+					}	
+					
 				}else {
-					productSelected.setPrecio(new Float(txtPrecio.getText().toString()));
-					productSelected.setCantidad(new Integer(spnDispReal.getValue().toString()));
-					productSelected.setDispMax(new Integer(spnDispMax.getValue().toString()));
-					productSelected.setDispMin(new Integer(spnDispMin.getValue().toString()));
-					JOptionPane.showMessageDialog(null, "El producto ha sido modificado satisfactoriamente !", "Modificar Producto", JOptionPane.CLOSED_OPTION);
-					ListarProducto.loadTableProductos(0);
-					Home.loadHome();
+					if (precio < 0 || txtPrecio.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "El precio del producto no está correcto.", "Registro de Producto", JOptionPane.WARNING_MESSAGE);
+						txtPrecio.setText("");
+					}
+					else if (dispMax < dispMin) {
+						JOptionPane.showMessageDialog(null, "Disponibilidad máxima no puede ser menor que la mínima.", "Registro de Producto", JOptionPane.WARNING_MESSAGE);
+					}
+					else if(dispReal > dispMax) {
+						JOptionPane.showMessageDialog(null, "Disponibilidad real no puede ser mayor que la máxima.", "Registro de Producto", JOptionPane.WARNING_MESSAGE);
+					}
+					else {
+						productSelected.setPrecio(new Float(txtPrecio.getText().toString()));
+						productSelected.setCantidad(new Integer(spnDispReal.getValue().toString()));
+						productSelected.setDispMax(new Integer(spnDispMax.getValue().toString()));
+						productSelected.setDispMin(new Integer(spnDispMin.getValue().toString()));
+						JOptionPane.showMessageDialog(null, "El producto ha sido modificado satisfactoriamente !", "Modificar Producto", JOptionPane.CLOSED_OPTION);
+						ListarProducto.loadTableProductos(0);
+						Home.loadHome();
+						dispose();
+					}
 				}
+				
 			}
 
 		});
