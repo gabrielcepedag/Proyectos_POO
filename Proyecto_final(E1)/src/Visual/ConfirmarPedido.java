@@ -190,6 +190,7 @@ public class ConfirmarPedido extends JDialog {
 		cbxDistribuidor = new JComboBox<String>();
 		cbxDistribuidor.setFont(new Font("Dialog", Font.PLAIN, 20));
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
+		model.addElement("<Seleccione>");
 		for (String distribuidor : Tienda.getInstance().getMisDistribuidores()) {
 			model.addElement(distribuidor);
 		}

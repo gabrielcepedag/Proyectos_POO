@@ -541,18 +541,18 @@ public class RegProducto extends JDialog {
 						int capacidad = new Integer(txtCapacidadDiscoDuro.getText());
 						productSelected = new DiscoDuro(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, capacidad, socket);
 					}
-					if(btnMemoriaRam.isSelected()) {
+					else if(btnMemoriaRam.isSelected()) {
 						String tipo = cbxTipoMemoriaRam.getSelectedItem().toString();
 						int capacidad = new Integer(txtCapacidadMRAM.getText());
 						productSelected = new MemoriaRam(numSerie, dispReal, precio, marca, dispMin, dispMax, capacidad, tipo);
 					}
-					if(btnMicroProcesador.isSelected()) {
+					else if(btnMicroProcesador.isSelected()) {
 						String modelo = txtModeloMicroP.getText();
 						String socket = cbxSocketMicroP.getSelectedItem().toString();
 						float velocidad = new Float(txtVelProcesamiento.getText());
 						productSelected = new MicroProcesador(numSerie, dispReal, precio, marca, dispMin, dispMax, modelo, socket, velocidad);
 					}
-					if(btnTarjetaMadre.isSelected()) {
+					else if(btnTarjetaMadre.isSelected()) {
 						String modelo = txtModeloTM.getText();
 						String socket = cbxSocketTM.getSelectedItem().toString();
 						String tipoRam = cbxTipoRamTM.getSelectedItem().toString();
@@ -560,8 +560,9 @@ public class RegProducto extends JDialog {
 					}
 					Tienda.getInstance().addProducto(productSelected);
 					JOptionPane.showMessageDialog(null, "El producto ha sido registrado satisfactoriamente !", "Registro de Producto", JOptionPane.INFORMATION_MESSAGE);
+					productSelected = null;
 					clean();	
-					ListarProducto.loadTableProductos(0);;
+					ListarProducto.loadTableProductos(0);
 				}else {
 					productSelected.setPrecio(new Float(txtPrecio.getText().toString()));
 					productSelected.setCantidad(new Integer(spnDispReal.getValue().toString()));

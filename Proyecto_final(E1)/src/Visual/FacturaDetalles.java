@@ -396,19 +396,25 @@ public class FacturaDetalles extends JDialog {
 		int cant;
 		
 		ArrayList<Producto> productosSinRepetir = new ArrayList<Producto>();
+		ArrayList<Producto> productos = new ArrayList<Producto>();
 		
-		productosSinRepetir.addAll(selectedFactura.getMisProductos());
+		productos.addAll(selectedFactura.getMisProductos());
 		
-		for (Producto producto : productosSinRepetir) {
-			cant = contProductosEnUnaFactura(producto, selectedFactura);
+		for (int i = 0; i < productos.size(); i++) {
+			int j = 1;
+			cant = contProductosEnUnaFactura(productos.get(i), selectedFactura);
 			if (cant > 1) {
-				for (int i = 0; i < cant - 1; i++) {
-					productosSinRepetir.remove(producto);
+				while (j < cant) {
+					productos.remove(productos.lastIndexOf(productos.get(i)));
+					j++;
 				}
+				productosSinRepetir.add(productos.get(i));
+			}else {
+				productosSinRepetir.add(productos.get(i));
 			}
 		}
 		
-		for (Producto producto : productosSinRepetir) {
+		for (Producto producto : productos) {
 			int cont = contProductosEnUnaFactura(producto,selectedFactura);
 			rows[0] = producto.getNumSerie();
 			rows[1] = producto.getMarca();
@@ -419,6 +425,19 @@ public class FacturaDetalles extends JDialog {
 			
 			model.addRow(rows);
 		}
+		
+		/*for (Producto producto : productosSinRepetir) {
+		cant = contProductosEnUnaFactura(producto, selectedFactura);
+		if (cant > 1) {
+			for (int i = 0; i < cant - 1; i++) {
+				productosSinRepetir.remove(productosSinRepetir.lastIndexOf(producto));
+			}
+			productos.add(producto);
+		}else {
+			productos.add(producto);
+		}
+	}*/
+	
 	}
 
 	private static int contProductosEnUnaFactura(Producto producto, Factura selected) {
