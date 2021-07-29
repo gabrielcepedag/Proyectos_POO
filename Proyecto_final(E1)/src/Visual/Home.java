@@ -131,6 +131,7 @@ public class Home extends JFrame {
 				try {
 					tienda2 = new  FileOutputStream("empresa.dat");
 					tiendaWrite = new ObjectOutputStream(tienda2);
+					Tienda.getInstance().actualizarVariablesStatic();
 					tiendaWrite.writeObject(Tienda.getInstance());
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
@@ -687,6 +688,7 @@ public class Home extends JFrame {
 				try {
 					tienda2 = new  FileOutputStream("empresa.dat");
 					tiendaWrite = new ObjectOutputStream(tienda2);
+					Tienda.getInstance().actualizarVariablesStatic();
 					tiendaWrite.writeObject(Tienda.getInstance());
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();

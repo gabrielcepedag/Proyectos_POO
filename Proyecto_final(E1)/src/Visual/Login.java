@@ -9,7 +9,9 @@ import javax.swing.border.EmptyBorder;
 
 import logico.Administrador;
 import logico.Cliente;
+import logico.Combo;
 import logico.Empleado;
+import logico.OrdenCompra;
 import logico.Tienda;
 
 import java.awt.Rectangle;
@@ -59,6 +61,8 @@ public class Login extends JFrame implements Serializable{
 					tienda = new FileInputStream ("empresa.dat");
 					tiendaRead = new ObjectInputStream(tienda);
 					Tienda temp = (Tienda)tiendaRead.readObject();
+					Combo.cod = temp.getStaticCombo();
+					OrdenCompra.numOrdenCompra = temp.getStaticPedido();
 					Tienda.setTienda(temp);
 					tienda.close();
 					tiendaRead.close();
@@ -118,6 +122,7 @@ public class Login extends JFrame implements Serializable{
 				try {
 					tienda2 = new  FileOutputStream("empresa.dat");
 					tiendaWrite = new ObjectOutputStream(tienda2);
+					Tienda.getInstance().actualizarVariablesStatic();
 					tiendaWrite.writeObject(Tienda.getInstance());
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();

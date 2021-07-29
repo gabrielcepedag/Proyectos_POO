@@ -19,7 +19,8 @@ public class Tienda implements Serializable{
 	private ArrayList<String> misDistribuidores = new ArrayList<String>();
 	private static Tienda tienda = null;
 	private static Empleado loginUserEmpleado = null;
-
+	private int staticPedidos = 1;
+	private int staticCombo = 1;
 
 	private Tienda() {
 		super();
@@ -48,8 +49,22 @@ public class Tienda implements Serializable{
 	public ArrayList<Cliente> getMisClientes() {
 		return misClientes;
 	}
+	
 	public void setMisClientes(ArrayList<Cliente> misClientes) {
 		this.misClientes = misClientes;
+	}
+	
+	public void actualizarVariablesStatic() {
+		staticCombo = Combo.cod;
+		staticPedidos = OrdenCompra.numOrdenCompra;
+	}
+	
+	public int getStaticCombo() {
+		return staticCombo;
+	}
+	
+	public  int getStaticPedido() {
+		return staticPedidos;
 	}
 
 	public ArrayList<Factura> getMisFacturas() {
