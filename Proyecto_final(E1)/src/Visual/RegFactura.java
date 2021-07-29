@@ -193,7 +193,6 @@ public class RegFactura extends JDialog {
 							if((producto.getCantidad()) == 0) {
 								disponible = false;
 							}
-							//System.out.println(producto.getNumSerie()+"-->"+(producto.getCantidad() -1));
 						}
 						if(disponible == false) {
 							listModelComboDisp.remove(listComboDisp.getSelectedIndex());
@@ -309,6 +308,7 @@ public class RegFactura extends JDialog {
 		lblCancelar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		lblRegistrar = new JLabel("Registrar");
+		lblRegistrar.setEnabled(false);
 		lblRegistrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -351,13 +351,16 @@ public class RegFactura extends JDialog {
 					}
 						
 					cleanCliente();
+					nuevoCliente = false;
+					auxCliente = null;
+					txtPrecioTotal.setText("RD$ 0.0");
 					lblBuscar.setEnabled(true);
 					txtCedula.setEnabled(true);
 					listModelProductosSel.removeAllElements();
 					listModelComboSel.removeAllElements();
 					productosSeleccionados.clear();
 					combosSeleccionados.clear();
-					//Home.loadTableFactura(0, null);
+					Home.loadTableFactura(0, null);
 					if (Tienda.getInstance().CrearFactura(factura)) {
 						JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
 					}else {
@@ -373,11 +376,11 @@ public class RegFactura extends JDialog {
 		lblRegistrar.setBounds(870, 635, 225, 45);
 		panel.add(lblRegistrar);
 		
-				lblRegistrar.setOpaque(true);
-				lblRegistrar.setHorizontalAlignment(SwingConstants.CENTER);
-				lblRegistrar.setForeground(Color.WHITE);
-				lblRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 20));
-				lblRegistrar.setBackground(new Color(0, 155, 124));
+		lblRegistrar.setOpaque(true);
+		lblRegistrar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRegistrar.setForeground(Color.WHITE);
+		lblRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblRegistrar.setBackground(new Color(0, 155, 124));
 		
 		panelDatosClientes = new JPanel();
 		panelDatosClientes.setLayout(null);
@@ -491,6 +494,7 @@ public class RegFactura extends JDialog {
 						cargarCliente(clienteBuscado);
 						auxCliente = clienteBuscado;
 						nuevoCliente = false;
+						lblRegistrar.setEnabled(true);
 						if(Tienda.getInstance().clienteYaTieneCredito(auxCliente)) {
 							rdbtnFacturaACredito.setEnabled(false);
 						}
@@ -539,8 +543,10 @@ public class RegFactura extends JDialog {
 				if(!txtNombre.getText().isEmpty() && !txtDireccion.getText().isEmpty() && !txtTelefono.getText().isEmpty()) {
 					if(auxCliente == null) {
 						auxCliente = new Cliente(txtCedula.getText(), txtNombre.getText(), txtDireccion.getText(), txtTelefono.getText());
+						Tienda.getInstance().addCliente(auxCliente);
 						JOptionPane.showMessageDialog(null, "El cliente ha sido registrado satisfactoriamente.", "Información" , JOptionPane.INFORMATION_MESSAGE);
-						lblRegistrar.setEnabled(false);
+						lblRegistrar.setEnabled(true);
+						lblRegCliente.setEnabled(false);
 						txtNombre.setEnabled(false);
 						txtDireccion.setEnabled(false);
 						txtTelefono.setEnabled(false);
@@ -873,7 +879,6 @@ public class RegFactura extends JDialog {
 			if(producto.getCantidad() > 0) {
 				listModelProductosDisp.addElement(aux);
 			}	
-			System.out.println(producto.getNumSerie()+"----->"+producto.getCantidad());
 		}
 	}
 	
