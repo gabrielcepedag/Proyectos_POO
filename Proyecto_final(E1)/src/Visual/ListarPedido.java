@@ -24,6 +24,7 @@ import java.awt.Font;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.nio.channels.NonReadableChannelException;
 import java.text.SimpleDateFormat;
 
 import javax.swing.SwingConstants;
@@ -31,6 +32,8 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 @SuppressWarnings("serial")
 public class ListarPedido extends JDialog {
@@ -43,6 +46,7 @@ public class ListarPedido extends JDialog {
 	private OrdenCompra selectedOrdenCompra = null;
 	int indexCbx = 0;
 	private JComboBox<String> cbxTipoPedido;
+	private JLabel lblAddDistribuidor;
 	
 	/**
 	 * Launch the application.
@@ -191,6 +195,33 @@ public class ListarPedido extends JDialog {
 		lblAdministracin.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblAdministracin.setBounds(75, 81, 144, 64);
 		panel_1.add(lblAdministracin);
+		
+	    lblAddDistribuidor = new JLabel("Distribuidor");
+	    lblAddDistribuidor.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblAddDistribuidor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				RegDistribuidor regDistribuidor = new RegDistribuidor();
+				regDistribuidor.setModal(true);
+				regDistribuidor.setVisible(true);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblAddDistribuidor.setBackground(new Color(0, 155, 124));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblAddDistribuidor.setBackground(new Color(36, 37, 38));
+			}
+		});
+		lblAddDistribuidor.setIcon(new ImageIcon(ListarPedido.class.getResource("/Imagenes/A\u00F1adirIcon.png")));
+		lblAddDistribuidor.setOpaque(true);
+		lblAddDistribuidor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAddDistribuidor.setForeground(Color.WHITE);
+		lblAddDistribuidor.setFont(new Font("Tahoma", Font.PLAIN, 34));
+		lblAddDistribuidor.setBackground(new Color(36, 37, 38));
+		lblAddDistribuidor.setBounds(0, 208, 288, 44);
+		panel_1.add(lblAddDistribuidor);
 		
 		final JLabel label = new JLabel("X");
 		label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
