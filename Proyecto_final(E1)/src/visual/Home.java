@@ -362,7 +362,7 @@ public class Home extends JFrame {
 		lblClientes_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Coming Soon","Aviso",JOptionPane.INFORMATION_MESSAGE);
+				//JOptionPane.showMessageDialog(null, "Coming Soon","Aviso",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		lblClientes_1.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/PanelHome.png")));
@@ -917,7 +917,7 @@ public class Home extends JFrame {
 
 		switch (selection) {
 		case 0:
-			String headerProducto[] = {"Número de serie", "Marca", "Precio", "Cantidad","Disp. min","Categoría"};
+			String headerProducto[] = {"# de serie", "Marca", "Precio", "Cantidad","Disp. min","Categoría"};
 			modelProductos.setColumnIdentifiers(headerProducto);
 			
 			for (Producto producto : Tienda.getInstance().getMisProductos()) {
@@ -932,7 +932,7 @@ public class Home extends JFrame {
 			break;
 
 		case 1:
-			String headersHD[] = {"Número de serie", "Marca", "Precio", "Cantidad","Modelo","Capacidad"};
+			String headersHD[] = {"# de serie", "Marca", "Precio", "Cantidad","Modelo","Capacidad"};
 			modelProductos.setColumnIdentifiers(headersHD);
 			
 			for (Producto producto : Tienda.getInstance().getMisProductos()) {
@@ -942,13 +942,13 @@ public class Home extends JFrame {
 					rows[2] = producto.getPrecio();
 					rows[3] = producto.getCantidad();
 					rows[4] = ((DiscoDuro)producto).getModelo();
-					rows[5] = ((DiscoDuro)producto).getCapacidad();
+					rows[5] = ((DiscoDuro)producto).getCapacidad() + " GB";
 					modelProductos.addRow(rows);
 				}
 			}
 			break;
 		case 2:
-			String headersRam[] = {"Número de serie", "Marca", "Precio", "Cantidad","Capacidad","Tipo memoria"};
+			String headersRam[] = {"# de serie", "Marca", "Precio", "Cantidad","Capacidad","Tipo memoria"};
 			modelProductos.setColumnIdentifiers(headersRam);
 			
 			for (Producto producto : Tienda.getInstance().getMisProductos()) {
@@ -957,7 +957,7 @@ public class Home extends JFrame {
 					rows[1] = producto.getMarca();
 					rows[2] = producto.getPrecio();
 					rows[3] = producto.getCantidad();
-					rows[4] = ((MemoriaRam)producto).getCapacidad();
+					rows[4] = ((MemoriaRam)producto).getCapacidad() + " GB";
 					rows[5] = ((MemoriaRam)producto).getTipoMemoria();
 					modelProductos.addRow(rows);
 				}
@@ -965,7 +965,7 @@ public class Home extends JFrame {
 			break;
 		
 		case 3:
-			String headersMicro[] = {"Número de serie", "Marca", "Precio", "Cantidad","Modelo","procesamiento"};
+			String headersMicro[] = {"# de serie", "Marca", "Precio", "Cantidad","Modelo","procesamiento"};
 			modelProductos.setColumnIdentifiers(headersMicro);
 			
 			for (Producto producto : Tienda.getInstance().getMisProductos()) {
@@ -975,13 +975,13 @@ public class Home extends JFrame {
 					rows[2] = producto.getPrecio();
 					rows[3] = producto.getCantidad();
 					rows[4] = ((MicroProcesador)producto).getModelo();
-					rows[5] = ((MicroProcesador)producto).getVelocidadProcesamiento();
+					rows[5] = ((MicroProcesador)producto).getVelocidadProcesamiento() + " GHz";
 					modelProductos.addRow(rows);
 				}
 			}
 			break;
 		case 4:
-			String headersMoBoard[] = {"Número de serie", "Marca", "Precio", "Cantidad","Modelo","Tipo Ram"};
+			String headersMoBoard[] = {"# de serie", "Marca", "Precio", "Cantidad","Modelo","Tipo Ram"};
 			modelProductos.setColumnIdentifiers(headersMoBoard);
 			
 			for (Producto producto : Tienda.getInstance().getMisProductos()) {
