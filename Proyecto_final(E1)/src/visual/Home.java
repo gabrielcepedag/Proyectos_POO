@@ -135,19 +135,22 @@ public class Home extends JFrame {
 		lblX.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				FileOutputStream tienda2;
-				ObjectOutputStream tiendaWrite;
-				try {
-					tienda2 = new  FileOutputStream("empresa.dat");
-					tiendaWrite = new ObjectOutputStream(tienda2);
-					Tienda.getInstance().actualizarVariablesStatic();
-					tiendaWrite.writeObject(Tienda.getInstance());
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				int option = JOptionPane.showConfirmDialog(null, "Está seguro de cerrar la sesión ? ","Cierre de inicio de sesión",JOptionPane.YES_NO_OPTION);
+				if (option == JOptionPane.YES_OPTION) {
+					FileOutputStream tienda2;
+					ObjectOutputStream tiendaWrite;
+					try {
+						tienda2 = new  FileOutputStream("empresa.dat");
+						tiendaWrite = new ObjectOutputStream(tienda2);
+						Tienda.getInstance().actualizarVariablesStatic();
+						tiendaWrite.writeObject(Tienda.getInstance());
+					} catch (FileNotFoundException e1) {
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					dispose();
 				}
-				dispose();
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -362,7 +365,7 @@ public class Home extends JFrame {
 		lblClientes_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//JOptionPane.showMessageDialog(null, "Coming Soon","Aviso",JOptionPane.INFORMATION_MESSAGE);
+				
 			}
 		});
 		lblClientes_1.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/PanelHome.png")));
@@ -698,21 +701,24 @@ public class Home extends JFrame {
 		lblSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FileOutputStream tienda2;
-				ObjectOutputStream tiendaWrite;
-				try {
-					tienda2 = new  FileOutputStream("empresa.dat");
-					tiendaWrite = new ObjectOutputStream(tienda2);
-					Tienda.getInstance().actualizarVariablesStatic();
-					tiendaWrite.writeObject(Tienda.getInstance());
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				int option = JOptionPane.showConfirmDialog(null, "Está seguro de cerrar la sesión ? ","Cierre de inicio de sesión",JOptionPane.YES_NO_OPTION);
+				if (option == JOptionPane.YES_OPTION) {
+					FileOutputStream tienda2;
+					ObjectOutputStream tiendaWrite;
+					try {
+						tienda2 = new  FileOutputStream("empresa.dat");
+						tiendaWrite = new ObjectOutputStream(tienda2);
+						Tienda.getInstance().actualizarVariablesStatic();
+						tiendaWrite.writeObject(Tienda.getInstance());
+					} catch (FileNotFoundException e1) {
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					Login login = new Login();
+					dispose();
+					login.setVisible(true);
 				}
-				Login login = new Login();
-				dispose();
-				login.setVisible(true);
 			}
 		});
 		lblSalir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -942,7 +948,13 @@ public class Home extends JFrame {
 					rows[2] = producto.getPrecio();
 					rows[3] = producto.getCantidad();
 					rows[4] = ((DiscoDuro)producto).getModelo();
-					rows[5] = ((DiscoDuro)producto).getCapacidad() + " GB";
+					String aux = " GB";
+					if (((DiscoDuro)producto).getCapacidad() >= 1024) {
+						aux = " TB";
+						rows[5] = ((DiscoDuro)producto).getCapacidad() / 1024 + aux;
+					}else {
+						rows[5] = ((DiscoDuro)producto).getCapacidad() + aux;
+					}
 					modelProductos.addRow(rows);
 				}
 			}
@@ -957,7 +969,13 @@ public class Home extends JFrame {
 					rows[1] = producto.getMarca();
 					rows[2] = producto.getPrecio();
 					rows[3] = producto.getCantidad();
-					rows[4] = ((MemoriaRam)producto).getCapacidad() + " GB";
+					String aux = " GB";
+					if (((MemoriaRam)producto).getCapacidad() >= 1024) {
+						aux = " TB";
+						rows[4] = ((MemoriaRam)producto).getCapacidad() / 1024 + aux;
+					}else {
+						rows[4] = ((MemoriaRam)producto).getCapacidad() + aux;
+					}
 					rows[5] = ((MemoriaRam)producto).getTipoMemoria();
 					modelProductos.addRow(rows);
 				}

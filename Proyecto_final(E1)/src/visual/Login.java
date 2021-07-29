@@ -119,6 +119,7 @@ public class Login extends JFrame implements Serializable{
 		lblX.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				
 				FileOutputStream tienda2;
 				ObjectOutputStream tiendaWrite;
 				try {
