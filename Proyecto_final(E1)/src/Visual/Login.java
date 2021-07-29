@@ -11,6 +11,7 @@ import logico.Administrador;
 import logico.Cliente;
 import logico.Combo;
 import logico.Empleado;
+import logico.Factura;
 import logico.OrdenCompra;
 import logico.Tienda;
 
@@ -63,6 +64,7 @@ public class Login extends JFrame implements Serializable{
 					Tienda temp = (Tienda)tiendaRead.readObject();
 					Combo.cod = temp.getStaticCombo();
 					OrdenCompra.numOrdenCompra = temp.getStaticPedido();
+					Factura.cod = temp.getStaticFactura();
 					Tienda.setTienda(temp);
 					tienda.close();
 					tiendaRead.close();

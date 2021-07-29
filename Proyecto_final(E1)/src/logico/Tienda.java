@@ -517,7 +517,7 @@ public class Tienda implements Serializable{
 	}
 	
 	public Vendedor vendedorConMenosFacturas() {
-		int menor = 10, cont = 0;
+		int menor = 1000, cont = 0;
 		Vendedor aux = null;
 		
 		for (Factura factura : misFacturas) {
