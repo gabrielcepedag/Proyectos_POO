@@ -374,8 +374,11 @@ public class RegVendedor extends JDialog {
 		txtTelefono.setText(selected.getTelefono());
 		txtUsername.setText(selected.getUsername());
 		File f = new File("src/ImagenesEmpleados/Archivo"+selected.getCedula()+".jpg");
-        Image bi;
-		bi = ImageIO.read(f);
-		labelIcon.setIcon(new ImageIcon(bi.getScaledInstance(187, 187, 0)));
+		if (f != null) {
+			 Image bi;
+			 bi = ImageIO.read(f);
+			 labelIcon.setIcon(new ImageIcon(bi.getScaledInstance(187, 187, 0)));
+		}
+       
 	}
 }

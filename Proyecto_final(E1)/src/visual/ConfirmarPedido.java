@@ -142,6 +142,7 @@ public class ConfirmarPedido extends JDialog {
 					selected.setFechaSolicitud(new Date());
 					selected.setProcesada(true);
 					selected.setMiAdministrador((Administrador)Tienda.getInstance().getLoginUserEmpleado());
+					selected.setPrecioTotal(selected.getProducto().getPrecio());
 					JOptionPane.showMessageDialog(null, "pedido confirmado exitosamente");
 					ListarPedido.loadTablePedido(0);
 					dispose();

@@ -395,44 +395,6 @@ public class Home extends JFrame {
 			}
 		});
 		
-		/*Productos de pruebas
-		Producto p1 = new MotherBoard("402", 10, 25000, "RTX", 15, 20, "QSY", "QSY", "QSY");
-		Producto p2 = new MemoriaRam("403", 100, 10000, "TridentZ", 1, 500, 32, "DDR4");
-		Producto p3 = new MicroProcesador("404", 5, 5500, "MSI", 10, 60, "QSY", "buena", 100);
-		Producto p4 = new DiscoDuro("405", 20, 4500, "Esto", 5, 90, "Funciona", 500, "Maravilla");
-		Tienda.getInstance().addProducto(p1);
-		Tienda.getInstance().addProducto(p2);
-		Tienda.getInstance().addProducto(p3);
-		Tienda.getInstance().addProducto(p4);
-		
-		//Clientes de Prueba	
-		Cliente c1 = new Cliente("4023343", "Darvy", "Bella vista, Satiago de los caballeros", "829-699-4610");
-		c1.setCredito(10000);
-		Cliente c2 = new Cliente("4024550", "Eduardo", "Puerto Planta", "843-433-5552");
-		c2.setCredito(25000);
-		Cliente c3 = new Cliente("4021460", "Gabriel", "La Vega", "829-444-1340");
-		Tienda.getInstance().addCliente(c1);
-		Tienda.getInstance().addCliente(c2);
-		Tienda.getInstance().addCliente(c3);
-		
-		//Factura de Prueba:
-		Vendedor v1 = new Vendedor("DarvyBM", "KLK", "Darvy Betances", "2434-332", "809-247-2240", "Santiago de los caballeros");
-		Cliente c5 = new Cliente("24234", "Fulanito", "Cerca de ti bb", "334-233-4244");
-		ArrayList<Producto> productos = new ArrayList<Producto>();
-		productos.add(new MicroProcesador("344", 43, 2344, "Intel", 1, 400, "Qsy", "Qsy", 124));
-		Factura f1 = new Factura("Fact-1", v1, c3 , productos);
-		Tienda.getInstance().addFactura(f1);
-		
-		productos.add(p2);
-		Factura f2 = new Factura(new String("Fact-"+Factura.cod), v1, c2, productos);
-		f2.setACredito(true);
-		
-		productos.add(p3);
-		Factura f3 = new Factura("Fact-3", v1,c5, productos);
-		Tienda.getInstance().addFactura(f2);
-		Tienda.getInstance().addFactura(f3);
-		*/
-		
 		cbxTipoProducto.setOpaque(false);
 		cbxTipoProducto.setIgnoreRepaint(true);
 		cbxTipoProducto.setBorder(null);

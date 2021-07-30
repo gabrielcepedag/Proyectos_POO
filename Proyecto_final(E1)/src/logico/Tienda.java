@@ -267,7 +267,9 @@ public class Tienda implements Serializable{
 			for (Factura factura : misFacturas) {
 				if (cliente.getCedula().equalsIgnoreCase(factura.getMiCliente().getCedula())) {
 					if (factura.getFecha().getMonth() == fecha.getMonth() && factura.getFecha().getYear() == fecha.getYear()) {
-						comprasEnEsteMes++;
+						if (factura.isACredito() == false) {
+							comprasEnEsteMes++;
+						}
 					}
 				}
 			}

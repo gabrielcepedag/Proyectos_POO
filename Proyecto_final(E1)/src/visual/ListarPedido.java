@@ -92,14 +92,6 @@ public class ListarPedido extends JDialog {
 		scrollPanePedido.setBounds(352, 104, 720, 546);
 		contentPanel.add(scrollPanePedido);
 		
-		Producto p2 = new MemoriaRam("403", 100, 10000, "TridentZ", 1, 500, 32, "DDR4");
-		Producto p3 = new MicroProcesador("404", 55, 5500, "MSI", 10, 60, "QSY", "buena", 100);		
-		OrdenCompra ordenCompra = new OrdenCompra("Ord - 1", p2);
-		Tienda.getInstance().addOrdenCompra(ordenCompra);
-		OrdenCompra ordenCompra2 = new OrdenCompra("Ord -2", p3);
-		Tienda.getInstance().addOrdenCompra(ordenCompra2);
-		
-		
 		String header[] = {"Código", "Distribuidor", "Producto", "Cantidad", "Precio total", "Fecha de Solicitud", "Procesado"};
 		modelPedido = new DefaultTableModel();
 		modelPedido.setColumnIdentifiers(header);

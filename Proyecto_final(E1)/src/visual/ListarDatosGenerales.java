@@ -383,7 +383,7 @@ public class ListarDatosGenerales extends JDialog {
 				calendar.add(Calendar.DAY_OF_MONTH, 1);
 				datos.setValue(dia4, "Total Ventas", calendar.get(Calendar.DAY_OF_MONTH) + " del mes " + (calendar.getTime().getMonth()+1));
 				calendar.add(Calendar.DAY_OF_MONTH, 1);
-				datos.setValue(dia5, "Total Ventas", calendar.get(Calendar.DAY_OF_MONTH) + " de " + (calendar.getTime().getMonth()+1));
+				datos.setValue(dia5, "Total Ventas", calendar.get(Calendar.DAY_OF_MONTH) + " del mes " + (calendar.getTime().getMonth()+1));
 				
 				JFreeChart grafico = ChartFactory.createBarChart3D("Ventas de los últimos 5 días", "Total de Ventas de cada día", "Total vendido", datos, PlotOrientation.VERTICAL, true, true, false);
 		        BufferedImage image = grafico.createBufferedImage(700,600);
