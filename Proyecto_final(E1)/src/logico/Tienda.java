@@ -2,6 +2,7 @@ package logico;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Tienda implements Serializable{
 
@@ -257,30 +258,56 @@ public class Tienda implements Serializable{
 		return precioTotal;
 	}
 		
-	//--------------------------------PENDIENTE---------------------------------------//
 	public Cliente clienteDelMes(){
 		Cliente clienteDelMes = null;
-		
-		
-		
+		int comprasEnEsteMes = 0;
+		int mayor = 0;
+		Date fecha = new Date();
+		for (Cliente cliente : misClientes) {
+			for (Factura factura : misFacturas) {
+				if (cliente.getCedula().equalsIgnoreCase(factura.getMiCliente().getCedula())) {
+					if (factura.getFecha().getMonth() == fecha.getMonth() && factura.getFecha().getYear() == fecha.getYear()) {
+						comprasEnEsteMes++;
+					}
+				}
+			}
+			if (comprasEnEsteMes > mayor) {
+				mayor = comprasEnEsteMes;
+				clienteDelMes = cliente;
+			}
+		}
+		if (mayor == 0) {
+			return null;
+		}
 		return clienteDelMes;
 	}
 	
 	public Vendedor vendedorDelMes() {
 		float mayor = 0;
+		float montoEnEseMes = 0;
+		Date fecha = new Date();
 		Vendedor vendedorDelMes = null;
 		
 		for (Empleado empleado : misEmpleados) {
 			if(empleado instanceof Vendedor) {
-				if  ( ((Vendedor)empleado).getTotalVendido() > mayor) {
-					mayor = ((Vendedor)empleado).getTotalVendido();
+				for (Factura factura : misFacturas) {
+					if (empleado.getCedula().equalsIgnoreCase(factura.getMiVendedor().getCedula())) {
+						if (factura.getFecha().getMonth() == fecha.getMonth() && factura.getFecha().getYear() == fecha.getYear()) {
+							montoEnEseMes += factura.getPrecioTotal();
+						}
+					}
+				}
+				if (montoEnEseMes > mayor) {
+					mayor = montoEnEseMes;
 					vendedorDelMes = (Vendedor) empleado;
 				}
 			}
 		}
+		if (mayor == 0) {
+			return null;
+		}
 		return vendedorDelMes;
 	}
-	//--------------------------------------------------------------------------------//
 	
 	public void crearOrdenesCompra() {
 		
@@ -373,18 +400,24 @@ public class Tienda implements Serializable{
 			}
 		}
 		
+		if (mayor == 0) {
+			return null;
+		}
 		return aux;
 	}
 	
 	public Cliente getClienteMenosCompras() {
 		Cliente aux = null;
-		int menor = 10000;
+		int menor = getClienteMasCompras().getCantCompras();
 		
 		for (Cliente cliente : misClientes) {
 			if (cliente.getCantCompras() < menor) {
 				aux = cliente;
 				menor = cliente.getCantCompras();
 			}
+		}
+		if (menor == getClienteMasCompras().getCantCompras()) {
+			return null;
 		}
 		return aux;
 	}
@@ -400,6 +433,10 @@ public class Tienda implements Serializable{
 					aux = factura.getMiCliente();
 				}
 			}
+		}
+		
+		if (mayor == 0) {
+			return null;
 		}
 		return aux;
 	}
@@ -429,6 +466,10 @@ public class Tienda implements Serializable{
 			aux = "Mother Board";
 		}else if (contMP > contMR && contMP > contDD && contMP > contMB) {
 			aux = "Microprocesador";
+		}
+		
+		if (contMR == 0 && contMP == 0 && contMB == 0 && contDD == 0) {
+			return null;
 		}
 		
 		return aux;
@@ -461,6 +502,10 @@ public class Tienda implements Serializable{
 			aux = "Microprocesador";
 		}
 		
+		if (contMR == 0 && contMP == 0 && contMB == 0 && contDD == 0) {
+			return null;
+		}
+		
 		return aux;
 	}
 	
@@ -477,7 +522,9 @@ public class Tienda implements Serializable{
 				}
 			}
 		}
-		
+		if (mayor == 0) {
+			return null;
+		}
 		return aux;
 	}
 
@@ -492,8 +539,25 @@ public class Tienda implements Serializable{
 		return cont;
 	}
 	
+	public int CantMayorDeFacturasEnUnVendedor() {
+		int mayor = 0, cont = 0;
+		Vendedor aux = null;
+		
+		for (Factura factura : misFacturas) {
+			if (factura.getMiVendedor() instanceof Vendedor) {
+				cont = calcFacturasVendedor(factura.getMiVendedor());
+				if (cont > mayor) {
+					mayor = cont;
+					aux = factura.getMiVendedor();
+				}
+			}
+		}
+		
+		return cont;
+	}
+	
 	public Vendedor vendedorConMenosFacturas() {
-		int menor = 10000, cont = 0;
+		int menor = CantMayorDeFacturasEnUnVendedor(), cont = 0;
 		Vendedor aux = null;
 		
 		for (Factura factura : misFacturas) {
@@ -506,6 +570,9 @@ public class Tienda implements Serializable{
 			}
 		}
 		
+		if (menor == CantMayorDeFacturasEnUnVendedor()) {
+			return null;
+		}
 		return aux;
 	}
 	
@@ -519,13 +586,15 @@ public class Tienda implements Serializable{
 				aux = factura;
 			}
 		}
-		
+		if (mayor == 0) {
+			return null;
+		}
 		return aux;
 	}
 	
 	public Factura facturaMenosCara() {
 		Factura aux = null;
-		float menor = 5000000;
+		float menor = facturaMasCara().getPrecioTotal();
 		
 		for (Factura factura : misFacturas) {
 			if (factura.getPrecioTotal() < menor) {
@@ -533,7 +602,9 @@ public class Tienda implements Serializable{
 				aux = factura;
 			}
 		}
-		
+		if (menor == facturaMasCara().getPrecioTotal()) {
+			return null;
+		}
 		return aux;
 	}
 	
@@ -579,6 +650,9 @@ public class Tienda implements Serializable{
 				aux = combo.getNombre();
 			}
 		}
+		if (cont == 0) {
+			return null;
+		}
 		return aux;
 	}
 
@@ -603,6 +677,9 @@ public class Tienda implements Serializable{
 				menor = cont;
 				aux = combo.getNombre();
 			}
+		}
+		if (cont == 0) {
+			return null;
 		}
 		return aux;
 	}

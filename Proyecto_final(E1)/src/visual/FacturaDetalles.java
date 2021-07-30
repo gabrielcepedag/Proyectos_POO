@@ -196,7 +196,7 @@ public class FacturaDetalles extends JDialog {
 		lblFecha_1.setBounds(557, 121, 187, 28);
 		panel.add(lblFecha_1);
 		
-		JLabel lblCliente = new JLabel("Cliente Cedula");
+		JLabel lblCliente = new JLabel("Vendedor");
 		lblCliente.setForeground(Color.WHITE);
 		lblCliente.setFont(new Font("Tahoma", Font.BOLD, 21));
 		lblCliente.setBounds(304, 162, 187, 28);
@@ -228,7 +228,7 @@ public class FacturaDetalles extends JDialog {
 		lblCreditoONo.setBounds(557, 209, 187, 28);
 		panel.add(lblCreditoONo);
 		
-		JLabel lblCedula = new JLabel(selectedFactura.getMiCliente().getCedula());
+		JLabel lblCedula = new JLabel(selectedFactura.getMiVendedor().getNombre());
 		lblCedula.setForeground(Color.BLACK);
 		lblCedula.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblCedula.setBounds(304, 209, 239, 28);

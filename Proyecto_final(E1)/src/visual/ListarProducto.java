@@ -78,7 +78,7 @@ public class ListarProducto extends JDialog {
 		scrollPane.setBounds(352, 81, 730, 565);
 		contentPanel.add(scrollPane);
 		
-		String headerProducto[] = {"# de serie", "Marca", "Precio", "Cantidad", "Disp. Min", "Categoría"};
+		String headerProducto[] = {"Número de serie", "Marca", "Precio", "Cantidad", "Disp. Min", "Categoría"};
 		modelProductos = new DefaultTableModel();
 		modelProductos.setColumnIdentifiers(headerProducto);
 		
@@ -298,7 +298,7 @@ public class ListarProducto extends JDialog {
 
 		switch (selection) {
 		case 0:
-			String headerProducto[] = {"# de serie", "Marca", "Precio", "Cantidad","Disp. min", "Categoría"};
+			String headerProducto[] = {"Número de serie", "Marca", "Precio", "Cantidad","Disp. min", "Categoría"};
 			modelProductos.setColumnIdentifiers(headerProducto);
 			
 			for (Producto producto : Tienda.getInstance().getMisProductos()) {
@@ -323,13 +323,7 @@ public class ListarProducto extends JDialog {
 					rows[2] = producto.getPrecio();
 					rows[3] = producto.getCantidad();
 					rows[4] = ((DiscoDuro)producto).getModelo();
-					String aux = " GB";
-					if (((DiscoDuro)producto).getCapacidad() >= 1024) {
-						aux = " TB";
-						rows[5] = ((DiscoDuro)producto).getCapacidad() / 1024 + aux;
-					}else {
-						rows[5] = ((DiscoDuro)producto).getCapacidad() + aux;
-					}
+					rows[5] = ((DiscoDuro)producto).getCapacidad()+" GB";
 					modelProductos.addRow(rows);
 				}
 			}
@@ -344,13 +338,7 @@ public class ListarProducto extends JDialog {
 					rows[1] = producto.getMarca();
 					rows[2] = producto.getPrecio();
 					rows[3] = producto.getCantidad();
-					String aux = " GB";
-					if (((MemoriaRam)producto).getCapacidad() >= 1024) {
-						aux = " TB";
-						rows[4] = ((MemoriaRam)producto).getCapacidad() / 1024 + aux;
-					}else {
-						rows[4] = ((MemoriaRam)producto).getCapacidad() + aux;
-					}
+					rows[4] = ((MemoriaRam)producto).getCapacidad() + " GB";
 					rows[5] = ((MemoriaRam)producto).getTipoMemoria();
 					modelProductos.addRow(rows);
 				}

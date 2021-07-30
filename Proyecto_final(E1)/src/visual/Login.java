@@ -119,7 +119,6 @@ public class Login extends JFrame implements Serializable{
 		lblX.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
 				FileOutputStream tienda2;
 				ObjectOutputStream tiendaWrite;
 				try {
@@ -238,14 +237,13 @@ public class Login extends JFrame implements Serializable{
 					try {
 						frame = new Home();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					dispose();
 					frame.setVisible(true);
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "Algún dato ingresado es incorrecto");
+					JOptionPane.showMessageDialog(null, "Algún dato ingresado es incorrecto, ingrese nuevamente");
 				}
 			}
 		});

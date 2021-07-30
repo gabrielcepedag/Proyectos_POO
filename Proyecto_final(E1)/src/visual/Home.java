@@ -8,6 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 import logico.Cliente;
 import logico.DiscoDuro;
 import logico.Empleado;
@@ -33,6 +38,7 @@ import java.awt.Image;
 import java.awt.ScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -40,6 +46,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.time.chrono.HijrahEra;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle.Control;
 
 import javax.swing.JTable;
@@ -135,22 +143,19 @@ public class Home extends JFrame {
 		lblX.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				int option = JOptionPane.showConfirmDialog(null, "Está seguro de cerrar la sesión ? ","Cierre de inicio de sesión",JOptionPane.YES_NO_OPTION);
-				if (option == JOptionPane.YES_OPTION) {
-					FileOutputStream tienda2;
-					ObjectOutputStream tiendaWrite;
-					try {
-						tienda2 = new  FileOutputStream("empresa.dat");
-						tiendaWrite = new ObjectOutputStream(tienda2);
-						Tienda.getInstance().actualizarVariablesStatic();
-						tiendaWrite.writeObject(Tienda.getInstance());
-					} catch (FileNotFoundException e1) {
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					dispose();
+				FileOutputStream tienda2;
+				ObjectOutputStream tiendaWrite;
+				try {
+					tienda2 = new  FileOutputStream("empresa.dat");
+					tiendaWrite = new ObjectOutputStream(tienda2);
+					Tienda.getInstance().actualizarVariablesStatic();
+					tiendaWrite.writeObject(Tienda.getInstance());
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
+				dispose();
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -365,7 +370,7 @@ public class Home extends JFrame {
 		lblClientes_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				//JOptionPane.showMessageDialog(null, "Coming Soon","Aviso",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		lblClientes_1.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/PanelHome.png")));
@@ -701,24 +706,21 @@ public class Home extends JFrame {
 		lblSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int option = JOptionPane.showConfirmDialog(null, "Está seguro de cerrar la sesión ? ","Cierre de inicio de sesión",JOptionPane.YES_NO_OPTION);
-				if (option == JOptionPane.YES_OPTION) {
-					FileOutputStream tienda2;
-					ObjectOutputStream tiendaWrite;
-					try {
-						tienda2 = new  FileOutputStream("empresa.dat");
-						tiendaWrite = new ObjectOutputStream(tienda2);
-						Tienda.getInstance().actualizarVariablesStatic();
-						tiendaWrite.writeObject(Tienda.getInstance());
-					} catch (FileNotFoundException e1) {
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					Login login = new Login();
-					dispose();
-					login.setVisible(true);
+				FileOutputStream tienda2;
+				ObjectOutputStream tiendaWrite;
+				try {
+					tienda2 = new  FileOutputStream("empresa.dat");
+					tiendaWrite = new ObjectOutputStream(tienda2);
+					Tienda.getInstance().actualizarVariablesStatic();
+					tiendaWrite.writeObject(Tienda.getInstance());
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
+				Login login = new Login();
+				dispose();
+				login.setVisible(true);
 			}
 		});
 		lblSalir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -948,13 +950,7 @@ public class Home extends JFrame {
 					rows[2] = producto.getPrecio();
 					rows[3] = producto.getCantidad();
 					rows[4] = ((DiscoDuro)producto).getModelo();
-					String aux = " GB";
-					if (((DiscoDuro)producto).getCapacidad() >= 1024) {
-						aux = " TB";
-						rows[5] = ((DiscoDuro)producto).getCapacidad() / 1024 + aux;
-					}else {
-						rows[5] = ((DiscoDuro)producto).getCapacidad() + aux;
-					}
+					rows[5] = ((DiscoDuro)producto).getCapacidad() + " GB";
 					modelProductos.addRow(rows);
 				}
 			}
@@ -969,13 +965,7 @@ public class Home extends JFrame {
 					rows[1] = producto.getMarca();
 					rows[2] = producto.getPrecio();
 					rows[3] = producto.getCantidad();
-					String aux = " GB";
-					if (((MemoriaRam)producto).getCapacidad() >= 1024) {
-						aux = " TB";
-						rows[4] = ((MemoriaRam)producto).getCapacidad() / 1024 + aux;
-					}else {
-						rows[4] = ((MemoriaRam)producto).getCapacidad() + aux;
-					}
+					rows[4] = ((MemoriaRam)producto).getCapacidad() + " GB";
 					rows[5] = ((MemoriaRam)producto).getTipoMemoria();
 					modelProductos.addRow(rows);
 				}
