@@ -8,6 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 import logico.Cliente;
 import logico.DiscoDuro;
 import logico.Empleado;
@@ -33,6 +38,7 @@ import java.awt.Image;
 import java.awt.ScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -40,6 +46,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.time.chrono.HijrahEra;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle.Control;
 
 import javax.swing.JTable;

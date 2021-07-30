@@ -7,6 +7,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+
 import logico.Cliente;
 import logico.Combo;
 import logico.DiscoDuro;
@@ -27,9 +34,13 @@ import javax.swing.JTable;
 
 import java.awt.Font;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.SwingConstants;
 
@@ -61,10 +72,13 @@ public class ListarDatosGenerales extends JDialog {
 	private JLabel lblVendedorMenosFact;
 	private JLabel lblProdMasComprado;
 	private JLabel lblProdMenosComprado;
-	private JLabel lblFulanito;
+	private JLabel lblClienteDelMes;
 	private JLabel lblClienteMasComp;
 	private JLabel lblClienteMenosComp;
 	private JLabel lblClientMayorDeuda;
+	private JLabel lblGrafico;
+	private JPanel panelGrafico;
+	private JLabel lblGraficoImprimir;
 	
 	/**
 	 * Launch the application.
@@ -105,6 +119,16 @@ public class ListarDatosGenerales extends JDialog {
 				dispose();
 			}
 		});
+		
+		panelGrafico = new JPanel();
+		panelGrafico.setVisible(false);
+		panelGrafico.setBounds(346, 43, 759, 647);
+		contentPanel.add(panelGrafico);
+		panelGrafico.setLayout(null);
+		
+		lblGraficoImprimir = new JLabel("");
+		lblGraficoImprimir.setBounds(12, 13, 735, 621);
+		panelGrafico.add(lblGraficoImprimir);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setForeground(Color.DARK_GRAY);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 40));
@@ -137,12 +161,14 @@ public class ListarDatosGenerales extends JDialog {
 				panelVendedores.setVisible(false);
 				panelFacturas.setVisible(false);
 				panelCombos.setVisible(false);
+				panelGrafico.setVisible(false);
 				
 				lblClientes.setBackground(new Color(0, 155, 124));
 				lblProductos.setBackground(new Color(36, 37, 38));
 				lblVendedores.setBackground(new Color(36, 37, 38));
 				lblFacturas.setBackground(new Color(36, 37, 38));
 				lblCombos.setBackground(new Color(36, 37, 38));
+				lblGrafico.setBackground(new Color(36, 37, 38));
 			}
 		});
 		lblClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -165,12 +191,14 @@ public class ListarDatosGenerales extends JDialog {
 				panelVendedores.setVisible(false);
 				panelFacturas.setVisible(false);
 				panelCombos.setVisible(false);
+				panelGrafico.setVisible(false);
 				
 				lblClientes.setBackground(new Color(36, 37, 38));
 				lblProductos.setBackground(new Color(0, 155, 124));
 				lblVendedores.setBackground(new Color(36, 37, 38));
 				lblFacturas.setBackground(new Color(36, 37, 38));
 				lblCombos.setBackground(new Color(36, 37, 38));
+				lblGrafico.setBackground(new Color(36, 37, 38));
 			}
 		});
 		lblProductos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -193,12 +221,14 @@ public class ListarDatosGenerales extends JDialog {
 				panelVendedores.setVisible(true);
 				panelFacturas.setVisible(false);
 				panelCombos.setVisible(false);
+				panelGrafico.setVisible(false);
 				
 				lblClientes.setBackground(new Color(36, 37, 38));
 				lblProductos.setBackground(new Color(36, 37, 38));
 				lblVendedores.setBackground(new Color(0, 155, 124));
 				lblFacturas.setBackground(new Color(36, 37, 38));
 				lblCombos.setBackground(new Color(36, 37, 38));
+				lblGrafico.setBackground(new Color(36, 37, 38));
 			}
 		});
 		lblVendedores.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -241,12 +271,14 @@ public class ListarDatosGenerales extends JDialog {
 				panelVendedores.setVisible(false);
 				panelFacturas.setVisible(true);
 				panelCombos.setVisible(false);
+				panelGrafico.setVisible(false);
 				
 				lblClientes.setBackground(new Color(36, 37, 38));
 				lblProductos.setBackground(new Color(36, 37, 38));
 				lblVendedores.setBackground(new Color(36, 37, 38));
 				lblFacturas.setBackground(new Color(0, 155, 124));
 				lblCombos.setBackground(new Color(36, 35, 38));
+				lblGrafico.setBackground(new Color(36, 37, 38));
 			}
 		});
 		lblFacturas.setIcon(new ImageIcon(ListarDatosGenerales.class.getResource("/Imagenes/FacturaIcon.png")));
@@ -268,12 +300,14 @@ public class ListarDatosGenerales extends JDialog {
 				panelVendedores.setVisible(false);
 				panelFacturas.setVisible(false);
 				panelCombos.setVisible(true);
+				panelGrafico.setVisible(false);
 				
 				lblClientes.setBackground(new Color(36, 37, 38));
 				lblProductos.setBackground(new Color(36, 37, 38));
 				lblVendedores.setBackground(new Color(36, 37, 38));
 				lblFacturas.setBackground(new Color(36, 35, 38));
 				lblCombos.setBackground(new Color(0, 155, 124));
+				lblGrafico.setBackground(new Color(36, 37, 38));
 			}
 		});
 		lblCombos.setIcon(new ImageIcon(ListarDatosGenerales.class.getResource("/Imagenes/PedidoIcon.png")));
@@ -283,6 +317,87 @@ public class ListarDatosGenerales extends JDialog {
 		lblCombos.setBackground(new Color(36, 37, 38));
 		lblCombos.setBounds(0, 425, 322, 60);
 		panelPrincipal.add(lblCombos);
+		
+		lblGrafico = new JLabel("Ventas Gr\u00E1fico");
+		lblGrafico.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblGrafico.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				panelClientes.setVisible(false);
+				panelProductos.setVisible(false);
+				panelVendedores.setVisible(false);
+				panelFacturas.setVisible(false);
+				panelCombos.setVisible(false);
+				panelGrafico.setVisible(true);
+				
+				lblClientes.setBackground(new Color(36, 37, 38));
+				lblProductos.setBackground(new Color(36, 37, 38));
+				lblVendedores.setBackground(new Color(36, 37, 38));
+				lblFacturas.setBackground(new Color(36, 35, 38));
+				lblCombos.setBackground(new Color(36, 35, 38));
+				lblGrafico.setBackground(new Color(0, 155, 124));
+				lblGrafico.setBackground(new Color(36, 37, 38));
+				
+				float dia1 = 0, dia2 = 0, dia3 = 0, dia4 = 0, dia5 = 0;
+				Date fechaActual = new Date();
+				DefaultCategoryDataset datos = new DefaultCategoryDataset();
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(fechaActual);
+				
+				for (Factura factura : Tienda.getInstance().getMisFacturas()) {
+					if (calendar.getTime().getDay() == factura.getFecha().getDay()) {
+						dia5 += factura.getPrecioTotal();
+					}
+				}
+				calendar.setTime(fechaActual);
+				calendar.add(Calendar.DAY_OF_MONTH, -1);
+				for (Factura factura : Tienda.getInstance().getMisFacturas()) {
+					if (calendar.getTime().getDay() == factura.getFecha().getDay()) {
+						dia4 += factura.getPrecioTotal();
+					}
+				}
+				calendar.add(Calendar.DAY_OF_MONTH, -1);
+				for (Factura factura : Tienda.getInstance().getMisFacturas()) {
+					if (calendar.getTime().getDay() == factura.getFecha().getDay()) {
+						dia3 += factura.getPrecioTotal();
+					}
+				}
+				calendar.add(Calendar.DAY_OF_MONTH, -1);
+				for (Factura factura : Tienda.getInstance().getMisFacturas()) {
+					if (calendar.getTime().getDay() == factura.getFecha().getDay()) {
+						dia2 += factura.getPrecioTotal();
+					}
+				}
+				calendar.add(Calendar.DAY_OF_MONTH, -1);
+				for (Factura factura : Tienda.getInstance().getMisFacturas()) {
+					if (calendar.getTime().getDay() == factura.getFecha().getDay()) {
+						dia1 += factura.getPrecioTotal();
+					}
+				}
+				
+				datos.setValue(dia1, "Total Ventas", calendar.get(Calendar.DAY_OF_MONTH) + " del mes " + (calendar.getTime().getMonth()+1));
+				calendar.add(Calendar.DAY_OF_MONTH, 1);
+				datos.setValue(dia2, "Total Ventas", calendar.get(Calendar.DAY_OF_MONTH) + " del mes " + (calendar.getTime().getMonth()+1));
+				calendar.add(Calendar.DAY_OF_MONTH, 1);
+				datos.setValue(dia3, "Total Ventas", calendar.get(Calendar.DAY_OF_MONTH) + " del mes " + (calendar.getTime().getMonth()+1));
+				calendar.add(Calendar.DAY_OF_MONTH, 1);
+				datos.setValue(dia4, "Total Ventas", calendar.get(Calendar.DAY_OF_MONTH) + " del mes " + (calendar.getTime().getMonth()+1));
+				calendar.add(Calendar.DAY_OF_MONTH, 1);
+				datos.setValue(dia5, "Total Ventas", calendar.get(Calendar.DAY_OF_MONTH) + " de " + (calendar.getTime().getMonth()+1));
+				
+				JFreeChart grafico = ChartFactory.createBarChart3D("Ventas de los últimos 5 días", "Total de Ventas de cada día", "Total vendido", datos, PlotOrientation.VERTICAL, true, true, false);
+		        BufferedImage image = grafico.createBufferedImage(700,600);
+		        lblGraficoImprimir.setIcon(new ImageIcon(image));
+			}
+		});
+		lblGrafico.setIcon(new ImageIcon(ListarDatosGenerales.class.getResource("/Imagenes/EstadisticaIcon.png")));
+		lblGrafico.setOpaque(true);
+		lblGrafico.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGrafico.setForeground(Color.WHITE);
+		lblGrafico.setFont(new Font("Tahoma", Font.PLAIN, 34));
+		lblGrafico.setBackground(new Color(36, 37, 38));
+		lblGrafico.setBounds(0, 480, 322, 60);
+		panelPrincipal.add(lblGrafico);
 		
 		panelCombos = new JPanel();
 		panelCombos.setVisible(false);
@@ -297,7 +412,7 @@ public class ListarDatosGenerales extends JDialog {
 		
 		String comboMasVendido = Tienda.getInstance().comboMasVendido();
 		if (comboMasVendido == null) {
-			comboMasVendido = "Ninguno";
+			comboMasVendido = "Aún no hay";
 		}
 		
 		lblCmbMasComp = new JLabel(comboMasVendido);
@@ -318,7 +433,7 @@ public class ListarDatosGenerales extends JDialog {
 		
 		String comboMenosVendido = Tienda.getInstance().comboMenosVendido();
 		if (comboMenosVendido == null) {
-			comboMenosVendido = "Ninguno";
+			comboMenosVendido = "Aún no hay";
 		}
 		lblCmbMenosComp = new JLabel(comboMenosVendido);
 		lblCmbMenosComp.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -346,7 +461,7 @@ public class ListarDatosGenerales extends JDialog {
 		if (facturaAux != null) {
 			facturaMasCara = new String(facturaAux.getCodigo() + " - " + facturaAux.getPrecioTotal());
 		}else {
-			facturaMasCara = "";
+			facturaMasCara = "Aún no hay";
 		}
 		lblFactMasCara = new JLabel(facturaMasCara);
 		lblFactMasCara.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -368,7 +483,7 @@ public class ListarDatosGenerales extends JDialog {
 		if (facturaAux2 != null) {
 			facturaMenosCara = new String(facturaAux2.getCodigo() + " - " + facturaAux2.getPrecioTotal());
 		}else {
-			facturaMenosCara = "";
+			facturaMenosCara = "Aún no hay";
 		}
 		lblFactMenosCara = new JLabel(facturaMenosCara);
 		lblFactMenosCara.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -428,32 +543,6 @@ public class ListarDatosGenerales extends JDialog {
 		panel7.setBounds(13, 563, 445, 4);
 		panelFacturas.add(panel7);
 		
-		panelVendedores = new JPanel();
-		panelVendedores.setVisible(false);
-		panelVendedores.setLayout(null);
-		panelVendedores.setBounds(346, 43, 759, 647);
-		contentPanel.add(panelVendedores);
-		
-		JLabel lblVendedorDelMes = new JLabel("Vendedor del mes:");
-		lblVendedorDelMes.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblVendedorDelMes.setBounds(12, 13, 458, 69);
-		panelVendedores.add(lblVendedorDelMes);
-		
-		lblVendedorMes = new JLabel("Fulanito");
-		lblVendedorMes.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblVendedorMes.setBounds(13, 80, 565, 57);
-		panelVendedores.add(lblVendedorMes);
-		
-		JPanel panel8 = new JPanel();
-		panel8.setBackground(new Color(0, 155, 124));
-		panel8.setBounds(13, 137, 445, 4);
-		panelVendedores.add(panel8);
-		
-		JLabel lblVendedorMasFacturas = new JLabel("Vendedor con m\u00E1s facturas realizadas:");
-		lblVendedorMasFacturas.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblVendedorMasFacturas.setBounds(7, 157, 637, 69);
-		panelVendedores.add(lblVendedorMasFacturas);
-		
 		Vendedor vendedorAux = Tienda.getInstance().vendedorConMasFacturas();
 		String vendedorConMasFacturas = null;
 		if (vendedorAux != null) {
@@ -461,37 +550,6 @@ public class ListarDatosGenerales extends JDialog {
 		}else {
 			vendedorConMasFacturas = "";
 		}
-		lblVendedorMasFact = new JLabel(vendedorConMasFacturas);
-		lblVendedorMasFact.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblVendedorMasFact.setBounds(8, 225, 565, 57);
-		panelVendedores.add(lblVendedorMasFact);
-		
-		JPanel panel9 = new JPanel();
-		panel9.setBackground(new Color(0, 155, 124));
-		panel9.setBounds(8, 281, 445, 4);
-		panelVendedores.add(panel9);
-		
-		JLabel lblVendedorMenosFacturas = new JLabel("Vendedor con menos facturas realizadas:");
-		lblVendedorMenosFacturas.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblVendedorMenosFacturas.setBounds(7, 298, 657, 69);
-		panelVendedores.add(lblVendedorMenosFacturas);
-		
-		Vendedor vendedorAux2 = Tienda.getInstance().vendedorConMenosFacturas();
-		String vendedorConMenosFacturas = null;
-		if (vendedorAux2 != null) {
-			vendedorConMenosFacturas = new String(vendedorAux2.getNombre() + " - " + vendedorAux2.getCedula());
-		}else {
-			vendedorConMenosFacturas = "";
-		}
-		lblVendedorMenosFact = new JLabel(vendedorConMenosFacturas);
-		lblVendedorMenosFact.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblVendedorMenosFact.setBounds(8, 370, 565, 57);
-		panelVendedores.add(lblVendedorMenosFact);
-		
-		JPanel panel10 = new JPanel();
-		panel10.setBackground(new Color(0, 155, 124));
-		panel10.setBounds(8, 422, 445, 4);
-		panelVendedores.add(panel10);
 		
 		panelProductos = new JPanel();
 		panelProductos.setVisible(false);
@@ -506,7 +564,7 @@ public class ListarDatosGenerales extends JDialog {
 		
 		String productoMasComprado = Tienda.getInstance().productoMasComprado();
 		if (productoMasComprado == null) {
-			productoMasComprado = "Ninguno";
+			productoMasComprado = "Aún no hay";
 		}
 		lblProdMasComprado = new JLabel(productoMasComprado);
 		lblProdMasComprado.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -525,7 +583,7 @@ public class ListarDatosGenerales extends JDialog {
 		
 		String productoMenosComprado = Tienda.getInstance().productoMenosComprado();
 		if (productoMenosComprado == null) {
-			productoMenosComprado = "Ninguno";
+			productoMenosComprado = "Aún no hay";
 		}
 		lblProdMenosComprado = new JLabel(productoMenosComprado);
 		lblProdMenosComprado.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -547,10 +605,16 @@ public class ListarDatosGenerales extends JDialog {
 		lblClienteMes.setBounds(12, 13, 315, 69);
 		panelClientes.add(lblClienteMes);
 		
-		lblFulanito = new JLabel("Fulanito");
-		lblFulanito.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblFulanito.setBounds(13, 80, 565, 57);
-		panelClientes.add(lblFulanito);
+		lblClienteDelMes = new JLabel("");
+		if (Tienda.getInstance().clienteDelMes() == null) {
+			lblClienteDelMes.setText("Aún no hay");
+		}
+		else {
+			lblClienteDelMes.setText(Tienda.getInstance().clienteDelMes().getNombre() + " | " + Tienda.getInstance().clienteDelMes().getCedula());
+		}
+		lblClienteDelMes.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblClienteDelMes.setBounds(13, 80, 565, 57);
+		panelClientes.add(lblClienteDelMes);
 		
 		JPanel panel13 = new JPanel();
 		panel13.setBackground(new Color(0, 155, 124));
@@ -567,7 +631,7 @@ public class ListarDatosGenerales extends JDialog {
 		if (clienteMasCompra != null) {
 			nombreCliente = new String(clienteMasCompra.getNombre() + " - " + clienteMasCompra.getCedula() + " - " + clienteMasCompra.getCantCompras());
 		}else {
-			nombreCliente = "";
+			nombreCliente = "Aún no hay";
 		}
 		lblClienteMasComp = new JLabel(nombreCliente);
 		lblClienteMasComp.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -589,7 +653,7 @@ public class ListarDatosGenerales extends JDialog {
 		if (clienteMenosCompra != null) {
 			nombreCliente2 = new String(clienteMenosCompra.getNombre() + " - " + clienteMenosCompra.getCedula() + " - " + clienteMenosCompra.getCantCompras());
 		}else {
-			nombreCliente2 = "";
+			nombreCliente2 = "Aún no hay";
 		}
 		lblClienteMenosComp = new JLabel(nombreCliente2);
 		lblClienteMenosComp.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -611,7 +675,7 @@ public class ListarDatosGenerales extends JDialog {
 		if (clienteMayorDeuda != null) {
 			clienteMasDeuda = new String(clienteMayorDeuda.getNombre() + " - " + clienteMayorDeuda.getCedula());
 		}else {
-			clienteMasDeuda = "";
+			clienteMasDeuda = "Aún no hay";
 		}
 		lblClientMayorDeuda = new JLabel(clienteMasDeuda);
 		lblClientMayorDeuda.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -622,6 +686,68 @@ public class ListarDatosGenerales extends JDialog {
 		panel16.setBackground(new Color(0, 155, 124));
 		panel16.setBounds(13, 563, 445, 4);
 		panelClientes.add(panel16);
+		
+		panelVendedores = new JPanel();
+		panelVendedores.setVisible(false);
+		panelVendedores.setLayout(null);
+		panelVendedores.setBounds(346, 43, 759, 647);
+		contentPanel.add(panelVendedores);
+		
+		JLabel lblVendedorDelMes = new JLabel("Vendedor del mes");
+		lblVendedorDelMes.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblVendedorDelMes.setBounds(12, 13, 458, 69);
+		panelVendedores.add(lblVendedorDelMes);
+		
+		lblVendedorMes = new JLabel("");
+		if (Tienda.getInstance().vendedorDelMes() == null) {
+			lblVendedorMes.setText("Aún no hay");
+		}
+		else {
+			lblVendedorMes.setText(Tienda.getInstance().vendedorDelMes().getNombre() + "!" + " | " + Tienda.getInstance().vendedorDelMes().getCedula());
+		}
+		lblVendedorMes.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblVendedorMes.setBounds(13, 80, 565, 57);
+		panelVendedores.add(lblVendedorMes);
+		
+		JPanel panel8 = new JPanel();
+		panel8.setBackground(new Color(0, 155, 124));
+		panel8.setBounds(13, 137, 445, 4);
+		panelVendedores.add(panel8);
+		
+		JLabel lblVendedorMasFacturas = new JLabel("Vendedor con m\u00E1s facturas realizadas:");
+		lblVendedorMasFacturas.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblVendedorMasFacturas.setBounds(7, 157, 637, 69);
+		panelVendedores.add(lblVendedorMasFacturas);
+		lblVendedorMasFact = new JLabel(vendedorConMasFacturas);
+		lblVendedorMasFact.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblVendedorMasFact.setBounds(8, 225, 565, 57);
+		panelVendedores.add(lblVendedorMasFact);
+		
+		JPanel panel9 = new JPanel();
+		panel9.setBackground(new Color(0, 155, 124));
+		panel9.setBounds(8, 281, 445, 4);
+		panelVendedores.add(panel9);
+		
+		Vendedor vendedorAux2 = Tienda.getInstance().vendedorConMenosFacturas();
+		String vendedorConMenosFacturas = null;
+		if (vendedorAux2 != null) {
+			vendedorConMenosFacturas = new String(vendedorAux2.getNombre() + " - " + vendedorAux2.getCedula());
+		}else {
+			vendedorConMenosFacturas = "Aún no hay";
+		}
+		JLabel lblVendedorMenosFacturas = new JLabel("Vendedor con menos facturas realizadas:");
+		lblVendedorMenosFacturas.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblVendedorMenosFacturas.setBounds(7, 298, 657, 69);
+		panelVendedores.add(lblVendedorMenosFacturas);
+		lblVendedorMenosFact = new JLabel(vendedorConMenosFacturas);
+		lblVendedorMenosFact.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblVendedorMenosFact.setBounds(8, 370, 565, 57);
+		panelVendedores.add(lblVendedorMenosFact);
+		
+		JPanel panel10 = new JPanel();
+		panel10.setBackground(new Color(0, 155, 124));
+		panel10.setBounds(8, 422, 445, 4);
+		panelVendedores.add(panel10);
 		loadTableCombo();
 	}
 	

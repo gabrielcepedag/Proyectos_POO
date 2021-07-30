@@ -345,6 +345,7 @@ public class RegFactura extends JDialog {
 					Home.loadTableFactura(0, null);
 					if (Tienda.getInstance().CrearFactura(factura)) {
 						JOptionPane.showMessageDialog(null, "¡La factura ha sido registrada satisfactoriamente!", "Información", JOptionPane.INFORMATION_MESSAGE);
+						Home.loadTableFactura(0, null);
 					}else {
 						JOptionPane.showMessageDialog(null, "¡ERROR! La factura NO ha sido registrada.", "Error", JOptionPane.ERROR_MESSAGE);
 						auxVendedor.setTotalVendido(auxVendedor.getTotalVendido() - factura.getPrecioTotal());

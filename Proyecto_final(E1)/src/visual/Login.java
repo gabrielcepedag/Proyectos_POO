@@ -237,7 +237,6 @@ public class Login extends JFrame implements Serializable{
 					try {
 						frame = new Home();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					dispose();
