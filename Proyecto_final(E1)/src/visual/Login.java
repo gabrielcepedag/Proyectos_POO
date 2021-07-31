@@ -233,7 +233,13 @@ public class Login extends JFrame implements Serializable{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (Tienda.getInstance().confirmLogin(txtUSer.getText(), txtPassword.getText())) {
-					Home frame = new Home();
+					Home frame = null;
+					try {
+						frame = new Home();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					dispose();
 					frame.setVisible(true);
 				}

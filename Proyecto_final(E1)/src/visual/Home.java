@@ -20,6 +20,7 @@ import logico.Tienda;
 import logico.Vendedor;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 
 import javax.swing.JLabel;
@@ -27,9 +28,12 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.ScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -42,7 +46,11 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
@@ -83,6 +91,7 @@ public class Home extends JFrame {
 	 private Factura selectedFactura = null;
 	 private static JLabel lblNombre;
 	 private static JLabel lblClass;
+	 private JLabel lblImagen;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -97,7 +106,7 @@ public class Home extends JFrame {
 		});
 	}
 
-	public Home() {
+	public Home() throws IOException {
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1400, 886);
@@ -160,7 +169,13 @@ public class Home extends JFrame {
 		lblCuenta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				RegVendedor regVendedor = new RegVendedor(Tienda.getInstance().getLoginUserEmpleado());
+				RegVendedor regVendedor = null;
+				try {
+					regVendedor = new RegVendedor(Tienda.getInstance().getLoginUserEmpleado());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				regVendedor.setModal(true);
 				regVendedor.setVisible(true);
 			}
@@ -823,11 +838,11 @@ public class Home extends JFrame {
 		lblNombre.setBounds(99, 238, 219, 78);
 		panel.add(lblNombre);
 		
-		JLabel label_1 = new JLabel("");
-		label_1.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/CirculoFotoUser.png")));
-		label_1.setHorizontalAlignment(SwingConstants.CENTER);
-		label_1.setBounds(115, 58, 187, 202);
-		panel.add(label_1);
+		lblImagen = new JLabel("");
+		lblImagen.setBorder(new LineBorder(new Color(0, 155, 124), 5));
+		lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
+		lblImagen.setBounds(118, 60, 187, 187);
+		panel.add(lblImagen);
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -846,6 +861,16 @@ public class Home extends JFrame {
 		}
 		if (Tienda.getInstance().getLoginUserEmpleado().getClass().getSimpleName().equalsIgnoreCase("Administrador")) {
 			crearFactura.setEnabled(false);
+		}
+		
+		if (Tienda.getInstance().getLoginUserEmpleado() instanceof Vendedor) {
+	        File f = new File("src/ImagenesEmpleados/Archivo"+Tienda.getInstance().getLoginUserEmpleado().getCedula()+".jpg");
+	        Image bi;
+			bi = ImageIO.read(f);
+			lblImagen.setIcon(new ImageIcon(bi.getScaledInstance(187, 187, 0)));
+		}
+		else {
+			lblImagen.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/AdminDefectIcon.png")));
 		}
 	}
 	

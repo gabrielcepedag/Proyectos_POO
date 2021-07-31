@@ -24,6 +24,8 @@ import java.awt.Font;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 
@@ -146,7 +148,13 @@ public class ListarVendedor extends JDialog {
 		nuevo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				RegVendedor regVendedor = new RegVendedor(null);
+				RegVendedor regVendedor = null;
+				try {
+					regVendedor = new RegVendedor(null);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				regVendedor.setModal(true);
 				regVendedor.setVisible(true);
 			}
@@ -210,7 +218,13 @@ public class ListarVendedor extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (Modificar.isEnabled()) {
-					RegVendedor regVendedor = new RegVendedor(selectedVendedor);
+					RegVendedor regVendedor = null;
+					try {
+						regVendedor = new RegVendedor(selectedVendedor);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					regVendedor.setModal(true);
 					regVendedor.setVisible(true);
 				}
