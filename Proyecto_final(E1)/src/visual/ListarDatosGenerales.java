@@ -388,6 +388,7 @@ public class ListarDatosGenerales extends JDialog {
 				JFreeChart grafico = ChartFactory.createBarChart3D("Ventas de los últimos 5 días", "Total de Ventas de cada día", "Total vendido", datos, PlotOrientation.VERTICAL, true, true, false);
 		        BufferedImage image = grafico.createBufferedImage(700,600);
 		        lblGraficoImprimir.setIcon(new ImageIcon(image));
+		        
 			}
 		});
 		lblGrafico.setIcon(new ImageIcon(ListarDatosGenerales.class.getResource("/Imagenes/EstadisticaIcon.png")));
