@@ -271,7 +271,7 @@ public class RegVendedor extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				if (selected == null) {
 					if (txtcedula.getText().equalsIgnoreCase("") || txtDireccion.getText().equalsIgnoreCase("") || txtNombre.getText().equalsIgnoreCase("") || txtPassword.getPassword().length == 0
-							|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("")) {
+							|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("") || labelIcon.getIcon() == null) {
 						JOptionPane.showMessageDialog(null, "Debes llenar todos los campos !", "Registro de Vendedor", JOptionPane.WARNING_MESSAGE);
 					}else {
 						Vendedor vendedor = new Vendedor(txtUsername.getText(), txtPassword.getText(), txtNombre.getText(), txtcedula.getText(), txtTelefono.getText(), txtDireccion.getText());
@@ -279,12 +279,13 @@ public class RegVendedor extends JDialog {
 						JOptionPane.showMessageDialog(null, "Vendedor registrado correctamente", "Registrar vendedor", JOptionPane.CLOSED_OPTION);
 						clean();
 						ListarVendedor.loadTableVendedor(null);
+						CopiarYPegar copiarYPegar = new CopiarYPegar(f.getPath(), "src/ImagenesEmpleados/Archivo"+txtcedula.getText()+".jpg");
 					}
 				}
 				else {
 					if (selected instanceof Vendedor) {
 						if (txtcedula.getText().equalsIgnoreCase("") || txtDireccion.getText().equalsIgnoreCase("") || txtNombre.getText().equalsIgnoreCase("") || txtPassword.getPassword().length == 0
-								|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("")) {
+								|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("") || labelIcon.getIcon() == null) {
 							JOptionPane.showMessageDialog(null, "Debes llenar todos los campos!", "Modificar Vendedor", JOptionPane.WARNING_MESSAGE);
 						}else {
 							 selected.setCedula(txtcedula.getText());
