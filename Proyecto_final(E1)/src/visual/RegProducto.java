@@ -80,6 +80,7 @@ public class RegProducto extends JDialog {
 	Producto productSelected = null;
 	private JLabel lblTitle;
 	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
 
 	/**
 	 * Launch the application.
@@ -320,8 +321,14 @@ public class RegProducto extends JDialog {
 		txtCapacidadDiscoDuro.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		txtCapacidadDiscoDuro.setColumns(10);
 		txtCapacidadDiscoDuro.setBackground(Color.WHITE);
-		txtCapacidadDiscoDuro.setBounds(190, 82, 469, 50);
+		txtCapacidadDiscoDuro.setBounds(190, 82, 400, 50);
 		panelDiscoDuro.add(txtCapacidadDiscoDuro);
+		
+		lblNewLabel_2 = new JLabel("GB");
+		lblNewLabel_2.setForeground(Color.BLACK);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel_2.setBounds(600, 82, 56, 50);
+		panelDiscoDuro.add(lblNewLabel_2);
 		
 		panelRegistro = new JPanel();
 		panelRegistro.setLayout(null);

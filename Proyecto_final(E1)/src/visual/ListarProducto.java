@@ -298,7 +298,7 @@ public class ListarProducto extends JDialog {
 
 		switch (selection) {
 		case 0:
-			String headerProducto[] = {"Número de serie", "Marca", "Precio", "Cantidad","Disp. min", "Categoría"};
+			String headerProducto[] = {"# de serie", "Marca", "Precio", "Cantidad","Disp. min", "Categoría"};
 			modelProductos.setColumnIdentifiers(headerProducto);
 			
 			for (Producto producto : Tienda.getInstance().getMisProductos()) {
@@ -323,7 +323,11 @@ public class ListarProducto extends JDialog {
 					rows[2] = producto.getPrecio();
 					rows[3] = producto.getCantidad();
 					rows[4] = ((DiscoDuro)producto).getModelo();
-					rows[5] = ((DiscoDuro)producto).getCapacidad()+" GB";
+					if (((DiscoDuro)producto).getCapacidad() >= 1024) {
+						rows[5] = ((DiscoDuro)producto).getCapacidad() / 1024 + " TB";
+					}else {
+						rows[5] = ((DiscoDuro)producto).getCapacidad() + " GB";
+					}
 					modelProductos.addRow(rows);
 				}
 			}
@@ -338,7 +342,11 @@ public class ListarProducto extends JDialog {
 					rows[1] = producto.getMarca();
 					rows[2] = producto.getPrecio();
 					rows[3] = producto.getCantidad();
-					rows[4] = ((MemoriaRam)producto).getCapacidad() + " GB";
+					if (((MemoriaRam)producto).getCapacidad() >= 1024) {
+						rows[4] = ((MemoriaRam)producto).getCapacidad() / 1024 + " TB";
+					}else {
+						rows[4] = ((MemoriaRam)producto).getCapacidad() + " GB";
+					}
 					rows[5] = ((MemoriaRam)producto).getTipoMemoria();
 					modelProductos.addRow(rows);
 				}

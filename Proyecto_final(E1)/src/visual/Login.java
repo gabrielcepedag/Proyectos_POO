@@ -132,6 +132,7 @@ public class Login extends JFrame implements Serializable{
 					e1.printStackTrace();
 				}
 				dispose();
+				
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
