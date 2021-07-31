@@ -119,10 +119,12 @@ public class RegVendedor extends JDialog {
 				        jfc.showOpenDialog(null);
 				        f = jfc.getSelectedFile();
 				        Image bi;
-						bi = ImageIO.read(f);
-						labelIcon.setText("");
-						labelIcon.setIcon(new ImageIcon(bi.getScaledInstance(234,203, 0)));
-					    CopiarYPegar copiarYPegar = new CopiarYPegar(f.getPath(), "src/ImagenesEmpleados/Archivo"+txtcedula.getText()+".jpg");
+				        if (f != null) {
+				        	bi = ImageIO.read(f);
+							labelIcon.setText("");
+							labelIcon.setIcon(new ImageIcon(bi.getScaledInstance(234,203, 0)));
+						    CopiarYPegar copiarYPegar = new CopiarYPegar(f.getPath(), "src/ImagenesEmpleados/Archivo"+txtcedula.getText()+".jpg");
+						}
 					} catch (IOException i) {
 						i.printStackTrace();
 					}
