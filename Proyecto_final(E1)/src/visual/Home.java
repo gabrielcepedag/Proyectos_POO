@@ -143,7 +143,7 @@ public class Home extends JFrame {
 		lblX.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				int option = JOptionPane.showConfirmDialog(null, "Desea cerrar sesión ?", "Cierre de sesión",JOptionPane.YES_NO_OPTION);
+				int option = JOptionPane.showConfirmDialog(null, "¿Desea cerrar sesión?", "Cierre de sesión",JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
 					FileOutputStream tienda2;
 					ObjectOutputStream tiendaWrite;
@@ -671,7 +671,7 @@ public class Home extends JFrame {
 		lblSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int option = JOptionPane.showConfirmDialog(null, "Desea cerrar sesión ?", "Cierre de sesión",JOptionPane.YES_NO_OPTION);
+				int option = JOptionPane.showConfirmDialog(null, "¿Desea cerrar sesión?", "Cierre de sesión",JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
 					FileOutputStream tienda2;
 					ObjectOutputStream tiendaWrite;

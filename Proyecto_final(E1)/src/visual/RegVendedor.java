@@ -122,17 +122,6 @@ public class RegVendedor extends JDialog {
 		lblCargarImagen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				try {
-					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				} catch (ClassNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (InstantiationException e1) {
-					e1.printStackTrace();
-				} catch (IllegalAccessException e1) {
-					e1.printStackTrace();
-				} catch (UnsupportedLookAndFeelException e1) {
-					e1.printStackTrace();
-				}
 				if (lblCargarImagen.isEnabled()) {
 					try {
 						JFileChooser jfc = new JFileChooser();
@@ -144,7 +133,6 @@ public class RegVendedor extends JDialog {
 				        	bi = ImageIO.read(f);
 							labelIcon.setText("");
 							labelIcon.setIcon(new ImageIcon(bi.getScaledInstance(234,203, 0)));
-						    CopiarYPegar copiarYPegar = new CopiarYPegar(f.getPath(), "src/ImagenesEmpleados/Archivo"+txtcedula.getText()+".jpg");
 						}
 					} catch (IOException i) {
 						i.printStackTrace();
@@ -299,9 +287,9 @@ public class RegVendedor extends JDialog {
 						if (Tienda.getInstance().verificarUserRegistrar(vendedor.getUsername()) == true) {
 							Tienda.getInstance().addEmpleado(vendedor);
 							JOptionPane.showMessageDialog(null, "Vendedor registrado correctamente", "Registrar vendedor", JOptionPane.CLOSED_OPTION);
-							clean();
 							ListarVendedor.loadTableVendedor(null);
 							CopiarYPegar copiarYPegar = new CopiarYPegar(f.getPath(), "src/ImagenesEmpleados/Archivo"+txtcedula.getText()+".jpg");
+							clean();
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Este user ya está ocupado", "Registrar vendedor", JOptionPane.WARNING_MESSAGE);
@@ -326,6 +314,7 @@ public class RegVendedor extends JDialog {
 								 try {
 									loadEmpleado();
 								} catch (IOException e1) {
+									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
 								 ListarVendedor.loadTableVendedor(null);
