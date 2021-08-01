@@ -24,12 +24,17 @@ import javax.swing.JOptionPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
+import java.nio.file.DirectoryStream.Filter;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -42,6 +47,9 @@ import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.jfree.ui.ExtensionFileFilter;
 
 public class RegVendedor extends JDialog {
 
@@ -108,14 +116,27 @@ public class RegVendedor extends JDialog {
 		labelIcon.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		lblCargarImagen = new JLabel("Cargar Imagen");
+		lblCargarImagen.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblCargarImagen.setBounds(552, 496, 321, 55);
 		panelRegistro.add(lblCargarImagen);
 		lblCargarImagen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				} catch (ClassNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (InstantiationException e1) {
+					e1.printStackTrace();
+				} catch (IllegalAccessException e1) {
+					e1.printStackTrace();
+				} catch (UnsupportedLookAndFeelException e1) {
+					e1.printStackTrace();
+				}
 				if (lblCargarImagen.isEnabled()) {
 					try {
 						JFileChooser jfc = new JFileChooser();
+						jfc.setDialogTitle("Busca la imagen");
 				        jfc.showOpenDialog(null);
 				        f = jfc.getSelectedFile();
 				        Image bi;
@@ -275,11 +296,16 @@ public class RegVendedor extends JDialog {
 						JOptionPane.showMessageDialog(null, "Debes llenar todos los campos !", "Registro de Vendedor", JOptionPane.WARNING_MESSAGE);
 					}else {
 						Vendedor vendedor = new Vendedor(txtUsername.getText(), txtPassword.getText(), txtNombre.getText(), txtcedula.getText(), txtTelefono.getText(), txtDireccion.getText());
-						Tienda.getInstance().addEmpleado(vendedor);
-						JOptionPane.showMessageDialog(null, "Vendedor registrado correctamente", "Registrar vendedor", JOptionPane.CLOSED_OPTION);
-						clean();
-						ListarVendedor.loadTableVendedor(null);
-						CopiarYPegar copiarYPegar = new CopiarYPegar(f.getPath(), "src/ImagenesEmpleados/Archivo"+txtcedula.getText()+".jpg");
+						if (Tienda.getInstance().verificarUserRegistrar(vendedor.getUsername()) == true) {
+							Tienda.getInstance().addEmpleado(vendedor);
+							JOptionPane.showMessageDialog(null, "Vendedor registrado correctamente", "Registrar vendedor", JOptionPane.CLOSED_OPTION);
+							clean();
+							ListarVendedor.loadTableVendedor(null);
+							CopiarYPegar copiarYPegar = new CopiarYPegar(f.getPath(), "src/ImagenesEmpleados/Archivo"+txtcedula.getText()+".jpg");
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Este user ya está ocupado", "Registrar vendedor", JOptionPane.WARNING_MESSAGE);
+						}
 					}
 				}
 				else {
@@ -288,21 +314,25 @@ public class RegVendedor extends JDialog {
 								|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("") || labelIcon.getIcon() == null) {
 							JOptionPane.showMessageDialog(null, "Debes llenar todos los campos!", "Modificar Vendedor", JOptionPane.WARNING_MESSAGE);
 						}else {
-							 selected.setCedula(txtcedula.getText());
-							 selected.setDireccion(txtDireccion.getText());
-							 selected.setNombre(txtNombre.getText());
-							 selected.setTelefono(txtTelefono.getText());
-							 selected.setUsername(txtUsername.getText());
-							 selected.setPassword(txtPassword.getText());
-							 CopiarYPegar copiarYPegar = new CopiarYPegar(f.getPath(), "src/ImagenesEmpleados/Archivo"+txtcedula.getText()+".jpg");
-							 JOptionPane.showMessageDialog(null, "Vendedor modificado correctamente", "Modificar Vendedor", JOptionPane.CLOSED_OPTION);
-							 try {
-								loadEmpleado();
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+							if (Tienda.getInstance().verificarUser(txtUsername.getText(), Tienda.getInstance().buscarIndexEmpleado(selected)) == true) {
+								selected.setCedula(txtcedula.getText());
+								 selected.setDireccion(txtDireccion.getText());
+								 selected.setNombre(txtNombre.getText());
+								 selected.setTelefono(txtTelefono.getText());
+								 selected.setUsername(txtUsername.getText());
+								 selected.setPassword(txtPassword.getText());
+								 CopiarYPegar copiarYPegar = new CopiarYPegar(f.getPath(), "src/ImagenesEmpleados/Archivo"+selected.getCedula()+".jpg");
+								 JOptionPane.showMessageDialog(null, "Vendedor modificado correctamente", "Modificar Vendedor", JOptionPane.CLOSED_OPTION);
+								 try {
+									loadEmpleado();
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+								 ListarVendedor.loadTableVendedor(null);
 							}
-							 ListarVendedor.loadTableVendedor(null);
+							else {
+								 JOptionPane.showMessageDialog(null, "Este User ya está ocupado", "Modificar Vendedor", JOptionPane.WARNING_MESSAGE);
+							}
 						}
 					}
 				}
@@ -311,6 +341,7 @@ public class RegVendedor extends JDialog {
 							|| txtTelefono.getText().equalsIgnoreCase("") || txtUsername.getText().equalsIgnoreCase("")) {
 						JOptionPane.showMessageDialog(null, "Debes llenar todos los campos!", "Modificar Administrador", JOptionPane.WARNING_MESSAGE);
 					}else {
+						if (Tienda.getInstance().verificarUser(txtUsername.getText(), Tienda.getInstance().buscarIndexEmpleado(selected)) == true) {
 						 selected.setCedula(txtcedula.getText());
 						 selected.setDireccion(txtDireccion.getText());
 						 selected.setNombre(txtNombre.getText());
@@ -319,6 +350,10 @@ public class RegVendedor extends JDialog {
 						 selected.setPassword(txtPassword.getText());
 						 JOptionPane.showMessageDialog(null, "Administrador modificado correctamente", "Modificar Administrador", JOptionPane.CLOSED_OPTION);
 						 Home.loadHome();
+						}
+						else {
+							 JOptionPane.showMessageDialog(null, "Este user ya está ocupado", "Modificar Administrador", JOptionPane.WARNING_MESSAGE);
+						}
 					}
 				}
 			}
@@ -373,7 +408,7 @@ public class RegVendedor extends JDialog {
 		txtPassword.setText(selected.getPassword());
 		txtTelefono.setText(selected.getTelefono());
 		txtUsername.setText(selected.getUsername());
-		File f = new File("src/ImagenesEmpleados/Archivo"+selected.getCedula()+".jpg");
+		f = new File("src/ImagenesEmpleados/Archivo"+selected.getCedula()+".jpg");
 		if (f != null) {
 			 Image bi;
 			 bi = ImageIO.read(f);

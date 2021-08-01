@@ -479,14 +479,13 @@ public class ListarDatosGenerales extends JDialog {
 		lblFacturaMenosCara.setBounds(7, 157, 637, 69);
 		panelFacturas.add(lblFacturaMenosCara);
 		
-		Factura facturaAux2 = Tienda.getInstance().facturaMenosCara();
-		String facturaMenosCara = null;
-		if (facturaAux2 != null) {
-			facturaMenosCara = new String(facturaAux2.getCodigo() + " - " + facturaAux2.getPrecioTotal());
-		}else {
-			facturaMenosCara = "Aún no hay";
+		lblFactMenosCara = new JLabel("");
+		if (Tienda.getInstance().facturaMenosCara() == null) {
+			lblFactMenosCara.setText("Aún no hay");
 		}
-		lblFactMenosCara = new JLabel(facturaMenosCara);
+		else {
+			lblFactMenosCara.setText(Tienda.getInstance().facturaMenosCara().getCodigo() + " - " + Tienda.getInstance().facturaMenosCara().getPrecioTotal());
+		}
 		lblFactMenosCara.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblFactMenosCara.setBounds(8, 225, 565, 57);
 		panelFacturas.add(lblFactMenosCara);
@@ -543,14 +542,6 @@ public class ListarDatosGenerales extends JDialog {
 		panel7.setBackground(new Color(0, 155, 124));
 		panel7.setBounds(13, 563, 445, 4);
 		panelFacturas.add(panel7);
-		
-		Vendedor vendedorAux = Tienda.getInstance().vendedorConMasFacturas();
-		String vendedorConMasFacturas = null;
-		if (vendedorAux != null) {
-			vendedorConMasFacturas = new String(vendedorAux.getNombre() + " - " + vendedorAux.getCedula());
-		}else {
-			vendedorConMasFacturas = "";
-		}
 		
 		panelProductos = new JPanel();
 		panelProductos.setVisible(false);
@@ -719,6 +710,14 @@ public class ListarDatosGenerales extends JDialog {
 		lblVendedorMasFacturas.setFont(new Font("Tahoma", Font.PLAIN, 35));
 		lblVendedorMasFacturas.setBounds(7, 157, 637, 69);
 		panelVendedores.add(lblVendedorMasFacturas);
+		
+		Vendedor vendedorAux = Tienda.getInstance().vendedorConMasFacturas();
+		String vendedorConMasFacturas = null;
+		if (vendedorAux != null) {
+			vendedorConMasFacturas = new String(vendedorAux.getNombre() + " - " + vendedorAux.getCedula());
+		}else {
+			vendedorConMasFacturas = "Aún no hay";
+		}
 		lblVendedorMasFact = new JLabel(vendedorConMasFacturas);
 		lblVendedorMasFact.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblVendedorMasFact.setBounds(8, 225, 565, 57);

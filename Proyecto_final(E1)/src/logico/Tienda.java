@@ -410,6 +410,9 @@ public class Tienda implements Serializable{
 	
 	public Cliente getClienteMenosCompras() {
 		Cliente aux = null;
+		if (getClienteMasCompras() == null) {
+			return null;
+		}
 		int menor = getClienteMasCompras().getCantCompras();
 		
 		for (Cliente cliente : misClientes) {
@@ -596,8 +599,13 @@ public class Tienda implements Serializable{
 	
 	public Factura facturaMenosCara() {
 		Factura aux = null;
-		float menor = facturaMasCara().getPrecioTotal();
-		
+		float menor = 0;
+		if (facturaMasCara() == null) {
+			return null;
+		}
+		else {
+			menor = facturaMasCara().getPrecioTotal();
+		}
 		for (Factura factura : misFacturas) {
 			if (factura.getPrecioTotal() < menor) {
 				menor = factura.getPrecioTotal();
@@ -684,5 +692,33 @@ public class Tienda implements Serializable{
 			return null;
 		}
 		return aux;
+	}
+
+	public boolean verificarUser(String username, int indexEmpleado) {
+		boolean diferente = true;
+		int i = 0;
+		for (Empleado empleado : misEmpleados) {
+			if (empleado.getUsername().equals(username) && i != indexEmpleado) {
+				diferente = false;
+				break;
+			}
+			i++;
+		}
+		return diferente;
+	}
+
+	public boolean verificarUserRegistrar(String username) {
+		boolean diferente = true;
+		for (Empleado empleado : misEmpleados) {
+			if (empleado.getUsername().equals(username)) {
+				diferente = false;
+				break;
+			}
+		}
+		return diferente;
+	}
+
+	public int buscarIndexEmpleado(Empleado selected) {
+		return misEmpleados.indexOf(selected);
 	}
 }
