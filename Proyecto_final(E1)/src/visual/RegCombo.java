@@ -327,6 +327,11 @@ public class RegCombo extends JDialog {
 		lblX.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				if (productosSelected.size() > 0) {
+					for (Producto producto : productosSelected) {
+						producto.setCantidad(producto.getCantidad() + 1);
+					}
+				}
 				dispose();
 			}
 			@Override
@@ -366,6 +371,11 @@ public class RegCombo extends JDialog {
 		lblCancelar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if (productosSelected.size() > 0) {
+					for (Producto producto : productosSelected) {
+						producto.setCantidad(producto.getCantidad() + 1);
+					}
+				}
 				dispose();
 			}
 		});

@@ -350,9 +350,9 @@ public class Tienda implements Serializable{
 			}
 		}
 		esPosible = true;
-		for (Producto producto : factura.getMisProductos()) {
+		/*for (Producto producto : factura.getMisProductos()) {
 			producto.setCantidad(producto.getCantidad() - 1);
-		}
+		}*/
 		addFactura(factura);
 		return esPosible;
 	}
