@@ -670,6 +670,10 @@ public class RegProducto extends JDialog {
 			spnDispMax.setValue(selected.getDispMax());
 			spnDispMin.setValue(selected.getDispMin());
 			
+			spnDispReal.setEnabled(false);
+			spnDispMax.setEnabled(false);
+			spnDispMin.setEnabled(false);
+			
 			if (selected instanceof DiscoDuro) {
 				btnMemoriaRam.setEnabled(false);
 				btnMicroProcesador.setEnabled(false);
