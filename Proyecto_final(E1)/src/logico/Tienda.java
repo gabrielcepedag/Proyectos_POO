@@ -258,6 +258,7 @@ public class Tienda implements Serializable{
 		return precioTotal;
 	}
 		
+	@SuppressWarnings("deprecation")
 	public Cliente clienteDelMes(){
 		Cliente clienteDelMes = null;
 		int comprasEnEsteMes = 0;
@@ -284,6 +285,7 @@ public class Tienda implements Serializable{
 		return clienteDelMes;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public Vendedor vendedorDelMes() {
 		float mayor = 0;
 		float montoEnEseMes = 0;

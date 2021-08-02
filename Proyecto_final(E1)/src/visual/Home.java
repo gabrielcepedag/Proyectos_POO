@@ -8,14 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
-
 import logico.Cliente;
 import logico.DiscoDuro;
-import logico.Empleado;
 import logico.Factura;
 import logico.MemoriaRam;
 import logico.MicroProcesador;
@@ -25,7 +19,6 @@ import logico.Tienda;
 import logico.Vendedor;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 
 import javax.swing.JLabel;
@@ -33,38 +26,28 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.ScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.time.chrono.HijrahEra;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.ResourceBundle.Control;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.Icon;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.JTextField;
-import javax.swing.JButton;
 
+@SuppressWarnings("serial")
 public class Home extends JFrame {
 
 	private JPanel contentPane;
@@ -184,7 +167,6 @@ public class Home extends JFrame {
 				try {
 					regVendedor = new RegVendedor(Tienda.getInstance().getLoginUserEmpleado());
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				regVendedor.setModal(true);

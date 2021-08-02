@@ -7,63 +7,43 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import logico.Cliente;
-import logico.Combo;
-import logico.CopiarYPegar;
-import logico.DiscoDuro;
 import logico.Factura;
-import logico.MemoriaRam;
-import logico.MicroProcesador;
-import logico.MotherBoard;
 import logico.Producto;
 import logico.Tienda;
-import logico.Vendedor;
 
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageInputStream;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Panel;
 import java.awt.Cursor;
 import java.awt.Desktop;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
 import javax.swing.UIManager;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.Image;
 
+@SuppressWarnings("serial")
 public class FacturaDetalles extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();

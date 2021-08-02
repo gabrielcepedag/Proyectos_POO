@@ -231,6 +231,7 @@ public class Login extends JFrame implements Serializable{
 		
 		JButton btnNewButton = new JButton("");
 		btnNewButton.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (Tienda.getInstance().confirmLogin(txtUSer.getText(), txtPassword.getText())) {
@@ -274,6 +275,7 @@ public class Login extends JFrame implements Serializable{
 		panel.add(label_7);
 		
 	}
+	
 	private void clean() {
 		txtUSer.setText("");
 		txtPassword.setText("");
