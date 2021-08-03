@@ -907,6 +907,7 @@ public class RegFactura extends JDialog {
 		if(auxCliente != null) {
 			if(total > auxCliente.getCredito() || Tienda.getInstance().clienteYaTieneCredito(auxCliente)) {
 				rdbtnFacturaACredito.setEnabled(false);
+				rdbtnFacturaACredito.setSelected(false);
 			}else {
 				rdbtnFacturaACredito.setEnabled(true);
 			}
