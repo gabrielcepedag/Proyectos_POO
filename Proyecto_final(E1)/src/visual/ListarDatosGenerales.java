@@ -340,7 +340,6 @@ public class ListarDatosGenerales extends JDialog {
 				lblFacturas.setBackground(new Color(36, 35, 38));
 				lblCombos.setBackground(new Color(36, 35, 38));
 				lblGrafico.setBackground(new Color(0, 155, 124));
-				lblGrafico.setBackground(new Color(36, 37, 38));
 				
 				Date fechaActual = new Date();
 				Calendar calendar = Calendar.getInstance();

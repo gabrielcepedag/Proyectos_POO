@@ -106,6 +106,8 @@ public class FacturaDetalles extends JDialog {
 				if (esPosible) {
 					lblMontoAbonar.setText(""+selectedFactura.getLineaCredito());
 					JOptionPane.showMessageDialog(null, "El monto ingresado ha sido abonado correctamente.");
+					selectedFactura.setACredito(false);
+					
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "El monto ingresado no pudo ser abonado. Revise el monto introducido", "Error", JOptionPane.ERROR_MESSAGE);
@@ -507,18 +509,6 @@ public class FacturaDetalles extends JDialog {
 			
 			model.addRow(rows);
 		}
-		
-		/*for (Producto producto : productosSinRepetir) {
-		cant = contProductosEnUnaFactura(producto, selectedFactura);
-		if (cant > 1) {
-			for (int i = 0; i < cant - 1; i++) {
-				productosSinRepetir.remove(productosSinRepetir.lastIndexOf(producto));
-			}
-			productos.add(producto);
-		}else {
-			productos.add(producto);
-		}
-	}*/
 	
 	}
 
