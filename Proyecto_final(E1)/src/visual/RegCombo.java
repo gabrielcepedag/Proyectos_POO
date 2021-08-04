@@ -105,16 +105,6 @@ public class RegCombo extends JDialog {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		/*Productos de prueba
-		Producto p1 = new MotherBoard("402", 3, 25000, "RTX", 1, 20, "QSY", "QSY", "QSY");
-		Producto p2 = new MemoriaRam("403", 100, 10000, "TridentZ", 1, 500, 32, "DDR4");
-		Producto p3 = new MicroProcesador("404", 2, 5500, "MSI", 10, 60, "QSY", "buena", 100);
-		Producto p4 = new DiscoDuro("405", 20, 4500, "Esto", 5, 90, "Funciona", 500, "Maravilla");
-		Tienda.getInstance().addProducto(p1);
-		Tienda.getInstance().addProducto(p2);
-		Tienda.getInstance().addProducto(p3);
-		Tienda.getInstance().addProducto(p4);*/
-		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(36, 37, 38));
 		contentPane.add(panel, BorderLayout.CENTER);
@@ -327,11 +317,11 @@ public class RegCombo extends JDialog {
 		lblX.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if (productosSelected.size() > 0) {
+				/*if (productosSelected.size() > 0) {
 					for (Producto producto : productosSelected) {
 						producto.setCantidad(producto.getCantidad() + 1);
 					}
-				}
+				}*/
 				dispose();
 			}
 			@Override
@@ -371,11 +361,11 @@ public class RegCombo extends JDialog {
 		lblCancelar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (productosSelected.size() > 0) {
+				/*if (productosSelected.size() > 0) {
 					for (Producto producto : productosSelected) {
 						producto.setCantidad(producto.getCantidad() + 1);
 					}
-				}
+				}*/
 				dispose();
 			}
 		});
@@ -418,6 +408,7 @@ public class RegCombo extends JDialog {
 					JOptionPane.showMessageDialog(null, "El combo ha sido modificado satisfactoriamente !", "Modificar Combo", JOptionPane.CLOSED_OPTION);
 					ListarCombo.loadTableCombo();
 					Home.loadHome();
+					dispose();
 				}
 				
 			}
@@ -442,6 +433,8 @@ public class RegCombo extends JDialog {
 			productosSelected.addAll(selectedCombo.getMisProductos());
 			selectedCombo.getMisProductos().clear();
 			loadProductosElegidos();
+			lblX.setEnabled(false);
+			lblCancelar.setEnabled(false);
 		}
 	}
 	

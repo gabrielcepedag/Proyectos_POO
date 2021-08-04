@@ -321,7 +321,7 @@ public class RegFactura extends JDialog {
 						}
 					}
 					Date fecha = new Date();
-					factura = new Factura(new String("F-0"+Factura.cod), auxVendedor, auxCliente, auxListCompra, fecha);
+					factura = new Factura(new String("F-"+Factura.cod), auxVendedor, auxCliente, auxListCompra, fecha);
 					if(rdbtnFacturaACredito.isSelected()) {
 						factura.setACredito(true);
 						factura.setLineaCredito(factura.getPrecioTotal());

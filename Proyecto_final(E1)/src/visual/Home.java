@@ -9,11 +9,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Cliente;
+import logico.Combo;
 import logico.DiscoDuro;
 import logico.Factura;
 import logico.MemoriaRam;
 import logico.MicroProcesador;
 import logico.MotherBoard;
+import logico.OrdenCompra;
 import logico.Producto;
 import logico.Tienda;
 import logico.Vendedor;
@@ -98,6 +100,18 @@ public class Home extends JFrame {
 	}
 
 	public Home() throws IOException {
+		
+		/*
+		Tienda.getInstance().getMisClientes().clear();
+		Tienda.getInstance().getMisFacturas().clear();
+		Tienda.getInstance().getMisProductos().clear();
+		Tienda.getInstance().getMisCombos().clear();
+		Tienda.getInstance().getMisEmpleados().clear();
+		Tienda.getInstance().getMisOrdenesCompra().clear();
+		Factura.cod = 1;
+		Combo.cod = 1;
+		OrdenCompra.numOrdenCompra = 1;*/
+		
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1400, 886);

@@ -106,13 +106,13 @@ public class FacturaDetalles extends JDialog {
 				if (esPosible) {
 					lblMontoAbonar.setText(""+selectedFactura.getLineaCredito());
 					JOptionPane.showMessageDialog(null, "El monto ingresado ha sido abonado correctamente.");
-					selectedFactura.setACredito(false);
-					
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "El monto ingresado no pudo ser abonado. Revise el monto introducido", "Error", JOptionPane.ERROR_MESSAGE);
 				}
+				Home.loadTableFactura(0, null);
 			}
+			
 		});
 		
 		lblImprimir = new JLabel("");
