@@ -13,6 +13,9 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import logico.Cliente;
 import logico.Combo;
@@ -38,6 +41,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -338,57 +342,30 @@ public class ListarDatosGenerales extends JDialog {
 				lblGrafico.setBackground(new Color(0, 155, 124));
 				lblGrafico.setBackground(new Color(36, 37, 38));
 				
-				float dia1 = 0, dia2 = 0, dia3 = 0, dia4 = 0, dia5 = 0;
 				Date fechaActual = new Date();
-				DefaultCategoryDataset datos = new DefaultCategoryDataset();
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(fechaActual);
-				
-				for (Factura factura : Tienda.getInstance().getMisFacturas()) {
-					if (calendar.getTime().getDay() == factura.getFecha().getDay()) {
-						dia5 += factura.getPrecioTotal();
+				XYSeries datos = new XYSeries("Ventas totales");
+
+				float montoDia = 0;
+
+				for (int i = 1; i <= calendar.get(calendar.DAY_OF_MONTH); i++) {
+					montoDia = 0;
+					for (Factura factura : Tienda.getInstance().getMisFacturas()) {
+						Calendar fechaFactura = Calendar.getInstance();
+						fechaFactura.setTime(factura.getFecha());
+						if (fechaFactura.get(calendar.DAY_OF_MONTH) == i && (fechaFactura.get(calendar.MONTH)+1) == (calendar.get(calendar.MONTH)+1) && fechaFactura.get(calendar.YEAR) == calendar.get(calendar.YEAR)) {
+							montoDia += factura.getPrecioTotal();
+						}
 					}
-				}
-				calendar.setTime(fechaActual);
-				calendar.add(Calendar.DAY_OF_MONTH, -1);
-				for (Factura factura : Tienda.getInstance().getMisFacturas()) {
-					if (calendar.getTime().getDay() == factura.getFecha().getDay()) {
-						dia4 += factura.getPrecioTotal();
-					}
-				}
-				calendar.add(Calendar.DAY_OF_MONTH, -1);
-				for (Factura factura : Tienda.getInstance().getMisFacturas()) {
-					if (calendar.getTime().getDay() == factura.getFecha().getDay()) {
-						dia3 += factura.getPrecioTotal();
-					}
-				}
-				calendar.add(Calendar.DAY_OF_MONTH, -1);
-				for (Factura factura : Tienda.getInstance().getMisFacturas()) {
-					if (calendar.getTime().getDay() == factura.getFecha().getDay()) {
-						dia2 += factura.getPrecioTotal();
-					}
-				}
-				calendar.add(Calendar.DAY_OF_MONTH, -1);
-				for (Factura factura : Tienda.getInstance().getMisFacturas()) {
-					if (calendar.getTime().getDay() == factura.getFecha().getDay()) {
-						dia1 += factura.getPrecioTotal();
-					}
+					datos.add(i, montoDia);
 				}
 				
-				datos.setValue(dia1, "Total Ventas", calendar.get(Calendar.DAY_OF_MONTH) + " del mes " + (calendar.getTime().getMonth()+1));
-				calendar.add(Calendar.DAY_OF_MONTH, 1);
-				datos.setValue(dia2, "Total Ventas", calendar.get(Calendar.DAY_OF_MONTH) + " del mes " + (calendar.getTime().getMonth()+1));
-				calendar.add(Calendar.DAY_OF_MONTH, 1);
-				datos.setValue(dia3, "Total Ventas", calendar.get(Calendar.DAY_OF_MONTH) + " del mes " + (calendar.getTime().getMonth()+1));
-				calendar.add(Calendar.DAY_OF_MONTH, 1);
-				datos.setValue(dia4, "Total Ventas", calendar.get(Calendar.DAY_OF_MONTH) + " del mes " + (calendar.getTime().getMonth()+1));
-				calendar.add(Calendar.DAY_OF_MONTH, 1);
-				datos.setValue(dia5, "Total Ventas", calendar.get(Calendar.DAY_OF_MONTH) + " del mes " + (calendar.getTime().getMonth()+1));
-				
-				JFreeChart grafico = ChartFactory.createBarChart3D("Ventas de los últimos 5 días", "Total de Ventas de cada día", "Total vendido", datos, PlotOrientation.VERTICAL, true, true, false);
-		        BufferedImage image = grafico.createBufferedImage(700,600);
+				XYSeriesCollection datosCollection = new XYSeriesCollection();
+				datosCollection.addSeries(datos);
+				JFreeChart grafico = ChartFactory.createXYLineChart("Estadisticas: Ventas del mes de " + new DateFormatSymbols().getMonths()[(calendar.get(calendar.MONTH)+1) - 1], "Días", "Monto", datosCollection, PlotOrientation.VERTICAL, true, false, false);
+				BufferedImage image = grafico.createBufferedImage(700,600);
 		        lblGraficoImprimir.setIcon(new ImageIcon(image));
-		        
 			}
 		});
 		lblGrafico.setIcon(new ImageIcon(ListarDatosGenerales.class.getResource("/Imagenes/EstadisticaIcon.png")));
